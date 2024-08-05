@@ -399,7 +399,7 @@ const gifUri = Image.resolveAssetSource(require('../../../assets/gif/loadingAnim
 
 
   const handleWorkflowNavigation = () => {
-
+    console.log('handleWorkflowNavigation',workflowProgram)
     if (workflowProgram[0] === "Static Coupon") {
       navigation.navigate("CongratulateOnScan", {
         workflowProgram: workflowProgram.slice(1),

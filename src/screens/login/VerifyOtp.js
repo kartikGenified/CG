@@ -43,6 +43,7 @@ import { setPolicy,setTerms } from '../../../redux/slices/termsPolicySlice';
 import { useGetAppMenuDataMutation } from '../../apiServices/dashboard/AppUserDashboardMenuAPi.js';
 import { setDrawerData } from '../../../redux/slices/drawerDataSlice';
 import { ActivityIndicator, MD2Colors } from 'react-native-paper';
+import { appIcon } from '../../utils/HandleClientSetup';
 
 const VerifyOtp = ({ navigation, route }) => {
   const [mobile, setMobile] = useState(route.params.navigationParams.mobile);
@@ -599,7 +600,7 @@ const VerifyOtp = ({ navigation, route }) => {
 
 
             }}
-            source={require('../../../assets/images/ozoneWhiteLogo.png')}></Image>
+            source={appIcon}></Image>
         </View>
         <View
           style={{

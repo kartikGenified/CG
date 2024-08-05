@@ -52,7 +52,7 @@ const RedeemedHistory = ({ navigation }) => {
 
   }
   console.log("appUserData",appUserData)
-  const gifUri = Image.resolveAssetSource(require('../../../assets/gif/loader.gif')).uri;
+  const gifUri = Image.resolveAssetSource(require('../../../assets/gif/cgLoader.gif')).uri;
   const noData = Image.resolveAssetSource(require('../../../assets/gif/noData.gif')).uri;
   let startDate,endDate
   const [
@@ -261,10 +261,10 @@ const RedeemedHistory = ({ navigation }) => {
       }
       else {
         
-        if((Number(new Date(redemptionStartData).split('T')[0]) <= Number(new Date().split('T')[0]) ) &&  ( Number(new Date().split('T')[0]) <= Number(new Date(redemptionEndDate).split('T')[0])) )
+        if((Number(new Date(redemptionStartData)) <= Number(new Date()) ) &&  ( Number(new Date()) <= Number(new Date(redemptionEndDate))) )
         {
           
-          console.log("correct redemption date",new Date().split('T')[0],new Date(redemptionStartData).split('T')[0],new Date(redemptionEndDate).split('T')[0])
+          console.log("correct redemption date",new Date().toString().split('T')[0],new Date(redemptionStartData).toString(),new Date(redemptionEndDate).toString().split('T')[0])
         if(!showKyc)
         {
           setModalVisible(true)
@@ -308,15 +308,7 @@ const RedeemedHistory = ({ navigation }) => {
                   <Image style={{ height: 20, width: 20, resizeMode: "contain" }} source={require('../../../assets/images/giftWhite.png')}></Image>
                   <PoppinsTextMedium style={{ color: 'white', marginLeft: 10 }} content="Gift"></PoppinsTextMedium>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => {
-                  console.log("Coupons")
-                  setModalVisible(false)
-                  navigation.navigate('RedeemCoupons')
-
-                }} style={{ alignItems: "center", justifyContent: "center", backgroundColor: ternaryThemeColor, flexDirection: "row", height: 40, width: 100, borderRadius: 10 }}>
-                  <Image style={{ height: 20, width: 20, resizeMode: "contain" }} source={require('../../../assets/images/giftWhite.png')}></Image>
-                  <PoppinsTextMedium style={{ color: 'white', marginLeft: 10 }} content="Coupons"></PoppinsTextMedium>
-                </TouchableOpacity>
+             
                 <TouchableOpacity onPress={() => {
                   console.log("cashback")
                   setModalVisible(false)

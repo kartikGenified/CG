@@ -42,8 +42,7 @@ const SelectUser = ({navigation}) => {
   
 
   const icon = useSelector(state => state.apptheme.icon)
-    ? useSelector(state => state.apptheme.icon)
-    : require('../../../assets/images/demoIcon.png');
+
 
     const otpLogin = useSelector(state => state.apptheme.otpLogin)
     // console.log(useSelector(state => state.apptheme.otpLogin))
@@ -196,10 +195,11 @@ const SelectUser = ({navigation}) => {
           
             <Image
               style={{
-                height: 160,
+                height: 100,
                 width: 160,
                 resizeMode: 'contain',
                 top: 60,
+                marginBottom:40
               }}
               source={{uri: icon}}></Image>
   

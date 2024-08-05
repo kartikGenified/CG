@@ -265,12 +265,15 @@ const EditProfile = ({ navigation, route }) => {
         name: profileImage.uri.slice(0, 10),
         type: "image/png",
       };
+      console.log("imagedata-----------> ", imageData);
       const uploadFile = new FormData();
       uploadFile.append("image", imageData);
-
+      console.log("uploadFile",uploadFile)
       const getToken = async () => {
         const credentials = await Keychain.getGenericPassword();
         const token = credentials.username;
+        console.log("token", token);
+
         uploadImageFunc({ body: uploadFile, token: token });
       };
 

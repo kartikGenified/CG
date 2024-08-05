@@ -407,7 +407,7 @@ const Splash = ({ navigation }) => {
 
         console.log(
           "navigate to dashboard error",
-          // minVersionSupport,
+          ( !__DEV__ ? minVersionSupport : true) ,
           getAppMenuData,
           getDashboardData,
           getWorkflowData
@@ -551,7 +551,7 @@ const Splash = ({ navigation }) => {
         }
       );
       console.log("getWorkflowData", getWorkflowData);
-      dispatch(setProgram(removedWorkFlow));
+      dispatch(setProgram(getWorkflowData?.body[0]?.program));
       dispatch(setWorkflow(getWorkflowData?.body[0]?.workflow_id));
       const form_type = "2";
       parsedJsonValue &&
@@ -652,7 +652,7 @@ const Splash = ({ navigation }) => {
     if (Platform.OS == "android") {
       LocationServicesDialogBox.checkLocationServicesIsEnabled({
         message:
-          "<h2 style='color: #0af13e'>Use Location ?</h2>Ozostars wants to change your device settings:<br/><br/>Enable location to use the application.<br/><br/><a href='#'>Learn more</a>",
+          "<h2 style='color: #0af13e'>Use Location ?</h2>CG wants to change your device settings:<br/><br/>Enable location to use the application.<br/><br/><a href='#'>Learn more</a>",
         ok: "YES",
         cancel: "NO",
         enableHighAccuracy: true, // true => GPS AND NETWORK PROVIDER, false => GPS OR NETWORK PROVIDER
@@ -781,7 +781,7 @@ const Splash = ({ navigation }) => {
 
   useEffect(() => {
     getUsers();
-    getAppTheme("ozone");
+    getAppTheme("cg");
     const checkToken = async () => {
       const fcmToken = await messaging().getToken();
       if (fcmToken) {
@@ -868,7 +868,7 @@ const Splash = ({ navigation }) => {
     dispatch(setAppVersion(currentVersion));
 
     getMinVersionSupportFunc(currentVersion);
-    getAppTheme("ozone");
+    getAppTheme("cg");
     getData();
   }, [isConnected, locationStatusChecked]);
 

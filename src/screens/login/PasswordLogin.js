@@ -38,6 +38,7 @@ import { setPolicy,setTerms } from '../../../redux/slices/termsPolicySlice';
 import { useGetAppMenuDataMutation } from '../../apiServices/dashboard/AppUserDashboardMenuAPi.js';
 import { setDrawerData } from '../../../redux/slices/drawerDataSlice';
 import { ActivityIndicator, MD2Colors } from 'react-native-paper';
+import { appIcon } from '../../utils/HandleClientSetup';
 
 
 // import * as Keychain from 'react-native-keychain';  
@@ -241,7 +242,7 @@ const PasswordLogin = ({ navigation, route }) => {
       
       if(passwordLoginError.status===400)
       {
-      alert("Your status is under process, please contact OzoStars")
+      alert("Your status is under process, please contact CG")
       }
       else if(passwordLoginError?.message){
         setError(true)
@@ -562,7 +563,7 @@ const PasswordLogin = ({ navigation, route }) => {
 
 
             }}
-            source={require('../../../assets/images/ozoneWhiteLogo.png')}></Image>
+            source={appIcon}></Image>
           {/* ozone change */}
          
 

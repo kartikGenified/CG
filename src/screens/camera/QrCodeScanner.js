@@ -191,7 +191,7 @@ const QrCodeScanner = ({ navigation,route }) => {
 
   useEffect(() => {
     if (addBulkQrData) {
-      // console.log("addBulkQrData",addBulkQrData)
+      console.log("addBulkQrData",addBulkQrData)
       if (addBulkQrData.success) {
         setTimeout(() => {
         setShowProceed(true)
@@ -281,7 +281,7 @@ const QrCodeScanner = ({ navigation,route }) => {
         }
       }
     } else if (addBulkQrError) {
-      // console.log("addBulkQrError",addBulkQrError)
+      console.log("addBulkQrError",addBulkQrError)
       setTimeout(() => {
         setShowProceed(true)
         }, 1200);
@@ -464,7 +464,7 @@ const QrCodeScanner = ({ navigation,route }) => {
   
   useEffect(() => {
     if (verifyQrData) {
-      console.log("Verify qr data", verifyQrData?.body);
+      // console.log("Verify qr data", verifyQrData);
       setIsLoading(false);
       dispatch(setProductMrp(verifyQrData?.body?.qr));
 
@@ -582,9 +582,6 @@ const codeScanner = useCodeScanner({
         setError(true);
         setMessage("Please scan a valid QR");
     } else {
-
-
-
       const verifyQR = async (data) => {
         console.log("qrDataVerifyQR", data);
         if (data?.unique_code != undefined) {
@@ -598,7 +595,7 @@ const codeScanner = useCodeScanner({
                     const response = await verifyQrFunc({ token, data });
                     console.log("verifyQrFunc", response)
                     if (response?.data) {
-                        console.log("Verify qr data", JSON.stringify(response));
+                        console.log("Verify qr dataaaaaa", JSON.stringify(response));
                         if (response?.data?.body == null) {
                             setError(true);
                             setMessage("Can't get product data");
@@ -608,12 +605,17 @@ const codeScanner = useCodeScanner({
                             response?.data.body?.qr?.qr_status == undefined
                                 ? response?.data.body?.qr_status
                                 : response?.data.body?.qr?.qr_status;
+
+                                console.log("qrStatus heloo world",qrStatus)
+                        
                         const statusCode = response?.data?.status;
                         const verifiedQrData =
                             response?.data.body.qr == undefined
                                 ? response?.data.body
                                 : response?.data.body.qr;
+
                         if (qrStatus === "1") {
+                          console.log("qr status is 1 and verifiedqrda is ",verifiedQrData);
                             await addQrDataToList(verifiedQrData);
                         }
 
@@ -698,6 +700,7 @@ const codeScanner = useCodeScanner({
   // add qr to the list of qr--------------------------------------
 
   const addQrDataToList = async (data) => {
+    console.log("AddedQrListFUNCTION",data)
     setIsLoading(false);
     const qrId = data.id;
     setQr_id(qrId);
@@ -706,17 +709,16 @@ const codeScanner = useCodeScanner({
 
     const credentials = await Keychain.getGenericPassword();
     if (credentials) {
-      // console.log(
-      //   'Credentials successfully loaded for user ' + credentials?.username, data
-      // );
+      console.log(
+        'Credentials successfully loaded for user ' + credentials?.username, workflowProgram
+      );
       const token = credentials?.username;
 
-      workflowProgram.includes("Genuinity" || "Genuinity+") &&
-        checkGenuinityFunc({ qrId, token });
+      (workflowProgram.includes("Genuinity") || workflowProgram.includes("Genuinity+")) && checkGenuinityFunc({ qrId, token });
       productDataFunc({ productCode, userType, token });
     }
     addedqr = addedQrList;
-    // console.log("addQrDataToList",addedqr,data)
+    console.log("addQrDataToList",addedqr,data)
 
     if (addedqr.length === 0) {
       //  setAddedQrList([...addedqr, data]);
@@ -734,6 +736,7 @@ const codeScanner = useCodeScanner({
         setMessage("Sorry This QR is already added to the list");
       }
     }
+    console.log("AddedQR list is",addedqr)
     console.log("Adding qr to list chekcing duplicate and list" ,  addedQrList, isDuplicateQr)
     setAddedQrList(addedqr);
     return addedqr;
@@ -906,6 +909,7 @@ const codeScanner = useCodeScanner({
         scan_type:"Point on product"
       },
     };
+    console.log("HandleADDQR", params)
     setShowProceed(false)
     addBulkQrFunc(params);
     dispatch(setQrIdList(addedQrID));
