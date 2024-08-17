@@ -25,10 +25,32 @@ export const VerifyOtpForNormalUseApi = baseApi.injectEndpoints({
                    
                 }
             }
+        }),
+        VerifyOtpForActivateWarranty : builder.mutation({
+            query({mobile,name,user_type_id,user_type,otp,is_approved_needed,type}){
+                return {
+                    url:`/api/app/userOtp/otpWarranty`,
+                    method:'post',
+                    headers:{
+                        "slug":slug,
+                        "Content-Type": "application/json"
+                    },
+                    body:{
+                        "mobile" : mobile,
+                        "name":name,
+                        "otp" : otp,
+                        "user_type_id" : user_type_id,
+                        "user_type" : user_type,
+                        "type":type
+                    }
+                    
+                   
+                }
+            }
         })
     })
 });
 
 
-export const {useVerifyOtpForNormalUseMutation} = VerifyOtpForNormalUseApi
+export const {useVerifyOtpForNormalUseMutation,useVerifyOtpForActivateWarrantyMutation} = VerifyOtpForNormalUseApi
 

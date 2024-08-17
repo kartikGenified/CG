@@ -129,7 +129,7 @@ const Splash = ({ navigation }) => {
   let currentVersion;
   if (isConnected?.isConnected) {
     currentVersion = VersionCheck.getCurrentVersion();
-    console.log("current version check", currentVersion);
+    // console.log("current version check", currentVersion);
     dispatch(setAppVersion(currentVersion));
   }
   const gifUri = Image.resolveAssetSource(

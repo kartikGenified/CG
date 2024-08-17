@@ -117,7 +117,7 @@ const QrCodeScanner = ({ navigation,route }) => {
     ? useSelector((state) => state.apptheme.ternaryThemeColor)
     : "grey";
   const gifUri = Image.resolveAssetSource(
-    require("../../../assets/gif/loader.gif")
+    require("../../../assets/gif/cgLoader.gif")
   ).uri;
   const dispatch = useDispatch();
   // console.log('Workflow Program is ',location);
@@ -663,8 +663,8 @@ const codeScanner = useCodeScanner({
         let requestData = { };
 
         if (qrData?.split("-").length === 1) {
-            requestData["unique_code"] = `ozone-${qrData}`;
-            qrData = `ozone-${qrData}`
+            requestData["unique_code"] = `cg-${qrData}`;
+            qrData = `cg-${qrData}`
         } else if (qrData?.split("-").length === 2) {
             requestData["unique_code"] = qrData;
         }

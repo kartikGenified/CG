@@ -34,7 +34,7 @@ const TextInputAadhar = (props) => {
   )
     ? useSelector(state => state.apptheme.ternaryThemeColor)
     : 'grey';
-    const gifUri = Image.resolveAssetSource(require('../../../../assets/gif/loader.gif')).uri;
+    const gifUri = Image.resolveAssetSource(require('../../../../assets/gif/cgLoader.gif')).uri;
     Keyboard.addListener("keyboardDidShow", () => {
       setKeyboardShow(true);
     });
@@ -55,7 +55,7 @@ const TextInputAadhar = (props) => {
         isError:verifyAadharIsError
       }]= useVerifyAadharMutation()
 
-    console.log("Aadhar TextInput")
+    // console.log("Aadhar TextInput")
 
     useEffect(()=>{
       if(value)

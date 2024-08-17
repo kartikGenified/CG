@@ -16,7 +16,6 @@ const TextInputPan = (props) => {
   const placeHolder = props.placeHolder
   const required = props.required
   let displayText = props.placeHolder
-
   const label = props.label
   const [verifyPanFunc, {
     data: verifyPanData,
@@ -31,7 +30,7 @@ const TextInputPan = (props) => {
       displayText = "Pan"
   }
 
-  console.log("Aadhar TextInput")
+  // console.log("Aadhar TextInput")
   Keyboard.addListener('keyboardDidShow', () => {
     setKeyboardShow(true)
   })
@@ -51,9 +50,10 @@ const TextInputPan = (props) => {
           // "name":"Test2",
           "pan": value
         }
-        verifyPanFunc(data)
-        console.log(value)
         setValue(value)
+        verifyPanFunc(data)
+        // console.log(value)
+     
 
       }
     }
@@ -87,10 +87,13 @@ useEffect(()=>{
       setPanVerified(false)
     }
   }, [verifyPanData, verifyPanError])
+
+
   useEffect(() => { handleInputEnd() }, [keyboardShow])
   const handleInput = (text) => {
     setValue(text)
     // props.handleData(value)
+
 
   }
   const modalClose = () => {
@@ -98,7 +101,7 @@ useEffect(()=>{
   };
   const handleInputEnd = () => {
     let tempJsonData = { ...props.jsonData, "value": value }
-    console.log(tempJsonData)
+    // console.log(tempJsonData)
     props.handleData(tempJsonData)
   }
 
@@ -136,7 +139,7 @@ useEffect(()=>{
         <PoppinsTextMedium style={{ color: "#919191", padding: 4, fontSize: 18 }} content={t(displayText)}></PoppinsTextMedium>
       </View>
       <View style={{ width: '80%', alignItems: 'center', justifyContent: 'center', position: 'absolute', left: 10 }}></View>
-      <TextInput maxLength={12} onSubmitEditing={(text) => { handleInputEnd() }} onEndEditing={(text) => { handleInputEnd() }} style={{ height: 50, width: '100%', alignItems: "center", justifyContent: "flex-start", fontWeight: '500', marginLeft: 24, color: 'black', fontSize: 16 }} placeholderTextColor="grey" onChangeText={(text) => { handleInput(text) }} value={value} placeholder={required ? `${placeHolder} *` : `${placeHolder}`}></TextInput>
+      <TextInput maxLength={10} onSubmitEditing={(text) => { handleInputEnd() }} onEndEditing={(text) => { handleInputEnd() }} style={{ height: 50, width: '100%', alignItems: "center", justifyContent: "flex-start", fontWeight: '500', marginLeft: 24, color: 'black', fontSize: 16 }} placeholderTextColor="grey" onChangeText={(text) => { handleInput(text) }} value={value} placeholder={required ? `${placeHolder} *` : `${placeHolder}`}></TextInput>
       {success && <View style={{ alignItems: 'center', justifyContent: 'center', width: '20%', position: 'absolute', right: 0 }}>
         <Image style={{ height: 30, width: 30, resizeMode: 'contain' }} source={require('../../../../assets/images/greenTick.png')}></Image>
       </View>}

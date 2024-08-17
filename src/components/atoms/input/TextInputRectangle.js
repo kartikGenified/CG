@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { View, StyleSheet, TextInput, Keyboard } from "react-native";
 import PoppinsTextMedium from "../../electrons/customFonts/PoppinsTextMedium";
+import { useIsFocused } from "@react-navigation/native";
 const TextInputRectangle = (props) => {
   const [value, setValue] = useState();
   const [keyboardShow, setKeyboardShow] = useState(false);
@@ -8,13 +9,29 @@ const TextInputRectangle = (props) => {
   const label = props.label;
   const required = props.required ===undefined ? props.jsonData.required : props.required
 
+  // console.log("Activated prd", productCode, productName)
+
+  const focused = useIsFocused()
+
+  let productName = props.productName;
+  let productCode = props.productCode;
+  let maxLength = props.maxLength
+
   Keyboard.addListener("keyboardDidShow", () => {
     setKeyboardShow(true);
   });
   Keyboard.addListener("keyboardDidHide", () => {
     setKeyboardShow(false);
   });
-  useEffect(()=>{handleInputEnd()},[keyboardShow])
+
+  useEffect(()=>{
+    console.log("first")
+  },[focused])
+
+  useEffect(()=>{handleInputEnd()},[])
+
+  // console.log("Activated prd", productCode, productName)
+
   const handleInput = (text) => {
     console.log(label)
     setValue(text);
@@ -73,6 +90,7 @@ const TextInputRectangle = (props) => {
         onChangeText={(text) => {
           handleInput(text);
         }}
+        maxLength={maxLength}
         value={value}
         placeholder={required ? `${placeHolder} *` : `${placeHolder} `}
       ></TextInput>

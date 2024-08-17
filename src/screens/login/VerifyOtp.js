@@ -250,7 +250,7 @@ const VerifyOtp = ({ navigation, route }) => {
 
   useEffect(() => {
     if (getTermsData) {
-      console.log("getTermsData", getTermsData.body.data?.[0]?.files[0]);
+      // console.log("getTermsData", getTermsData.body.data?.[0]?.files[0]);
       dispatch(setTerms(getTermsData.body.data?.[0]?.files[0]))
     }
     else if (getTermsError) {
@@ -566,7 +566,8 @@ const VerifyOtp = ({ navigation, route }) => {
       <View style={{
         width: '100%', alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: ternaryThemeColor,
+        backgroundColor:'white'
+        // backgroundColor: ternaryThemeColor,
       }}>
         <View
           style={{
@@ -574,7 +575,7 @@ const VerifyOtp = ({ navigation, route }) => {
             width: '100%',
             alignItems: 'center',
             justifyContent: 'center',
-            backgroundColor: ternaryThemeColor,
+            backgroundColor: 'white',
             flexDirection: 'row',
 
           }}>
@@ -610,10 +611,10 @@ const VerifyOtp = ({ navigation, route }) => {
             width: '90%'
           }}>
           <PoppinsText
-            style={{ color: 'white', fontSize: 28 }}
+            style={{ color: 'black', fontSize: 28 }}
             content={t("Enter the OTP sent to")}></PoppinsText>
           <PoppinsText
-            style={{ color: 'white', fontSize: 28 }}
+            style={{ color: 'black', fontSize: 28 }}
             content={navigationParams.mobile}></PoppinsText>
 
         </View>

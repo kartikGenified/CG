@@ -19,7 +19,7 @@ const AlertModal = (props) => {
     : 'grey';
   const navigateTo = props.navigateTo
 
-  console.log("product data in report an issue", productData,navigateTo)
+  // console.log("product data in report an issue", productData,navigateTo)
 
   const {t} = useTranslation()
 

@@ -364,11 +364,11 @@ const Passbook = ({ navigation }) => {
                         }
 
                         {/* ozone change */}
-                        {userData.user_type !== "dealer" && neededHistory.includes("scanned") &&  <NavigateTO visibleTitle={t("scanned history")} title={"Scanned History"} discription={t('list of products scanned by you')} image={require('../../../assets/images/scannedHistory.png')}></NavigateTO>}
+                        {(userData.user_type !== "consumer")&& neededHistory.includes("scanned") &&  <NavigateTO visibleTitle={t("scanned history")} title={"Scanned History"} discription={t('list of products scanned by you')} image={require('../../../assets/images/scannedHistory.png')}></NavigateTO>}
 
-                      {neededHistory.includes("redeemed") && userData?.user_type =="retailer" &&  
+                      {neededHistory.includes("redeemed") && ( userData?.user_type =="retailer"  || userData?.user_type == "plumber")&&  
                        <NavigateTO visibleTitle={t("redeemed history")} title="Redeemed History" discription={t("list of products redeemed by you")} image={require('../../../assets/images/redeemed_icon.png')}></NavigateTO>}
-                        { neededHistory.includes("cashback") &&<NavigateTO visibleTitle={t("cashback history")} title="Cashback History" discription={t("list of cashback claimed by you")} image={require('../../../assets/images/cashbackBlack.png')}></NavigateTO>}
+                        { neededHistory.includes("cashback") && (userData.user_type !== "consumer") && <NavigateTO visibleTitle={t("cashback history")} title="Cashback History" discription={t("list of cashback claimed by you")} image={require('../../../assets/images/cashbackBlack.png')}></NavigateTO>}
                         {
                             // couponOptionEnabled &&
                             neededHistory.includes("coupon") &&
@@ -376,11 +376,11 @@ const Passbook = ({ navigation }) => {
                         }
                         {/* {
                 warrantyOptionEnabled &&  */}
-                       { neededHistory.includes("warranty") && <NavigateTO visibleTitle = {t("warranty history")} title={"Warranty History"} discription={t("list of warranty claimed by you")} image={require('../../../assets/images/warranty_icon.png')}></NavigateTO>}
+                       { neededHistory.includes("warranty") && userData.user_type !== "plumber" && <NavigateTO visibleTitle = {t("warranty history")} title={"Warranty History"} discription={t("list of warranty claimed by you")} image={require('../../../assets/images/warranty_icon.png')}></NavigateTO>}
                         {/* } */}
                        
                         {
-                            cashbackOptionEnabled && neededHistory.includes("cashback") &&
+                            cashbackOptionEnabled && neededHistory.includes("cashback") && userData.user_type !== "consumer" &&
                             <NavigateTO visibleTitle={t("cashback history")} title="Cashback History" discription={t("list of cashback claimed by you")}  image={require('../../../assets/images/cashbackBlack.png')}></NavigateTO>
                         }
 
@@ -439,16 +439,16 @@ const Passbook = ({ navigation }) => {
                             }
                             {/* ozone change */}
 
-                            {userData.user_type !== "dealer" && neededHistory.includes("scanned") && <GridVIew title={t("scanned history")} discription="" image={require('../../../assets/images/scannedHistory.png')}></GridVIew>}
-                           {neededHistory.includes("redeemed") && userData?.user_type =="retailer" &&  <GridVIew title={t("redeemed history")}  discription=" list of products redeemed by you" image={require('../../../assets/images/redeemed_icon.png')}></GridVIew>}
-                         {neededHistory.includes("cashback") &&   <GridVIew title={t("cashback history")} discription=" list of cashback redeemed by you" image={require('../../../assets/images/cashbackBlack.png')}></GridVIew>}
+                            {userData.user_type !== "consumer" && neededHistory.includes("scanned") && <GridVIew title={t("scanned history")} discription="" image={require('../../../assets/images/scannedHistory.png')}></GridVIew>}
+                           {neededHistory.includes("redeemed") && ( userData?.user_type =="retailer"  || userData?.user_type == "plumber") &&  <GridVIew title={t("redeemed history")}  discription=" list of products redeemed by you" image={require('../../../assets/images/redeemed_icon.png')}></GridVIew>}
+                         {neededHistory.includes("cashback") &&  userData.user_type !== "consumer"  &&  <GridVIew title={t("cashback history")} discription=" list of cashback redeemed by you" image={require('../../../assets/images/cashbackBlack.png')}></GridVIew>}
                             {
                                 couponOptionEnabled && neededHistory.includes("coupon") && 
                                 <GridVIew title={t("Coupon History")} discription=" list of coupons redeemed by you" image={require('../../../assets/images/scannedHistory.png')}></GridVIew>
                             }
                             {/* {
                 warrantyOptionEnabled &&  */}
-                {neededHistory.includes("warranty") &&
+                {neededHistory.includes("warranty") && userData.user_type !== "plumber" &&
                         <GridVIew title={t("warranty history")} discription=" list of warranty redeemed by you" image={require('../../../assets/images/warranty_icon.png')}></GridVIew> }
                             {/* } */}
                            

@@ -43,7 +43,7 @@ const EmailTextInput = (props) => {
   }
   
 const handlekeyboardHide=(text)=>{
-    console.log("call form addListner",text)
+    // console.log("call form addListner",text)
     let tempJsonData = { ...props.jsonData, value: value };
     // console.log("tempJsonData", tempJsonData);
     // console.log("is valid ", isValidEmail(value));
@@ -56,11 +56,11 @@ const handlekeyboardHide=(text)=>{
               else {
                 props.handleData(tempJsonData)
                 setIsValidEmailState(false);
-                console.log("inside else statement",isValidEmailState)
+                // console.log("inside else statement",isValidEmailState)
               }
         }
      
-    console.log("keyboard visible",isValidEmail(value),  placeHolder);
+    // console.log("keyboard visible",isValidEmail(value),  placeHolder);
 }
 
 //   useEffect(() => {

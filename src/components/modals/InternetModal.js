@@ -10,7 +10,7 @@ const InternetModal = (props) => {
     setModalVisible(props.visible)
   },[visible])
 
-  console.log("internet modal visible", visible)
+  // console.log("internet modal visible", visible)
   
   return (
     <Modal

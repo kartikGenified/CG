@@ -215,7 +215,7 @@ const WarrantyHistory = ({ navigation }) => {
         console.log("WarrantyList",item)
         const image = item?.product_images!=(null||undefined) ? item?.product_images[0] : undefined
         return (
-            <View style={{ width: "90%", height: 150, borderRadius: 20, backgroundColor: '#F2F2F2', elevation: 6, margin: 20 }}>
+            <View style={{ width: "90%", height: 180, borderRadius: 20, backgroundColor: '#F2F2F2', elevation: 6, margin: 20 }}>
                 <ImageBackground resizeMode='contain' style={{ position: "absolute", height: 100, width: 100, right: 10, top: -20, alignItems: "center", justifyContent: "center" }} source={require('../../../assets/images/blueEnvelope.png')}>
                     <PoppinsTextMedium style={{ fontSize: 11, color: 'white' }} content="Warranty Till"></PoppinsTextMedium>
                     <PoppinsTextMedium style={{ fontSize: 12, color: 'white' }} content={moment(warrantyTillDate).format("DD MMM YYYY")}></PoppinsTextMedium>
@@ -231,7 +231,7 @@ const WarrantyHistory = ({ navigation }) => {
 
                     </View>
                 </View>
-                <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center", position: "absolute", bottom: 10, left: 20 }}>
+                <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center", position: "absolute", bottom: 5, left: 20 }}>
                     <TouchableOpacity onPress={()=>{
                         if(item.warranty_pdf!==undefined && item.warranty_pdf!==null && item.warranty_pdf!=="" )
                         {

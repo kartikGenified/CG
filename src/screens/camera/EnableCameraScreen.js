@@ -82,7 +82,7 @@ const EnableCameraScreen = ({ navigation, route }) => {
           if (!alertShown) {
             Alert.alert(
               "Alert",
-              "To scan a QR code, the OZOSTAR app must have access permissions. Please grant access to the camera.",
+              "To scan a QR code, the CG app must have access permissions. Please grant access to the camera.",
               [{ text: "OK", onPress: () => Linking.openSettings() }],
               { cancelable: false }
             );

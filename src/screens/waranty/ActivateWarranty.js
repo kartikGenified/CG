@@ -38,10 +38,19 @@ const ActivateWarranty = ({ navigation, route }) => {
   const [phone, setPhone] = useState();
   const [invoice, setInvoice] = useState();
   const [date, setDate] = useState();
+  const[emailRequired,setEmailRequired] = useState(true);
+
+  const activatedData = route.params.activatedData
+  const navigationFrom = route.params.from
+  
+  console.log("route.params 11111",route.params)
+  
+  console.log("route:Activated" ,route.params?.activatedData)
   const [message, setMessage] = useState();
   const [error, setError] = useState(false)
   const [emailValid, setIsValidEmail] = useState(false)
   const [hideButton, setHideButton] = useState(false)
+  const [invoiceNo, setInvoiceNo] = useState()
 
 
   //modal
@@ -152,16 +161,18 @@ const ActivateWarranty = ({ navigation, route }) => {
         phone: phone,
         warranty_start_date: date,
         warranty_image: data,
-        user_type_id: userTypeId,
-        user_type: userType,
+        user_type_id: navigationFrom == "verify" ? 1 :userTypeId,
+        user_type: navigationFrom == "verify" ? "consumer" : userType,
         product_id: productData.product_id,
         form_template_id: JSON.stringify(formTemplateId),
         platform_id: platform,
+        platform:platform == 1 ? "ios" : "android",
         secondary_data: responseArray,
-        qr_id:  qrData.id ? qrData.id : qrData[0].id
+        qr_id:  qrData.id ? qrData.id : qrData[0].id,
+        invoice_no:invoiceNo
       }
 
-      console.log('body is', JSON.stringify(body));
+      console.log('body is ------->', JSON.stringify(body));
       const credentials = await Keychain.getGenericPassword();
       if (credentials) {
         console.log(
@@ -169,8 +180,9 @@ const ActivateWarranty = ({ navigation, route }) => {
         );
 
         const token = credentials.username;
-
-        if(emailValid){
+        
+        console.log("email valid while submission", emailValid)
+        if(emailValid || !emailRequired){
           activateWarrantyFunc({ token, body });
           setHideButton(true)
         }
@@ -219,10 +231,16 @@ const ActivateWarranty = ({ navigation, route }) => {
 
 
   const warrantyForm =  form ?  Object.values(form) : [];
+
   console.log("warrantyForm",warrantyForm)
   console.log(warrantyForm);
 
  
+  useEffect(()=>{
+    setEmailRequired( (warrantyForm.filter((item) => item.name == "email" )[0]?.required));
+    console.log("emailRequired", emailRequired)
+  },[warrantyForm])
+
   // const handleDataTextInputMandatory = (data) => {
   //     console.log(data)
   // }
@@ -247,22 +265,43 @@ const ActivateWarranty = ({ navigation, route }) => {
          
             if(mobReg.test(data?.value))
           {
-          
+        
           }
           else{
+            console.log("DataValue Mobile", data?.value)
             setError(true)
             setMessage("Kindly enter a valid mobile number")
           }
         }
+        
       if (data?.name == "email") {
         if(data?.required==true)
         {
-          console.log('entering')
+          setEmailRequired(true);
+          // console.log('entering')
           const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
           const checkEmail = emailRegex.test(data?.value)
          
           setIsValidEmail(checkEmail);
+        
           console.log("check email",emailRegex.test(data?.value))
+        }
+        else{
+          setEmailRequired(false);
+          console.log("In else Email" ,data.value)
+          if(data.value == "" || data.value == undefined){
+            setIsValidEmail(true)
+          }
+          else{
+            // console.log('entering')
+            const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+            const checkEmail = emailRegex.test(data?.value)
+           
+            setIsValidEmail(checkEmail);
+          
+            console.log("check email",emailRegex.test(data?.value))
+          }
+
         }
        
       }
@@ -305,7 +344,13 @@ const ActivateWarranty = ({ navigation, route }) => {
           } else if (item.name === 'phone' || item.name === 'Phone' || item.name === "mobile" || item.name === "Mobile") {
 
             setPhone(item.value);
-          } else if (item.name === 'invoice' || item.name === 'Invoice') {
+          } 
+          else if (item.name === 'invoice_no' ) {
+
+            setInvoiceNo(item.value);
+          } 
+
+          else if (item.name === 'invoice' || item.name === 'Invoice') {
             console.log('Inside file');
   
             const imageData = {
@@ -486,7 +531,7 @@ const ActivateWarranty = ({ navigation, route }) => {
                       jsonData={item}
                       key={index}
                       handleData={handleChildComponentData}
-                      value={userData.name}
+                      value={navigationFrom == "verify" ? route?.params?.name : userData.name}
                       placeHolder={item.name}>
                       {' '}
                     </TextInputRectangleMandatory>
@@ -503,9 +548,6 @@ const ActivateWarranty = ({ navigation, route }) => {
                       value={location.city}
                     ></PrefilledTextInput>
                   )
-
-
-
                 }
                 
                 else if ((item.name).trim().toLowerCase() === "pincode" && location !== undefined) {
@@ -551,12 +593,37 @@ const ActivateWarranty = ({ navigation, route }) => {
                       jsonData={item}
                       key={index}
                       handleData={handleChildComponentData}
-                      value={userData.mobile}
+                      value={navigationFrom == "verify" ? route?.params.mobile : userData.mobile}
                       label={item.label}
                       maxLength ={10}
+                      isEditable={false}
                       placeHolder={item.name}>
                       {' '}
                     </TextInputNumericRectangle>
+                  );
+                }
+                else if (item.name === 'product_name' || item.name === "product_name") {
+                  return (
+                    <PrefilledTextInput
+                      jsonData={item}
+                      key={index}
+                      handleData={handleChildComponentData}
+                      placeHolder={item.name}
+                      isEditable={false}
+                      value={activatedData?.[0]?.created_by_name}
+                    ></PrefilledTextInput>
+                  );
+                }
+                else if (item.name === 'product_code' || item.name === "product_code") {
+                  return (
+                    <PrefilledTextInput
+                    jsonData={item}
+                    key={index}
+                    handleData={handleChildComponentData}
+                    placeHolder={item.name}
+                    isEditable={false}
+                    value={activatedData?.[0]?.product_code}
+                  ></PrefilledTextInput>
                   );
                 }
                 else {

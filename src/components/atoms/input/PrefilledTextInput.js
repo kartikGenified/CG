@@ -32,6 +32,20 @@ const PrefilledTextInput = (props) => {
     Keyboard.addListener('keyboardDidHide',()=>{
             setKeyboardShow(false)
         })
+
+
+
+//   useEffect(()=>{
+//     if(props.value!==undefined)
+//     {
+//       let tempJsonData = {...props.jsonData, value: props.value};
+//       console.log(tempJsonData);
+//       props.handleData(tempJsonData);
+//     }
+
+//   },[props.value])
+
+        
    
    useEffect(()=>{
     setValue(props.value)

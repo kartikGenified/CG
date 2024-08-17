@@ -21,7 +21,7 @@ const ErrorModal = (props) => {
     : 'grey';
   const navigateTo = props.navigateTo
 
-  console.log("product data in report an issue", productData,navigateTo)
+  // console.log("product data in report an issue", productData,navigateTo)
 
   const {t} = useTranslation()
 
@@ -34,9 +34,10 @@ const ErrorModal = (props) => {
       setModalVisible(false)
     }
   }, [])
-  useEffect(()=>{
-    // navigation.navigate(navigateTo)
-  },[navigateTo])
+  
+  // useEffect(()=>{
+  //   // navigation.navigate(navigateTo)
+  // },[navigateTo])
   const closeModal = () => {
    
     

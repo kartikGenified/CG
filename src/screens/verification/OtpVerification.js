@@ -8,6 +8,7 @@ import {
   Text,
   BackHandler,
   Platform,
+  TextInput,
 } from "react-native";
 import { useGetLoginOtpMutation } from "../../apiServices/login/otpBased/SendOtpApi";
 import PoppinsTextMedium from "../../components/electrons/customFonts/PoppinsTextMedium";
@@ -16,7 +17,10 @@ import ErrorModal from "../../components/modals/ErrorModal";
 import MessageModal from "../../components/modals/MessageModal";
 import TextInputRectangularWithPlaceholder from "../../components/atoms/input/TextInputRectangularWithPlaceholder";
 import OtpInput from "../../components/organisms/OtpInput";
-import { useVerifyOtpForNormalUseMutation } from "../../apiServices/otp/VerifyOtpForNormalUseApi";
+import {
+  useVerifyOtpForActivateWarrantyMutation,
+  useVerifyOtpForNormalUseMutation,
+} from "../../apiServices/otp/VerifyOtpForNormalUseApi";
 import * as Keychain from "react-native-keychain";
 import { useRedeemGiftsMutation } from "../../apiServices/gifts/RedeemGifts";
 import {
@@ -36,6 +40,8 @@ import {
 } from "../../../redux/slices/redemptionDataSlice";
 import { useDispatch } from "react-redux";
 import { useRedeemSchemeApiMutation } from "../../apiServices/scheme/RedeemSchemeApi";
+import DropDownRegistration from "../../components/atoms/dropdown/DropDownRegistration";
+import PrefilledTextInput from "../../components/atoms/input/PrefilledTextInput";
 
 const OtpVerification = ({ navigation, route }) => {
   const [message, setMessage] = useState();
@@ -46,6 +52,14 @@ const OtpVerification = ({ navigation, route }) => {
   const [timer, setTimer] = useState(60);
   const [showRedeemButton, setShowRedeemButton] = useState(false);
   const [location, setLocation] = useState();
+  const [selectedOption, setSelectedOption] = useState("consumer");
+  const [selectedFromDropDown, setSelectedFromDropDown] = useState("");
+  const [nameValue, setNameValue] = useState("");
+  const [newMobile, setNewMobile] = useState("");
+
+  {
+    console.log("Name Val", nameValue);
+  }
   const timeOutCallback = useCallback(
     () => setTimer((currTimer) => currTimer - 1),
     []
@@ -61,6 +75,8 @@ const OtpVerification = ({ navigation, route }) => {
   const redemptionFrom = useSelector(
     (state) => state.redemptionData.redemptionFrom
   );
+  const usersList = useSelector((state) => state.appusers.value);
+  console.log("first USER LIST", usersList);
   const dispatch = useDispatch();
   console.log(
     "Point conversion and cash conversion data",
@@ -128,6 +144,16 @@ const OtpVerification = ({ navigation, route }) => {
   ] = useGetLoginOtpForVerificationMutation();
 
   const [
+    getOtpforWarranty,
+    {
+      data: getOtpforWarrantyData,
+      error: getOtpforWarrantyError,
+      isLoading: getOtpforWarrantyIsLoading,
+      isError: getOtpforWarrantyIsError,
+    },
+  ] = useVerifyOtpForActivateWarrantyMutation();
+
+  const [
     createCouponRequestFunc,
     {
       data: createCouponRequestData,
@@ -138,11 +164,17 @@ const OtpVerification = ({ navigation, route }) => {
   ] = useCreateCouponRequestMutation();
 
   const type = route.params.type;
+  const navigateFrom = route.params.from;
+  const workflowProgram = route.params.workflowProgram;
+  const rewardType = route.params.rewardType;
+  const activatedData = route.params.activatedData;
+
   const selectedAccount = route.params?.selectedAccount;
   const brand_product_code = route.params?.brand_product_code;
   const couponCart = route.params?.couponCart;
   const schemeType = route.params?.schemeType;
   const schemeID = route.params?.schemeID;
+
   const { t } = useTranslation();
 
   console.log("couponCart", couponCart);
@@ -180,7 +212,6 @@ const OtpVerification = ({ navigation, route }) => {
       console.log("redeemSchemeApiData", redeemSchemeApiData);
     } else if (redeemSchemeApiError) {
       console.log("redeemSchemeApiError", redeemSchemeApiError);
-      
     }
   }, [redeemSchemeApiData, redeemSchemeApiError]);
 
@@ -267,6 +298,8 @@ const OtpVerification = ({ navigation, route }) => {
       setLocation(storedLocation);
     }
   }, []);
+
+  console.log("name value11111", nameValue);
 
   useEffect(() => {
     if (redeemCashbackData) {
@@ -357,36 +390,64 @@ const OtpVerification = ({ navigation, route }) => {
     }
   }, [getOtpforVerificationData, getOtpforVerificationError]);
 
+  useEffect(() => {
+    if (getOtpforWarrantyData) {
+      console.log("getOtpforVerificationData", getOtpforWarrantyData);
+    } else if (getOtpforWarrantyError) {
+      console.log("getOtpforVerificationError", getOtpforWarrantyError);
+      setError(true);
+      setMessage(getOtpforWarrantyError?.data?.message);
+    }
+  }, [getOtpforVerificationData, getOtpforWarrantyError]);
+
   const getOtpFromComponent = (value) => {
     if (value.length === 6) {
       setOtp(value);
       console.log("From Verify Otp", value);
+      
       setShowRedeemButton(true);
       handleOtpSubmission(value);
     }
   };
 
   const handleOtpSubmission = (otp) => {
-    const mobile = userData.mobile;
-    const name = userData.name;
-    const user_type_id = userData.user_type_id;
-    const user_type = userData.user_type;
-    const type = "redemption";
+    console.log("navgation from", navigateFrom);
+    console.log("Mob and Phone Submissions", newMobile, nameValue);
+    const phone = newMobile;
+    const newName = nameValue;
+    const mobile = navigateFrom == "scan" ? phone : userData.mobile;
+    const name = navigateFrom == "scan" ? nameValue : userData.name;
+    const user_type_id = navigateFrom == "scan" ? 1 : userData.user_type_id;
+    const user_type = navigateFrom == "scan" ? "consumer" : userData.user_type;
+    const type = navigateFrom == "scan" ? "warranty" : "redemption";
 
-    verifyOtpForNormalUseFunc({
-      mobile,
-      name,
-      otp,
-      user_type_id,
-      user_type,
-      type,
-    });
+    if (navigateFrom == "scan") {
+      getOtpforWarranty({
+        mobile,
+        name,
+        otp,
+        user_type_id,
+        user_type,
+        type,
+      });
+    } else {
+      verifyOtpForNormalUseFunc({
+        mobile,
+        name,
+        otp,
+        user_type_id,
+        user_type,
+        type,
+      });
+    }
   };
   const modalClose = () => {
     setError(false);
     setSuccess(false);
   };
   const finalGiftRedemption = async () => {
+
+    console.log("try it")
     setShowRedeemButton(false);
     const credentials = await Keychain.getGenericPassword();
     if (credentials) {
@@ -487,6 +548,23 @@ const OtpVerification = ({ navigation, route }) => {
     }
   };
 
+  const navigateToWaranty = () => {
+    navigation.navigate("ActivateWarranty", {
+      workflowProgram: workflowProgram,
+      rewardType: rewardType,
+      activatedData: activatedData,
+      from: "verify",
+      name: nameValue,
+      user_type: "consumer",
+      mobile: mobile,
+    });
+  };
+
+  const handleDataFromDropDown = (data) => {
+    console.log("handle data", data);
+    setSelectedFromDropDown(data?.value);
+  };
+
   const handleOtpResend = () => {
     if (!timer) {
       setTimer(60);
@@ -501,20 +579,42 @@ const OtpVerification = ({ navigation, route }) => {
     const mobReg = new RegExp(reg);
     if (mobReg.test(data)) {
       if (data !== undefined) {
-        if (data.length === 10) {
-          const user_type = userData.user_type;
-          const user_type_id = userData.user_type_id;
-          const name = userData.name;
-          const params = {
-            mobile: data,
-            name: name,
-            user_type: user_type,
-            user_type_id: user_type_id,
-            type: "redemption",
-          };
-          getOtpforVerificationFunc(params);
+        console.log("NamVallllll", nameValue)
+        if (navigateFrom == "scan") {
+          if (data.length === 10) {
+            const user_type_id =
+              navigateFrom == "scan" ? 1 : userData.user_type_id;
+            const user_type =
+              navigateFrom == "scan" ? "consumer" : userData.user_type;
+            const name =  navigateFrom == "scan" ? nameValue : userData.name;
+            const params = {
+              mobile: data,
+              name: name,
+              user_type: user_type,
+              user_type_id: user_type_id,
+              type: navigateFrom == "scan" ? "warranty" : "redemption",
+            };
+            setNewMobile(data);
+            getOtpforWarranty(params);
 
-          Keyboard.dismiss();
+            Keyboard.dismiss();
+          }
+        } else {
+          if (data.length === 10) {
+            const user_type = userData.user_type;
+            const user_type_id = userData.user_type_id;
+            const name = userData.name;
+            const params = {
+              mobile: data,
+              name: name,
+              user_type: user_type,
+              user_type_id: user_type_id,
+              type: navigateFrom == "scan" ? "warranty" : "redemption",
+            };
+            getOtpforVerificationFunc(params);
+
+            Keyboard.dismiss();
+          }
         }
       }
     }
@@ -565,7 +665,7 @@ const OtpVerification = ({ navigation, route }) => {
             modalClose={modalClose}
             message={message}
             openModal={error}
-            navigateTo="Passbook"
+            navigateTo={navigateFrom !== "scan" && "Passbook"}
           ></ErrorModal>
         )}
         {success && (
@@ -591,76 +691,159 @@ const OtpVerification = ({ navigation, route }) => {
       >
         <PoppinsTextMedium
           style={{ color: "white", fontSize: 16 }}
-          content={t("OTP has been sent to your registered mobile number")}
+          content={
+            navigateFrom == "scan"
+              ? "Please enter Name & number to activate warranty"
+              : t("OTP has been sent to your registered mobile number")
+          }
         ></PoppinsTextMedium>
       </View>
+      {navigateFrom == "scan" && (
+        <DropDownRegistration
+          title={selectedOption?.[0]}
+          header={"consumer"}
+          jsonData={{
+            label: "UserType",
+            maxLength: "100",
+            name: "user_type",
+            options: ["consumer"],
+            required: true,
+            type: "text",
+          }}
+          data={[]}
+          handleData={handleDataFromDropDown}
+        ></DropDownRegistration>
+      )}
+
+      {navigateFrom == "scan" && (
+        <PrefilledTextInput
+          required={true}
+          // handleData={() => {}}
+          editable={true}
+          style={{
+            height: 50,
+            width: "100%",
+            alignItems: "center",
+            justifyContent: "flex-start",
+            fontWeight: "500",
+            marginLeft: 24,
+            color: "black",
+            fontSize: 16,
+            marginBottom: 20,
+          }}
+          placeholderTextColor="grey"
+          handleData={(data) => {
+            setNameValue(data.value);
+          }}
+          onChangeText={(text) => {
+            setNameValue(text);
+          }}
+          value={nameValue}
+          placeHolder={"Name"}
+        ></PrefilledTextInput>
+      )}
+
       <TextInputRectangularWithPlaceholder
         placeHolder="Mobile No"
         handleData={getMobile}
         maxLength={10}
-        editable={false}
-        value={userData.mobile}
+        editable={
+          (userData.user_type == "dealer" ||
+            userData.user_type == "ratailer") &&
+          navigateFrom == "scan"
+            ? true
+            : false
+        }
+        value={
+          (userData.user_type == "dealer" ||
+            userData.user_type == "ratailer") &&
+          navigateFrom == "scan"
+            ? ""
+            : userData.mobile
+        }
       ></TextInputRectangularWithPlaceholder>
 
-      <View
-        style={{
-          width: "100%",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <OtpInput
-          getOtpFromComponent={getOtpFromComponent}
-          color={"white"}
-        ></OtpInput>
-        <PoppinsTextMedium
-          content={t("Enter OTP")}
-          style={{ color: "black", fontSize: 20, fontWeight: "800" }}
-        ></PoppinsTextMedium>
-        <View style={{ alignItems: "center", justifyContent: "center" }}>
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "center",
-              alignItems: "center",
-              marginTop: 4,
-            }}
-          >
-            <Image
-              style={{
-                height: 20,
-                width: 20,
-                resizeMode: "contain",
-              }}
-              source={require("../../../assets/images/clock.png")}
-            ></Image>
-            <Text style={{ color: ternaryThemeColor, marginLeft: 4 }}>
-              {timer}
-            </Text>
-          </View>
-          <View style={{ alignItems: "center", justifyContent: "center" }}>
-            <Text style={{ color: ternaryThemeColor, marginTop: 10 }}>
-              {t("Didn't recieve any Code")}?
-            </Text>
-
-            {timer === 0 && (
-              <Text
-                onPress={() => {
-                  handleOtpResend();
-                }}
-                style={{
-                  color: ternaryThemeColor,
-                  marginTop: 6,
-                  fontWeight: "600",
-                  fontSize: 16,
-                }}
-              >
-                Resend Code
-              </Text>
+      {(navigateFrom == "scan"  ? getOtpforWarrantyData : true) && (
+        <View
+          style={{
+            width: "100%",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          {navigateFrom == "scan" &&
+            (!getOtpforWarrantyData?.message?.includes("verified")) && (
+              <>
+                <OtpInput
+                  getOtpFromComponent={getOtpFromComponent}
+                  color={"white"}
+                ></OtpInput>
+                <PoppinsTextMedium
+                  content={t("Enter OTP")}
+                  style={{ color: "black", fontSize: 20, fontWeight: "800" }}
+                ></PoppinsTextMedium>
+              </>
             )}
+
+          {!(navigateFrom == "scan") &&
+             (
+              <>
+                <OtpInput
+                  getOtpFromComponent={getOtpFromComponent}
+                  color={"white"}
+                ></OtpInput>
+                <PoppinsTextMedium
+                  content={t("Enter OTP")}
+                  style={{ color: "black", fontSize: 20, fontWeight: "800" }}
+                ></PoppinsTextMedium>
+              </>
+            )}
+
+          <View style={{ alignItems: "center", justifyContent: "center" }}>
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "center",
+                alignItems: "center",
+                marginTop: 4,
+              }}
+            >
+              <Image
+                style={{
+                  height: 20,
+                  width: 20,
+                  resizeMode: "contain",
+                }}
+                source={require("../../../assets/images/clock.png")}
+              ></Image>
+              <Text style={{ color: ternaryThemeColor, marginLeft: 4 }}>
+                {timer}
+              </Text>
+            </View>
+            <View style={{ alignItems: "center", justifyContent: "center" }}>
+              <Text style={{ color: ternaryThemeColor, marginTop: 10 }}>
+                {t("Didn't recieve any Code")}?
+              </Text>
+
+              {timer === 0 && (
+                <Text
+                  onPress={() => {
+                    handleOtpResend();
+                  }}
+                  style={{
+                    color: ternaryThemeColor,
+                    marginTop: 6,
+                    fontWeight: "600",
+                    fontSize: 16,
+                  }}
+                >
+                  Resend Code
+                </Text>
+              )}
+            </View>
           </View>
         </View>
-      </View>
+      )}
       {showRedeemButton && (
         <View
           style={{
@@ -671,24 +854,49 @@ const OtpVerification = ({ navigation, route }) => {
             bottom: 20,
           }}
         >
-          <TouchableOpacity
-            onPress={() => {
-              finalGiftRedemption();
-            }}
-            style={{
-              height: 50,
-              width: 140,
-              alignItems: "center",
-              justifyContent: "center",
-              backgroundColor: ternaryThemeColor,
-              borderRadius: 4,
-            }}
-          >
-            <PoppinsTextMedium
-              content={t("redeem")}
-              style={{ color: "white", fontSize: 20, fontWeight: "700" }}
-            ></PoppinsTextMedium>
-          </TouchableOpacity>
+          {navigateFrom == "scan"&&  getOtpforWarrantyData?.message?.includes("verified") && nameValue!=="" && (
+            <TouchableOpacity
+              onPress={() => {
+                navigateToWaranty();
+              }}
+              style={{
+                height: 50,
+                width: 140,
+                alignItems: "center",
+                justifyContent: "center",
+                backgroundColor: ternaryThemeColor,
+                borderRadius: 4,
+              }}
+            >
+              <PoppinsTextMedium
+                content={"Proceed"}
+                style={{ color: "white", fontSize: 20, fontWeight: "700" }}
+              ></PoppinsTextMedium>
+            </TouchableOpacity>
+          )}
+
+          {!(navigateFrom == "scan") && (
+            <TouchableOpacity
+              onPress={() => {
+                
+            
+                  finalGiftRedemption();
+              }}
+              style={{
+                height: 50,
+                width: 140,
+                alignItems: "center",
+                justifyContent: "center",
+                backgroundColor: ternaryThemeColor,
+                borderRadius: 4,
+              }}
+            >
+              <PoppinsTextMedium
+                content={navigateFrom == "scan" ? "Proceed" : t("redeem")}
+                style={{ color: "white", fontSize: 20, fontWeight: "700" }}
+              ></PoppinsTextMedium>
+            </TouchableOpacity>
+          )}
         </View>
       )}
     </View>

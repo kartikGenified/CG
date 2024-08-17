@@ -9,7 +9,7 @@ const ProductList = props => {
   const length = list.length;
   return (
    <View style={{width:"100%",alignItems:'flex-start',justifyContent:"center",marginLeft:50,marginTop:20}}>
-    <PoppinsText style={{marginTop:8,fontSize:16}} content="Product List"></PoppinsText>
+    <PoppinsText style={{marginTop:8,fontSize:16}} content="Product Name"></PoppinsText>
     <View 
       style={{flexDirection: 'row',borderBottomWidth:1,width:'80%',paddingBottom:8,borderColor:'#DDDDDD',marginBottom:10}}>
 

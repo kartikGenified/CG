@@ -55,6 +55,7 @@ const ScanAndRedirectToWarranty = ({ navigation }) => {
   console.log('Workflow Program is ', workflowProgram);
   //check version 
   const currentVersion = useSelector((state)=>state.appusers.app_version)
+  const userData = useSelector((state) => state.appusersdata.userData);
 
   //---------------
   const {t} = useTranslation()
@@ -203,7 +204,7 @@ else{
   console.log("qrDataArray",qrData?.split("-"))
     if(qrData?.split("-").length===1)
     {
-      requestData = {unique_code: "ozone-"+qrData};
+      requestData = {unique_code: "cg-"+qrData};
 
     }
     else if(qrData?.split("-").length===2){
@@ -283,11 +284,19 @@ else{
 
   const handleWorkflowNavigation = () => {
 
-
+    (userData.user_type =="retailer" ||  userData.user_type =="dealer" ) ? 
+    navigation.navigate('OtpVerification', {
+      "from":"scan",
+      "workflowProgram": [],
+      "rewardType": '',
+      "activatedData": addedQrList,
+    })
+    :
     navigation.navigate('ActivateWarranty', {
+      from : "scan",
       workflowProgram: [],
-      rewardType: ''
-
+      rewardType: '',
+      activatedData: addedQrList,
     });
 
   };

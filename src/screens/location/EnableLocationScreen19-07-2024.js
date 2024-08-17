@@ -214,7 +214,7 @@ const EnableLocationScreen = ({ route, navigation }) => {
         if (error.code === 1) {
           Alert.alert(
             "Alert",
-            "To scan a QR code, the OZOSTAR app must have access permissions. Please grant access to the location.",
+            "To scan a QR code, the CG app must have access permissions. Please grant access to the location.",
             [{ text: "NO" }, { text: "Yes", onPress: openSettings }],
             { cancelable: false }
           );

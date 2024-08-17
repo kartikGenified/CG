@@ -99,19 +99,19 @@ const BasicInfo = ({ navigation, route }) => {
   const userTypeId = route.params.userId
   const needsApproval = route.params.needsApproval
   const navigatingFrom = route.params.navigatingFrom
-  const registrationRequired = route.params.registrationRequired != undefined ? route.params.registrationRequired  : true 
-  console.log("registration required basic info", registrationRequired,navigatingFrom)
+  const registrationRequired = route.params.registrationRequired
+  // console.log("registration required basic info", registrationRequired,navigatingFrom)
   // const navigationParams = { "needsApproval": needsApproval, "userId": userTypeId, "user_type": userType, "mobile": mobile, "name": name, "registrationRequired":registrationRequired}
-  const navigationParams = { "needsApproval": needsApproval, "userId": userTypeId, "userType": userType, "registrationRequired":registrationRequired}
+  const navigationParams = { "needsApproval": needsApproval, "userId": userTypeId, "userType": userType, "registrationRequired":true}
 console.log("navigation params from basic info",navigationParams)
   const name = route.params?.name
   const mobile = route.params?.mobile
-  console.log("appUsers", userType, userTypeId, isManuallyApproved, name, mobile)
+  // console.log("appUsers", userType, userTypeId, isManuallyApproved, name, mobile)
   const width = Dimensions.get('window').width
   const height = Dimensions.get('window').height
   const {t} = useTranslation()
   const gifUri = Image.resolveAssetSource(
-    require("../../../assets/gif/loader.gif")
+    require("../../../assets/gif/cgLoader.gif")
   ).uri;
 
   let timeoutId;
@@ -199,7 +199,7 @@ console.log("navigation params from basic info",navigationParams)
 
   useEffect(()=>{
     setHideButton(false)
-  },[focused])
+  },[focused, registrationRequired])
 
   useEffect(() => {
     if (verifyOtpData?.success) {
@@ -514,7 +514,7 @@ console.log("navigation params from basic info",navigationParams)
     });
   };
 
-  console.log("responseArray", responseArray)
+  // console.log("responseArray", responseArray)
   const modalClose = () => {
     setError(false);
   };
@@ -586,7 +586,7 @@ console.log("navigation params from basic info",navigationParams)
   }
 
 
-  console.log("panVerifiedhideButton",hideButton)
+  // console.log("panVerifiedhideButton",hideButton)
 
   const addharVerified = (bool)=>{
     console.log("aadhar text input status", bool)
@@ -784,7 +784,7 @@ console.log("responseMap",responseMap)
       setMessage(t("Otp isn't verified yet"));
   }
 
-  console.log("responseArraybody", body);
+  // console.log("responseArraybody", body);
 };
 
 
@@ -878,7 +878,7 @@ console.log("responseMap",responseMap)
           {registrationForm &&
             registrationForm.map((item, index) => {
               if (item.type === 'text') {
-                console.log("the user name", userName)
+                // console.log("the user name", userName)
                 if ((item.name === 'phone' || item.name === "mobile")) {
                   return (
                     <>
@@ -895,7 +895,7 @@ console.log("responseMap",responseMap)
                             value={userMobile}
                             displayText ={item.name}
                             label={item.label}
-                            isEditable={true}
+                            // isEditable={false}
                           >
                             {' '}
                           </TextInputNumericRectangle>}
@@ -936,7 +936,7 @@ console.log("responseMap",responseMap)
 
 
 
-                      {console.log("conditions", otpVerified, otpVisible)}
+                      {/* {console.log("conditions", otpVerified, otpVisible)} */}
                       {!otpVerified && otpVisible &&
                         <>
 
@@ -984,7 +984,7 @@ console.log("responseMap",responseMap)
                       displayText = {t(item.name.toLowerCase().trim())}
                       value={userName}
                       label={item.label}
-                      isEditable={true}
+                      // isEditable={false}
                  
                     ></PrefilledTextInput>
                   )
@@ -1006,53 +1006,7 @@ console.log("responseMap",responseMap)
                 }
 
                 // } 
-                else if (item.name === 'aadhaar' || item.name === "aadhar") {
-                  console.log("aadhar")
-                  return (
-                    <TextInputAadhar
-                      required={item.required}
-                      jsonData={item}
-                      key={index}
-                      notVerified={addharVerified}
-                      handleData={handleChildComponentData}
-                      placeHolder={item.name}
-                      displayText = {t(item.name.toLowerCase().trim())}
-                      label={item.label}
-                    >
-                      {' '}
-                    </TextInputAadhar>
-                  );
-                }
-                else if (item.name === 'pan') {
-                  console.log("pan")
-                  return (
-                    <TextInputPan
-                      required={item.required}
-                      jsonData={item}
-                      key={index}
-                      handleData={handleChildComponentData}
-                      placeHolder={item.name}
-                      label={item.label}
-                      displayText={item.name}
-                      panVerified = {panVerified}
-                    >
-                      {' '}
-                    </TextInputPan>
-                  );
-                }
-                else if (item.name === 'gstin') {
-                  console.log("gstin")
-                  return (
-                    <TextInputGST
-                      jsonData={item}
-                      key={index}
-                      handleData={handleChildComponentData}
-                      placeHolder={item.name}
-                      label={item.label}>
-                      {' '}
-                    </TextInputGST>
-                  );
-                }
+             
                 else if ((item.name).trim().toLowerCase() === "city" ) {
 
                   return (
@@ -1144,6 +1098,7 @@ console.log("responseMap",responseMap)
                       key={index}
                       handleData={handleChildComponentData}
                       placeHolder={item.name}
+                      maxLength={item.name == "aadhar" ? 12 : item.name == "pan" ? 10 : 100}
                       label={item.label}>
                       {' '}
                     </TextInputRectangle>
@@ -1163,9 +1118,8 @@ console.log("responseMap",responseMap)
               else if (item.type === "select") {
                 return (
                   <DropDownRegistration
-
-                    title={item.name}
-                    header={item.options[0]}
+                    title={"select"}
+                    header={"select"}
                     jsonData={item}
                     data={item.options}
                     handleData={handleChildComponentData}

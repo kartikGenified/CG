@@ -13,6 +13,7 @@ import { useGetPointSharingDataMutation } from '../../apiServices/pointSharing/p
 import { dispatchCommand } from 'react-native-reanimated';
 import InputDate from '../../components/atoms/input/InputDate';
 import { useTranslation } from 'react-i18next';
+import { appIcon } from '../../utils/HandleClientSetup';
 
 const PointHistory = ({ navigation }) => {
     const [displayList, setDisplayList] = useState([])
@@ -249,25 +250,7 @@ const PointHistory = ({ navigation }) => {
                 </TouchableOpacity>    
                 }
 
-                {registrationRequired.includes(userData.user_type) && 
-                <TouchableOpacity onPress={()=>{
-                    getRegistrationPoints("annual_kitty_2024_25")
-                    setType("Annual Kitty")
-                }} style={{height:'100%',width:120,alignItems:"center",justifyContent:'center',backgroundColor:type==="Annual Kitty" ? "#DDDDDD":"white"}}>
-                    {/* <PoppinsTextMedium content="Registration Bonus" style={{color:'black',fontWeight:'700',fontSize:14}}></PoppinsTextMedium> */}
-                    <PoppinsTextMedium content={t("Annual Kitty")} style={{color:'black',fontWeight:'700',fontSize:14}}></PoppinsTextMedium>
-
-                </TouchableOpacity>    
-                }
-
-                <TouchableOpacity onPress={()=>{
-                    getRegistrationPoints("tds_deducted_2024_25")
-                    setType("TDS Deducted")
-                }} style={{height:'100%',width:120,alignItems:"center",justifyContent:'center',backgroundColor:type==="TDS Deducted" ? "#DDDDDD":"white",borderLeftWidth:1,borderColor:'#DDDDDD'}}>
-                    {/* <PoppinsTextMedium content="Registration Bonus" style={{color:'black',fontWeight:'700',fontSize:14}}></PoppinsTextMedium> */}
-                    <PoppinsTextMedium content={t("TDS Deducted")} style={{color:'black',fontWeight:'700',fontSize:14}}></PoppinsTextMedium>
-
-                </TouchableOpacity>
+           
                 
             </ScrollView>
         )
@@ -395,7 +378,8 @@ const PointHistory = ({ navigation }) => {
         return (
             <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center", margin: 8, borderBottomWidth: 1, borderColor: '#DDDDDD', paddingBottom: 10,width:'100%',height:120,backgroundColor:'white' }}>
                 <View style={{ height: 60, width: '14%', alignItems: "center", justifyContent: "center", borderRadius: 10, borderWidth: 1, borderColor: '#DDDDDD',position:'absolute',left:10,}}>
-                    {image ? <Image style={{ height: 40, width: 40, resizeMode: "contain" }} source={{uri:image}}></Image>: <Image style={{ height: 40, width: 40, resizeMode: "contain" }} source={require('../../../assets/images/logoOzone.png')}></Image>}
+                    {(image!== undefined) && <Image style={{ height: 40, width: 40, resizeMode: "contain" }} source={{uri:props?.image ? props.image : appIcon}}></Image>}
+                    {image == undefined &&  <Image style={{ height: 40, width: 40, resizeMode: "contain" }} source={require('../../../assets/images/cgIcon.png')}></Image>}
                 </View>
                 <View style={{ alignItems: "flex-start", justifyContent: "center",position:'absolute',left:80,width:'60%' }}>
                 {type!=="registration_bonus" && <PoppinsTextMedium style={{ fontWeight: '700', fontSize: 14, color: 'black' }} content={description}></PoppinsTextMedium>}
@@ -492,7 +476,7 @@ const PointHistory = ({ navigation }) => {
                 renderItem={({ item, index }) => {
                     console.log(index + 1, item)
                     return (
-                        <ListItem visibleCode = {item.batch_running_code} type = {item?.cause?.type} image={item?.images ===undefined ? undefined : item?.images ===null ? undefined:item?.images[0]} description={item?.product_name} productCode={item?.product_code} amount={item?.points} status={item?.status} points={item?.points} is_reverted= {item?.is_reverted} date = {moment(item?.created_at).format("DD-MMM-YYYY")} time={moment(item?.created_at).format("HH:mm a")}/>
+                        <ListItem visibleCode = {item.batch_running_code} type = {item?.cause?.type} image={item?.images === undefined ? undefined : item?.images ===null ? undefined:item?.images[0]} description={item?.product_name} productCode={item?.product_code} amount={item?.points} status={item?.status} points={item?.points} is_reverted= {item?.is_reverted} date = {moment(item?.created_at).format("DD-MMM-YYYY")} time={moment(item?.created_at).format("HH:mm a")}/>
                     )
                 }}
                 keyExtractor={(item,index) => index}

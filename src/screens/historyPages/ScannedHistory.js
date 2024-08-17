@@ -23,6 +23,7 @@ import InputDate from "../../components/atoms/input/InputDate";
 import PoppinsTextLeftMedium from "../../components/electrons/customFonts/PoppinsTextLeftMedium";
 import FilterModal from "../../components/modals/FilterModal";
 import { useTranslation } from "react-i18next";
+import { appIcon } from "../../utils/HandleClientSetup";
 
 const ScannedHistory = ({ navigation }) => {
   const [distinctDateArr, setDistinctDateArr] = useState();
@@ -30,7 +31,7 @@ const ScannedHistory = ({ navigation }) => {
   const [limit, setLimit] = useState(20)
 
   const gifUri = Image.resolveAssetSource(
-    require("../../../assets/gif/loader.gif")
+    require("../../../assets/gif/cgLoader.gif")
   ).uri;
 
   const [
@@ -476,12 +477,17 @@ const ScannedHistory = ({ navigation }) => {
             marginLeft:20
           }}
         >
-          {image !== null && (
+          {(image !== "undefined" && image!= null) ?(
             <Image
               style={{ height: 60, width: 60, resizeMode: "contain" }}
-              source={{ uri: image=='' ? null : image }}
+              source={{ uri: image=='undefined' ? image : image }}
             ></Image>
-          )}
+          )
+          :
+          <Image style={{height:60,width:60,backgroundColor:'white'}} source={appIcon}/>
+          
+          }
+          
         </View>
         <View
           style={{

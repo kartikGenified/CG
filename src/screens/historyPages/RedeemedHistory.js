@@ -253,6 +253,7 @@ const RedeemedHistory = ({ navigation }) => {
     
       else if(Number(minRedemptionPoints)>Number(pointBalance))
       {
+        
         console.log("Minimum Point required to redeem is : ",minRedemptionPoints)
         setError(true)
         setMessage(`Minimum Point required to redeem is : ${minRedemptionPoints}`)
@@ -263,17 +264,19 @@ const RedeemedHistory = ({ navigation }) => {
         
         if((Number(new Date(redemptionStartData)) <= Number(new Date()) ) &&  ( Number(new Date()) <= Number(new Date(redemptionEndDate))) )
         {
+
+          setModalVisible(true) 
           
           console.log("correct redemption date",new Date().toString().split('T')[0],new Date(redemptionStartData).toString(),new Date(redemptionEndDate).toString().split('T')[0])
-        if(!showKyc)
-        {
-          setModalVisible(true)
-        }
-        else{
-          setError(true)
-          setMessage("Kyc not completed yet")
-          setNavigateTo("Verification")
-        }
+        // if(!showKyc)
+        // {
+        //   setModalVisible(true)
+        // }
+        // else{
+        //   setError(true)
+        //   setMessage("Kyc not completed yet")
+        //   setNavigateTo("Verification")
+        // }
         }
         else{
           setError(true)

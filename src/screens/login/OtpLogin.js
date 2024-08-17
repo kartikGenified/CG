@@ -111,7 +111,7 @@ const OtpLogin = ({ navigation, route }) => {
   };
   console.log("navigationParams", navigationParams);
   const gifUri = Image.resolveAssetSource(
-    require("../../../assets/gif/loader.gif")
+    require("../../../assets/gif/cgLoader.gif")
   ).uri;
   useEffect(() => {
     fetchTerms();
@@ -120,7 +120,7 @@ const OtpLogin = ({ navigation, route }) => {
 
   useEffect(() => {
     if (getTermsData) {
-      console.log("getTermsData", getTermsData?.body?.data?.[0]?.files[0]);
+      // console.log("getTermsData", getTermsData?.body?.data?.[0]?.files[0]);
     } else if (getTermsError) {
       console.log("gettermserror", getTermsError);
     }
@@ -448,7 +448,7 @@ const OtpLogin = ({ navigation, route }) => {
 
       
       </ScrollView>
-      {registrationRequired && (
+      { registrationRequired && user_type!== "consumer" && (
           <View style={{ position: "absolute", right: 20, top: 10 }}>
             <ButtonNavigate
               handleOperation={() => {

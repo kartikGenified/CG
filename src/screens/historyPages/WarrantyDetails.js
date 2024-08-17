@@ -20,6 +20,7 @@ import Icon from 'react-native-vector-icons/Feather';
 import Close from 'react-native-vector-icons/Ionicons';
 import ErrorModal from '../../components/modals/ErrorModal';
 import ModalWithBorder from '../../components/modals/ModalWithBorder';
+import { appIcon } from '../../utils/HandleClientSetup';
 
 
 const WarrantyDetails = ({ navigation, route }) => {
@@ -201,8 +202,12 @@ const WarrantyDetails = ({ navigation, route }) => {
         return (
             <View style={{ height: 200, width: '100%', backgroundColor: '#F7F7F7', alignItems: "center", justifyContent: 'center', padding: 16, marginTop: 90 }}>
                 <View style={{ height: 154, width: 154, borderRadius: 10, borderWidth: 1, backgroundColor: 'white', position: "absolute", top: -74, borderColor: '#DDDDDD', alignItems: "center", justifyContent: "center" }}>
-                 {data.product_images?.[0] ?   <Image style={{ height: 100, width: 100,resizeMode:'contain' }} source={{ uri: data.product_images?.[0] }}></Image> : <PoppinsTextMedium style={{color:'black', fontWeight:'800'}} content="NO IMAGE"></PoppinsTextMedium>} 
+                 {(data.product_images?.[0] && data.product_images?.[0] != "undefined"  ) ?   <Image style={{ height: 100, width: 100,resizeMode:'contain' }} source={{ uri: data.product_images?.[0] }}></Image> : 
+                 
+                 <Image style={{ height: 100, width: 100, resizeMode:'contain' }} source={appIcon}/>
+                 } 
                 </View>
+                
                 <View style={{ alignItems: "flex-start", justifyContent: "center", position: "absolute", bottom: 10, left: 20, color: 'black' }}>
                     <PoppinsTextMedium style={{ margin: 4, fontSize: 18, fontWeight: '700', color: 'black' }} content={`Product Name : ${productName}`}></PoppinsTextMedium>
                     <PoppinsTextMedium style={{ margin: 4, fontSize: 18, fontWeight: '700', color: 'black' }} content={`Product Code : ${productCode}`}></PoppinsTextMedium>
@@ -367,9 +372,9 @@ const WarrantyDetails = ({ navigation, route }) => {
             <View style={{ alignItems: "center", justifyContent: "center" }}>
                 <PoppinsTextMedium style={{ color: 'black', fontSize: 18 }} content={`Warranty Start : ${moment(warrantyStart).format('DD MMM YYYY')}`}></PoppinsTextMedium>
                 <PoppinsTextMedium style={{ color: 'black', fontSize: 18, marginTop: 4 }} content={`Warranty End : ${moment(warrantyEnd).format('DD MMM YYYY')}`}></PoppinsTextMedium>
-                <View style={{ padding:8, width: 240, alignItems: "center", justifyContent: "center", borderWidth: 1, borderStyle: 'dashed', backgroundColor: ternaryThemeColor, borderRadius: 4, marginTop: 50 }}>
+                {/* <View style={{ padding:8, width: 240, alignItems: "center", justifyContent: "center", borderWidth: 1, borderStyle: 'dashed', backgroundColor: ternaryThemeColor, borderRadius: 4, marginTop: 50 }}>
                     <PoppinsTextMedium style={{ color: 'white', fontSize: 18, marginTop: 4 }} content={`Warranty Id : ${warrantyId}`}></PoppinsTextMedium>
-                </View>
+                </View> */}
             </View>
             <TouchableOpacity onPress={()=>{  
             if(data.warranty_pdf!==undefined && data.warranty_pdf!==null && data.warranty_pdf!=="" )
@@ -382,6 +387,20 @@ const WarrantyDetails = ({ navigation, route }) => {
                         }} style={{ padding:8, width: 240, alignItems: "center", justifyContent: "center", backgroundColor: "#91B406", marginTop: 20, borderRadius: 4 }}>
                 <PoppinsTextMedium style={{ color: 'white', fontSize: 18, marginTop: 4 }} content={`Download Warranty`}></PoppinsTextMedium>
             </TouchableOpacity>
+
+                {/* <TouchableOpacity onPress={()=>{  
+            if(data.warranty_pdf!==undefined && data.warranty_pdf!==null && data.warranty_pdf!=="" )
+                        {
+                        Linking.openURL("https://www.cgglobal.com/")
+                        }
+                        else{
+                            Alert.alert("Sorry for the inconvenience","Warranty PDF is not available yet kindly contact the support team")
+                        }
+                        }} style={{ padding:8, width: 240, alignItems: "center", justifyContent: "center", backgroundColor: "red", marginTop: 20, borderRadius: 4 }}>
+                <PoppinsTextMedium style={{ color: 'white', fontSize: 18, marginTop: 4 }} content={`Complain Warranty`}></PoppinsTextMedium>
+            </TouchableOpacity> */}
+
+            
             <TouchableOpacity onPress={() => { setModal(true) }} style={{ padding:8, width: 240, alignItems: "center", justifyContent: "center", backgroundColor: "#353535", marginTop: 20, borderRadius: 4 }}>
                 <PoppinsTextMedium style={{ color: 'white', fontSize: 18, marginTop: 4 }} content={`Claim Warranty/View Claim`}></PoppinsTextMedium>
             </TouchableOpacity>

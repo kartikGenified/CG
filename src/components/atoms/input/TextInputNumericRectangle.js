@@ -8,12 +8,11 @@ const TextInputNumericRectangle = props => {
   const [value, setValue] = useState(props.value);
   const placeHolder = props.placeHolder;
   const maxLength = props.maxLength;
-  const label = props.label
   const required = props.required ===undefined ? props.jsonData.required : props.required
   let displayText = props.placeHolder
 
   const isEditable = props.isEditable
-  console.log("label",isEditable,displayText)
+  // console.log("label",isEditable,displayText)
 
   const {t} = useTranslation()
 

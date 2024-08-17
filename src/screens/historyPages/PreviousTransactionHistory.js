@@ -8,6 +8,7 @@ import moment from 'moment';
 import DataNotFound from '../data not found/DataNotFound';
 import { dispatchCommand } from 'react-native-reanimated';
 import { useTranslation } from 'react-i18next';
+import { appIcon } from '../../utils/HandleClientSetup';
 
 const PreviousTransactionHistory = ({navigation}) => {
     const [displayList, setDisplayList] = useState()
@@ -87,7 +88,7 @@ const PreviousTransactionHistory = ({navigation}) => {
               
                 <Image
                   style={{ height: 60, width: 60, resizeMode: "contain" }}
-                  source={require('../../../assets/images/logoOzone.png')}
+                  source={appIcon}
                 ></Image>
             </View>
             <View

@@ -357,7 +357,7 @@ const PasswordLogin = ({ navigation, route }) => {
 
   useEffect(() => {
     if (getTermsData) {
-      console.log("getTermsData", getTermsData?.body?.data?.[0]?.files[0]);
+      // console.log("getTermsData", getTermsData?.body?.data?.[0]?.files[0]);
     }
     else if (getTermsError) {
       console.log("gettermserror", getTermsError)
