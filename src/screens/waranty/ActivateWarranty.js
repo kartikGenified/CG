@@ -653,6 +653,7 @@ const ActivateWarranty = ({ navigation, route }) => {
                     jsonData={item}
                     handleData={handleChildComponentData}
                     data={item.label}
+                    minDate ={moment().subtract(1, 'months').toDate()}
                     key={index}></InputDate>
                 );
               }

@@ -1,38 +1,36 @@
 import { baseApi } from "../baseApi";
 import { slug } from "../../utils/Slug";
-export const VerifyQrApi = baseApi.injectEndpoints({
+export const VerifyBarCodeApi = baseApi.injectEndpoints({
     endpoints:(builder) =>({
-        verifyQr : builder.mutation({
-            query({token,data}){
+        verifyBar : builder.mutation({
+            query(data){
                 console.log("from verifyqr api",data)
                 return {
-                    url:`api/tenant/qr/verify`,
+                    url:`api/app/barCodeScan`,
                     method:'post',
                     headers:{
                         "Content-Type": "application/json",
                         "slug":slug,
-                        "Authorization": `Bearer ${token}`,
+                        "Authorization": `Bearer ${data.token}`,
                     },
-                    body:JSON.stringify(data)
+                    body:JSON.stringify(data.body)
                     
-                   
                 }
             }
         }),
-        verifyQrByBatch : builder.mutation({
-            query({token,data}){
-                console.log("from verifyqr by batch api",data)
+        verifyBarDistributor : builder.mutation({
+            query(data){
+                console.log("from verifyqr api",data)
                 return {
-                    url:`api/tenant/qr/verify/batch`,
+                    url:`api/app/barCodeScan/distributorScan`,
                     method:'post',
                     headers:{
                         "Content-Type": "application/json",
                         "slug":slug,
-                        "Authorization": `Bearer ${token}`,
+                        "Authorization": `Bearer ${data.token}`,
                     },
-                    body:JSON.stringify(data)
+                    body:JSON.stringify(data.body)
                     
-                   
                 }
             }
         })
@@ -40,5 +38,5 @@ export const VerifyQrApi = baseApi.injectEndpoints({
 });
 
 
-export const {useVerifyQrMutation, useVerifyQrByBatchMutation} = VerifyQrApi
+export const {useVerifyBarMutation, useVerifyBarDistributorMutation} = VerifyBarCodeApi
 

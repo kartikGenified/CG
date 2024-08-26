@@ -191,23 +191,26 @@ const TextInputAadhar = (props) => {
         </View>
         {
           aadharExists &&  <View style={{width:'100%',alignItems:'flex-start',justifyContent:'center'}}>
-          <PoppinsTextMedium style={{color:ternaryThemeColor,padding:4,fontSize:14,marginLeft:24}} content = {sendAadharOtpError?.data?.message}></PoppinsTextMedium>
+          <PoppinsTextMedium style={{color:'red',padding:4,fontSize:14,marginLeft:32}} content = {sendAadharOtpError?.data?.message}></PoppinsTextMedium>
         </View>
         }
+        {/* {
+          <Text>{verifyAadharData?.body?.name}</Text>
+        } */}
         {
-          otpSent && 
+          otpSent && !aadharVerified && 
           
           <View style={{width:'100%',alignItems:'flex-start',justifyContent:'center'}}>
             <PoppinsTextMedium style={{color:ternaryThemeColor,padding:4,fontSize:14,marginLeft:24}} content = "OTP Sent"></PoppinsTextMedium>
           </View>
 
         }
-       {showOtp  && <View style={{height:60,width:'86%',borderWidth:1,borderColor:'#DDDDDD',alignItems:"center",justifyContent:"center",backgroundColor:'white',margin:10}}>
+       {showOtp  && !aadharVerified && <View style={{height:60,width:'86%',borderWidth:1,borderColor:'#DDDDDD',alignItems:"center",justifyContent:"center",backgroundColor:'white',margin:10}}>
         
         <View style={{alignItems:"center",justifyContent:'center',backgroundColor:'white',position:"absolute",top:-15,left:16}}>
             <PoppinsTextMedium style={{color:"#919191",padding:4,fontSize:18}} content = "OTP"></PoppinsTextMedium>
         </View>
-        <TextInput maxLength={6} keyboardType='numeric'  style={{height:50,width:'100%',alignItems:"center",justifyContent:"flex-start",fontWeight:'500',marginLeft:24,color:'black',fontSize:16}} placeholderTextColor="grey" onChangeText={(text)=>{setOtp(text)}} value={otp} placeholder={`One time password *`}></TextInput>
+        <TextInput editable={aadharVerified ? false : true} maxLength={6} keyboardType='numeric'  style={{height:50,width:'100%',alignItems:"center",justifyContent:"flex-start",fontWeight:'500',marginLeft:24,color:'black',fontSize:16}} placeholderTextColor="grey" onChangeText={(text)=>{setOtp(text)}} value={otp} placeholder={`One time password *`}></TextInput>
     
       {(verifyAadharIsLoading || sendAadharOtpIsLoading || showLoading) && <FastImage
           style={{ width: 30, height: 30, alignSelf: 'center',position:'absolute',right:10 }}
@@ -219,6 +222,7 @@ const TextInputAadhar = (props) => {
         />}
       
     </View>}
+    
         </View>
         
         

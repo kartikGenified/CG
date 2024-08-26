@@ -10,7 +10,8 @@ import {
   BackHandler,
   Linking,
   TouchableHighlight,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
+  Text,
 } from "react-native";
 import MenuItems from "../../components/atoms/MenuItems";
 import { BaseUrl } from "../../utils/BaseUrl";
@@ -64,7 +65,6 @@ import Facebook from "react-native-vector-icons/AntDesign";
 import Icon from "react-native-vector-icons/FontAwesome";
 import Youtube from "react-native-vector-icons/AntDesign";
 import Instagram from "react-native-vector-icons/AntDesign";
-
 
 const Dashboard = ({ navigation }) => {
   const [dashboardItems, setDashboardItems] = useState();
@@ -575,6 +575,7 @@ const Dashboard = ({ navigation }) => {
             getActiveMembershipData={getActiveMembershipData}
           />
         </View>
+
         <View
           style={{
             width: "100%",
@@ -702,27 +703,271 @@ const Dashboard = ({ navigation }) => {
           <DashboardDataBox header="Total Points"  data="5000" image={require('../../../assets/images/coin.png')} ></DashboardDataBox>
 
           </ScrollView> */}
-          {dashboardData && !userPointIsLoading && (
+          {dashboardData && !userPointIsLoading  && (
             <DashboardMenuBox
               requiresLocation={requiresLocation}
               navigation={navigation}
               data={dashboardData}
             ></DashboardMenuBox>
           )}
+          <View
+            style={{
+              alignItems: "center",
+              justifyContent: "flex-end",
+              flexDirection: "row",
+              width: "90%",
+              marginBottom: 40,
+            }}
+          >
+            {showLink && (
+              <View
+                style={{
+                  alignItems: "center",
+                  justifyContent: "space-evenly",
+                  width: "90%",
+                  height: 60,
+                  flexDirection: "row",
+                  marginBottom: 10,
+                }}
+              >
+                <RotateViewAnimation
+                  outputRange={["0deg", "60deg", "-60deg", "0deg"]}
+                  inputRange={[0, 1, 2, 3]}
+                  comp={() => {
+                    return (
+                      <FadeInOutAnimations
+                        comp={() => {
+                          return (
+                            <TouchableOpacity
+                              onPress={() => {
+                                Linking.openURL(
+                                  "https://www.facebook.com/people/CG-Industrial-Division/100066535583616/"
+                                );
+                              }}
+                            >
+                              <Facebook
+                                name="facebook-square"
+                                size={40}
+                                color="blue"
+                              ></Facebook>
+                            </TouchableOpacity>
+                          );
+                        }}
+                      ></FadeInOutAnimations>
+                    );
+                  }}
+                />
+
+                {/* <RotateViewAnimation
+              outputRange={["0deg", "60deg", "-60deg", "0deg"]}
+              inputRange={[0, 1, 2, 3]}
+              comp={() => {
+                return (
+                  <FadeInOutAnimations
+                    comp={() => {
+                      return (
+                        <TouchableOpacity
+                          onPress={() => {
+                            Linking.openURL(
+                              `whatsapp://send?text=Hi Welcome To BTPL World&phone=${"+201023666065"}`
+                            );
+                          }}
+                        >
+                          <Icon name="whatsapp" size={40} color="green"></Icon>
+                        </TouchableOpacity>
+                      );
+                    }}
+                  ></FadeInOutAnimations>
+                );
+              }}
+            /> */}
+
+                <RotateViewAnimation
+                  outputRange={["0deg", "60deg", "-60deg", "0deg"]}
+                  inputRange={[0, 1, 2, 3]}
+                  comp={() => {
+                    return (
+                      <FadeInOutAnimations
+                        comp={() => {
+                          return (
+                            <TouchableOpacity
+                              onPress={() => {
+                                Linking.openURL(
+                                  "https://www.linkedin.com/company/10324/admin/"
+                                );
+                              }}
+                            >
+                              <View
+                                style={{
+                                  height: 50,
+                                  width: 50,
+                                  backgroundColor: "#DDE8EE",
+                                  alignItems: "center",
+                                  justifyContent: "center",
+                                  borderRadius: 25,
+                                }}
+                              >
+                                {/* <Image style={{height:50,width:50}} resizeMode='contain' source={require('../../../assets/images/LondonDreamsIcon.png')}></Image> */}
+                                <Icon
+                                  name="linkedin"
+                                  size={35}
+                                  color="blue"
+                                ></Icon>
+                              </View>
+                            </TouchableOpacity>
+                          );
+                        }}
+                      ></FadeInOutAnimations>
+                    );
+                  }}
+                />
+
+                <RotateViewAnimation
+                  outputRange={["0deg", "60deg", "-60deg", "0deg"]}
+                  inputRange={[0, 1, 2, 3]}
+                  comp={() => {
+                    return (
+                      <FadeInOutAnimations
+                        comp={() => {
+                          return (
+                            <TouchableOpacity
+                              onPress={() => {
+                                Linking.openURL(
+                                  "https://www.youtube.com/channel/UCEWSZGFJBWEFOPxQ0yPIQWg?app=desktop"
+                                );
+                              }}
+                            >
+                              <View
+                                style={{
+                                  height: 50,
+                                  width: 50,
+                                  backgroundColor: "#DDE8EE",
+                                  alignItems: "center",
+                                  justifyContent: "center",
+                                  borderRadius: 25,
+                                }}
+                              >
+                                {/* <Image style={{height:50,width:50}} resizeMode='contain' source={require('../../../assets/images/LondonDreamsIcon.png')}></Image> */}
+                                <Icon
+                                  name="youtube"
+                                  size={35}
+                                  color="red"
+                                ></Icon>
+                              </View>
+                            </TouchableOpacity>
+                          );
+                        }}
+                      ></FadeInOutAnimations>
+                    );
+                  }}
+                />
+
+                <RotateViewAnimation
+                  outputRange={["0deg", "60deg", "-60deg", "0deg"]}
+                  inputRange={[0, 1, 2, 3]}
+                  comp={() => {
+                    return (
+                      <FadeInOutAnimations
+                        comp={() => {
+                          return (
+                            <TouchableOpacity
+                              onPress={() => {
+                                Linking.openURL(
+                                  "https://www.instagram.com/cg_industrialdivision/"
+                                );
+                              }}
+                            >
+                              <Instagram
+                                name="instagram"
+                                size={40}
+                                color="red"
+                              ></Instagram>
+                            </TouchableOpacity>
+                          );
+                        }}
+                      ></FadeInOutAnimations>
+                    );
+                  }}
+                />
+
+                <RotateViewAnimation
+                  outputRange={["0deg", "60deg", "-60deg", "0deg"]}
+                  inputRange={[0, 1, 2, 3]}
+                  comp={() => {
+                    return (
+                      <FadeInOutAnimations
+                        comp={() => {
+                          return (
+                            <TouchableOpacity
+                              onPress={() => {
+                                Linking.openURL("https://www.cgglobal.com/");
+                              }}
+                            >
+                              <View
+                                style={{
+                                  height: 50,
+                                  width: 50,
+                                  backgroundColor: "#DDE8EE",
+                                  alignItems: "center",
+                                  justifyContent: "center",
+                                  borderRadius: 25,
+                                }}
+                              >
+                                <Image
+                                  style={{ height: 50, width: 100 }}
+                                  resizeMode="contain"
+                                  source={appIcon}
+                                ></Image>
+                              </View>
+                            </TouchableOpacity>
+                          );
+                        }}
+                      ></FadeInOutAnimations>
+                    );
+                  }}
+                />
+              </View>
+            )}
+            <TouchableWithoutFeedback
+              onPress={() => {
+                setShowLink(!showLink);
+              }}
+              style={{ width: "15%", marginBottom: 10 }}
+            >
+              <View
+                style={{
+                  backgroundColor: ternaryThemeColor,
+                  width: 50,
+                  height: 50,
+                  borderRadius: 25,
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <Link name="sharealt" color={"white"} size={30}></Link>
+              </View>
+            </TouchableWithoutFeedback>
+          </View>
           {userPointIsLoading && (
-            <FastImage
-              style={{
-                width: 100,
-                height: 100,
-                alignSelf: "center",
-                marginTop: 20,
-              }}
-              source={{
-                uri: gifUri, // Update the path to your GIF
-                priority: FastImage.priority.normal,
-              }}
-              resizeMode={FastImage.resizeMode.contain}
-            />
+            <View>
+              <Text style={{ color: "black", fontSize: 10 }}>
+                Dashboard Menu Loading
+              </Text>
+
+              <FastImage
+                style={{
+                  width: 100,
+                  height: 100,
+                  alignSelf: "center",
+                  // marginTop: 20,
+                }}
+                source={{
+                  uri: gifUri, // Update the path to your GIF
+                  priority: FastImage.priority.normal,
+                }}
+                resizeMode={FastImage.resizeMode.contain}
+              />
+            </View>
           )}
           {/* <View style={{ width: '100%', alignItems: "center", justifyContent: "center", marginBottom: 20 }}>
             {showKyc && <KYCVerificationComponent buttonTitle={t("Complete Your KYC")} title={t("Your KYC is not completed")}></KYCVerificationComponent>}
@@ -748,241 +993,8 @@ const Dashboard = ({ navigation }) => {
           {/* --------------------- */}
         </View>
       </ScrollView>
-  <View style={{marginTop:30}}>
-
-  </View>
+      <View style={{ marginTop: 30 }}></View>
       {/* social links */}
-      <View
-        style={{
-          alignItems: "center",
-          justifyContent: "flex-end",
-          flexDirection: "row",
-          width: "90%",
-          marginBottom: 40,
-        }}
-      >
-        {showLink && (
-          <View
-            style={{
-              alignItems: "center",
-              justifyContent: "space-evenly",
-              width: "90%",
-              height: 60,
-              flexDirection: "row",
-              marginBottom: 10,
-            }}
-          >
-            <RotateViewAnimation
-              outputRange={["0deg", "60deg", "-60deg", "0deg"]}
-              inputRange={[0, 1, 2, 3]}
-              comp={() => {
-                return (
-                  <FadeInOutAnimations
-                    comp={() => {
-                      return (
-                        <TouchableOpacity
-                          onPress={() => {
-                            Linking.openURL(
-                              "https://www.facebook.com/people/CG-Industrial-Division/100066535583616/"
-                            );
-                          }}
-                        >
-                          <Facebook
-                            name="facebook-square"
-                            size={40}
-                            color="blue"
-                          ></Facebook>
-                        </TouchableOpacity>
-                      );
-                    }}
-                  ></FadeInOutAnimations>
-                );
-              }}
-            />
-
-
-            {/* <RotateViewAnimation
-              outputRange={["0deg", "60deg", "-60deg", "0deg"]}
-              inputRange={[0, 1, 2, 3]}
-              comp={() => {
-                return (
-                  <FadeInOutAnimations
-                    comp={() => {
-                      return (
-                        <TouchableOpacity
-                          onPress={() => {
-                            Linking.openURL(
-                              `whatsapp://send?text=Hi Welcome To BTPL World&phone=${"+201023666065"}`
-                            );
-                          }}
-                        >
-                          <Icon name="whatsapp" size={40} color="green"></Icon>
-                        </TouchableOpacity>
-                      );
-                    }}
-                  ></FadeInOutAnimations>
-                );
-              }}
-            /> */}
-
-            <RotateViewAnimation
-              outputRange={["0deg", "60deg", "-60deg", "0deg"]}
-              inputRange={[0, 1, 2, 3]}
-              comp={() => {
-                return (
-                  <FadeInOutAnimations
-                    comp={() => {
-                      return (
-                        <TouchableOpacity
-                          onPress={() => {
-                            Linking.openURL(
-                              "https://www.linkedin.com/company/10324/admin/"
-                            );
-                          }}
-                        >
-                          <View
-                            style={{
-                              height: 50,
-                              width: 50,
-                              backgroundColor: "#DDE8EE",
-                              alignItems: "center",
-                              justifyContent: "center",
-                              borderRadius: 25,
-                            }}
-                          >
-                            {/* <Image style={{height:50,width:50}} resizeMode='contain' source={require('../../../assets/images/LondonDreamsIcon.png')}></Image> */}
-                            <Icon name="linkedin" size={35} color="blue"></Icon>
-                          </View>
-                        </TouchableOpacity>
-                      );
-                    }}
-                  ></FadeInOutAnimations>
-                );
-              }}
-            />
-
-            <RotateViewAnimation
-              outputRange={["0deg", "60deg", "-60deg", "0deg"]}
-              inputRange={[0, 1, 2, 3]}
-              comp={() => {
-                return (
-                  <FadeInOutAnimations
-                    comp={() => {
-                      return (
-                        <TouchableOpacity
-                          onPress={() => {
-                            Linking.openURL(
-                              "https://www.youtube.com/channel/UCEWSZGFJBWEFOPxQ0yPIQWg?app=desktop"
-                            );
-                          }}
-                        >
-                          <View
-                            style={{
-                              height: 50,
-                              width: 50,
-                              backgroundColor: "#DDE8EE",
-                              alignItems: "center",
-                              justifyContent: "center",
-                              borderRadius: 25,
-                            }}
-                          >
-                            {/* <Image style={{height:50,width:50}} resizeMode='contain' source={require('../../../assets/images/LondonDreamsIcon.png')}></Image> */}
-                            <Icon name="youtube" size={35} color="red"></Icon>
-                          </View>
-                        </TouchableOpacity>
-                      );
-                    }}
-                  ></FadeInOutAnimations>
-                );
-              }}
-            />
-
-            <RotateViewAnimation
-              outputRange={["0deg", "60deg", "-60deg", "0deg"]}
-              inputRange={[0, 1, 2, 3]}
-              comp={() => {
-                return (
-                  <FadeInOutAnimations
-                    comp={() => {
-                      return (
-                        <TouchableOpacity
-                          onPress={() => {
-                            Linking.openURL(
-                              "https://www.instagram.com/cg_industrialdivision/"
-                            );
-                          }}
-                        >
-                          <Instagram
-                            name="instagram"
-                            size={40}
-                            color="red"
-                          ></Instagram>
-                        </TouchableOpacity>
-                      );
-                    }}
-                  ></FadeInOutAnimations>
-                );
-              }}
-            />
-
-            <RotateViewAnimation
-              outputRange={["0deg", "60deg", "-60deg", "0deg"]}
-              inputRange={[0, 1, 2, 3]}
-              comp={() => {
-                return (
-                  <FadeInOutAnimations
-                    comp={() => {
-                      return (
-                        <TouchableOpacity
-                          onPress={() => {
-                            Linking.openURL("https://www.cgglobal.com/");
-                          }}
-                        >
-                          <View
-                            style={{
-                              height: 50,
-                              width: 50,
-                              backgroundColor: "#DDE8EE",
-                              alignItems: "center",
-                              justifyContent: "center",
-                              borderRadius: 25,
-                            }}
-                          >
-                            <Image
-                              style={{ height: 50, width: 100 }}
-                              resizeMode="contain"
-                              source={appIcon}
-                            ></Image>
-                          </View>
-                        </TouchableOpacity>
-                      );
-                    }}
-                  ></FadeInOutAnimations>
-                );
-              }}
-            />
-          </View>
-        )}
-        <TouchableWithoutFeedback
-          onPress={() => {
-            setShowLink(!showLink);
-          }}
-          style={{ width: "15%", marginBottom: 10,}}
-        >
-          <View
-            style={{
-              backgroundColor: ternaryThemeColor,
-              width: 50,
-              height: 50,
-              borderRadius: 25,
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <Link name="sharealt" color={"white"} size={30}></Link>
-          </View>
-        </TouchableWithoutFeedback>
-      </View>
     </View>
   );
 };

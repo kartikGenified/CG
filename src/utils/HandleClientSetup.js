@@ -9,3 +9,4 @@ export const scannerType = "qr" //"qr for qr", "bar for bar
 export const neededHistory = ["warranty", "redeemed", "cashback", "previous transaction","points"] 
 export const showEditProfile = true 
 export const descriptionImages=[require('../../assets/images/Step.png')]
+export const hideinSelectUser = ["dealer", "consumer"]

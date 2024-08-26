@@ -36,7 +36,7 @@ const WarrantyDetails = ({ navigation, route }) => {
 
     let claimText = "";
 
-    const warrantyStart = route.params.data.created_at
+    const warrantyStart = route.params.data.start_date
     const warrantyEnd = route.params.data.end_date
     const warrantyId = route.params.data.id
     const data = route.params.data

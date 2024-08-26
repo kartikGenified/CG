@@ -19,14 +19,13 @@ import {
 import PoppinsTextMedium from "../../components/electrons/customFonts/PoppinsTextMedium";
 import { useIsFocused } from "@react-navigation/native";
 
-const EnableCameraScreen = ({ navigation, route }) => {
+const EnableCameraAndNavigateToWarranty = ({ navigation, route }) => {
   const appState = useRef(AppState.currentState);
   const [appStateVisible, setAppStateVisible] = useState(appState.current);
   const [cameraPermissionEnabled, setCameraPermissionEnabled] = useState(false);
   const [CameraEnabled, setCameraEnabled] = useState(false);
   const [requiresLocation, setRequiresLocation] = useState(false)
   const [neverAskAgain, setNeverAskAgain] = useState(false);
-  const scan_type = route.params.scan_type
   const dispatch = useDispatch();
   const focused = useIsFocused();
   const message = route.params?.message;
@@ -43,6 +42,8 @@ const EnableCameraScreen = ({ navigation, route }) => {
   const locationSetup = useSelector(state=>state.appusers.locationSetup)
 
   const cameraStatus = useSelector((state) => state.cameraStatus.cameraStatus);
+
+  const scan_type = route.params.scan_type
 
   console.log("EnableCameraScreen", cameraPermissionStatus, cameraStatus);
   useEffect(()=>{
@@ -99,7 +100,7 @@ const EnableCameraScreen = ({ navigation, route }) => {
           dispatch(setCameraPermissionStatus(true));
           dispatch(setCameraStatus(true));
           setTimeout(() => {
-             navigation.replace("QrCodeScanner",{navigateTo:"QrCodeScanner", scan_type:scan_type});
+             navigation.replace("ScanAndRedirectToWarranty",{navigateTo:"ScanAndRedirectToWarranty", scan_type: scan_type});
           }, 500);
         }
         if (granted == "denied") {
@@ -120,7 +121,7 @@ const EnableCameraScreen = ({ navigation, route }) => {
       dispatch(setCameraPermissionStatus(true));
       dispatch(setCameraStatus(true));
       setTimeout(() => {
-        navigation.replace("QrCodeScanner",{navigateTo:"QrCodeScanner", scan_type:scan_type});
+        navigation.replace("ScanAndRedirectToWarranty",{navigateTo:"ScanAndRedirectToWarranty", scan_type:scan_type});
       }, 500);
     }
   };
@@ -265,4 +266,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default EnableCameraScreen;
+export default EnableCameraAndNavigateToWarranty;

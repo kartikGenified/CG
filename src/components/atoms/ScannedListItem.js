@@ -13,7 +13,7 @@ const ScannedListItem = props => {
 
   return (
     <View style={styles.container}>
-      <View style={{width: '10%'}}>
+      <View style={{width: '10%', }}>
         <View
           style={{
             height: 30,

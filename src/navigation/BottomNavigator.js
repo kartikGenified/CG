@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { View, Text, Platform, TouchableOpacity } from "react-native";
+import React, { useState } from "react";
+import { View, Text, TouchableOpacity, Modal, StyleSheet } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Dashboard from "../screens/dashboard/Dashboard";
 import Gift from "react-native-vector-icons/AntDesign";
 import Qrcode from "react-native-vector-icons/AntDesign";
 import Book from "react-native-vector-icons/AntDesign";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import Wave from "../../assets/svg/bottomDrawer.svg";
 import PoppinsTextMedium from "../components/electrons/customFonts/PoppinsTextMedium";
 import BookOpen from "react-native-vector-icons/Entypo";
@@ -14,10 +14,9 @@ import FlipAnimation from "../components/animations/FlipAnimation";
 
 const Tab = createBottomTabNavigator();
 
-//custom bottom drawer
-
 function BottomNavigator({ navigation }) {
   const [requiresLocation, setRequiresLocation] = useState(false);
+  const [modal, setModal] = useState(false);
   const { t } = useTranslation();
 
   const locationSetup = useSelector((state) => state.appusers.locationSetup);
@@ -30,126 +29,65 @@ function BottomNavigator({ navigation }) {
   const workflow = useSelector((state) => state.appWorkflow.program);
 
   const platformFontWeight = Platform.OS === "ios" ? "400" : "800";
-  console.log("workflow", workflow, userData);
 
-  useEffect(() => {
-    if (locationSetup) {
-      if (Object.keys(locationSetup)?.length != 0) {
-        setRequiresLocation(true);
-      }
-    }
-  }, [locationSetup]);
+  const handleModalClose = () => {
+    setModal(false);
+  };
 
   return (
-    <Tab.Navigator
-      tabBar={() => (
-        <View
-          style={{
-            alignItems: "center",
-            justifyContent: "center",
-            width: "100%",
-            backgroundColor: "#F7F7F7",
-          }}
-        >
-          <Wave style={{ top: 10 }} width={100}></Wave>
+    <View style={{ flex: 1 }}>
+      <Tab.Navigator
+        tabBar={() => (
           <View
             style={{
               alignItems: "center",
               justifyContent: "center",
-              flexDirection: "row",
-              height: 60,
-              backgroundColor: "white",
               width: "100%",
+              backgroundColor: "#F7F7F7",
             }}
           >
-            {userData.user_type !== "consumer" ? (
-              <TouchableOpacity
-                onPress={() => {
-                  navigation.navigate("GiftCatalogue");
-                }}
-                style={{ alignItems: "center", position: "absolute", left: 30 }}
-              >
-                <Gift name="gift" size={24} color={ternaryThemeColor}></Gift>
-                <PoppinsTextMedium
-                  style={{
-                    marginTop: 4,
-                    fontSize: 12,
-                    fontWeight: platformFontWeight,
-                    color: "black",
-                  }}
-                  content={t("gift Catalogue")}
-                ></PoppinsTextMedium>
-              </TouchableOpacity>
-            ) : (
-              <View></View>
-            )}
-
-            {/* ozone change */}
-            {
-            (userData?.user_type).toLowerCase() !== "sales" ? (
-              <TouchableOpacity
-              
-                onPress={() => { 
-                  Platform.OS == "android"
-                    ? ((userData.user_type != "consumer") ? navigation.navigate("EnableCameraScreen") : navigation.navigate("ScanAndRedirectToWarranty"))
-                    : ((userData.user_type != "consumer") ? requiresLocation : navigation.navigate("ScanAndRedirectToWarranty"))
-                    ? navigation.navigate("EnableLocationScreen", {
-                        navigateTo: "QrCodeScanner",
-                      })
-                    : navigation.navigate("QrCodeScanner");
-                }}
-                style={{ alignItems: "center", justifyContent: "center" }}
-              >
-                {/* <Qrcode name="qrcode" size={24} color={ternaryThemeColor}></Qrcode> */}
-                <FlipAnimation
-                  direction="horizontal"
-                  duration={1400}
-                  comp={() => {
-                    return (
-                      <Qrcode
-                        name="qrcode"
-                        size={24}
-                        color={ternaryThemeColor}
-                      ></Qrcode>
-                    );
-                  }}
-                />
-                {
-                  userData.user_type == "consumer" ?
-                  <PoppinsTextMedium
-                  style={{
-                    marginTop: 4,
-                    fontSize: 12,
-                    fontWeight: platformFontWeight,
-                    color: "black",
-                  }}
-                  content={t("Activate Warranty")}
-                ></PoppinsTextMedium>
-                  
-                  :
-                  <PoppinsTextMedium
-                  style={{
-                    marginTop: 4,
-                    fontSize: 12,
-                    fontWeight: platformFontWeight,
-                    color: "black",
-                  }}
-                  content={t("Scan QR")}
-                ></PoppinsTextMedium>
-                }
-                
-             
-              </TouchableOpacity>
-            ) : (
-              workflow?.includes("Genuinity") && (
+            <Wave style={{ top: 10 }} width={100} />
+            <View
+              style={{
+                alignItems: "center",
+                justifyContent: "center",
+                flexDirection: "row",
+                height: 60,
+                backgroundColor: "white",
+                width: "100%",
+              }}
+            >
+              {userData.user_type !== "consumer" ? (
                 <TouchableOpacity
                   onPress={() => {
-                    navigation.navigate("ScanAndRedirectToGenuinity");
+                    navigation.navigate("GiftCatalogue");
                   }}
+                  style={{
+                    alignItems: "center",
+                    position: "absolute",
+                    left: 30,
+                  }}
+                >
+                  <Gift name="gift" size={24} color={ternaryThemeColor} />
+                  <PoppinsTextMedium
+                    style={{
+                      marginTop: 4,
+                      fontSize: 12,
+                      fontWeight: platformFontWeight,
+                      color: "black",
+                    }}
+                    content={t("gift Catalogue")}
+                  />
+                </TouchableOpacity>
+              ) : (
+                <View></View>
+              )}
+
+              {(userData?.user_type).toLowerCase() !== "sales" ? (
+                <TouchableOpacity
+                  onPress={() => setModal(true)}
                   style={{ alignItems: "center", justifyContent: "center" }}
                 >
-                  {/* <Qrcode name="qrcode" size={24} color={ternaryThemeColor}></Qrcode> */}
-               
                   <FlipAnimation
                     direction="horizontal"
                     duration={1400}
@@ -159,9 +97,107 @@ function BottomNavigator({ navigation }) {
                           name="qrcode"
                           size={24}
                           color={ternaryThemeColor}
-                        ></Qrcode>
+                        />
                       );
                     }}
+                  />
+                  {userData.user_type === "consumer" ? (
+                    <PoppinsTextMedium
+                      style={{
+                        marginTop: 4,
+                        fontSize: 12,
+                        fontWeight: platformFontWeight,
+                        color: "black",
+                      }}
+                      content={t("Activate Warranty")}
+                    />
+                  ) : (
+                    <PoppinsTextMedium
+                      style={{
+                        marginTop: 4,
+                        fontSize: 12,
+                        fontWeight: platformFontWeight,
+                        color: "black",
+                      }}
+                      content={t("Scan QR")}
+                    />
+                  )}
+                </TouchableOpacity>
+              ) : (
+                workflow?.includes("Genuinity") && (
+                  <TouchableOpacity
+                    onPress={() => {
+                      navigation.navigate("ScanAndRedirectToGenuinity");
+                    }}
+                    style={{ alignItems: "center", justifyContent: "center" }}
+                  >
+                    <FlipAnimation
+                      direction="horizontal"
+                      duration={1400}
+                      comp={() => {
+                        return (
+                          <Qrcode
+                            name="qrcode"
+                            size={24}
+                            color={ternaryThemeColor}
+                          />
+                        );
+                      }}
+                    />
+                    <PoppinsTextMedium
+                      style={{
+                        marginTop: 4,
+                        fontSize: 12,
+                        fontWeight: platformFontWeight,
+                        color: "black",
+                      }}
+                      content="Check Genuinity"
+                    />
+                  </TouchableOpacity>
+                )
+              )}
+              {(userData?.user_type).toLowerCase() !== "sales" &&
+                userData.user_type !== "consumer" && (
+                  <TouchableOpacity
+                    onPress={() => {
+                      navigation.navigate("Passbook");
+                    }}
+                    style={{
+                      alignItems: "center",
+                      justifyContent: "center",
+                      position: "absolute",
+                      right: 30,
+                    }}
+                  >
+                    <Book name="book" size={24} color={ternaryThemeColor} />
+                    <PoppinsTextMedium
+                      style={{
+                        marginTop: 4,
+                        fontSize: 12,
+                        fontWeight: platformFontWeight,
+                        color: "black",
+                      }}
+                      content={t("passbook")}
+                    />
+                  </TouchableOpacity>
+                )}
+
+              {(userData?.user_type).toLowerCase() === "sales" && (
+                <TouchableOpacity
+                  onPress={() => {
+                    navigation.navigate("ProductCatalogue");
+                  }}
+                  style={{
+                    alignItems: "center",
+                    justifyContent: "center",
+                    position: "absolute",
+                    right: 20,
+                  }}
+                >
+                  <BookOpen
+                    name="open-book"
+                    size={24}
+                    color={ternaryThemeColor}
                   />
                   <PoppinsTextMedium
                     style={{
@@ -170,81 +206,164 @@ function BottomNavigator({ navigation }) {
                       fontWeight: platformFontWeight,
                       color: "black",
                     }}
-                    content="Check Genuinity"
-                  ></PoppinsTextMedium>
+                    content="Product Catalogue"
+                  />
                 </TouchableOpacity>
-              )
-            )}
-            {(userData?.user_type).toLowerCase() !== "sales" && (userData.user_type !== "consumer") && (
-              <TouchableOpacity
-                onPress={() => {
-                  navigation.navigate("Passbook");
-                }}
-                style={{
-                  alignItems: "center",
-                  justifyContent: "center",
-                  position: "absolute",
-                  right: 30,
-                }}
-              >
-                <Book name="book" size={24} color={ternaryThemeColor}></Book>
-                <PoppinsTextMedium
-                  style={{
-                    marginTop: 4,
-                    fontSize: 12,
-                    fontWeight: platformFontWeight,
-                    color: "black",
-                  }}
-                  content={t("passbook")}
-                ></PoppinsTextMedium>
-              </TouchableOpacity>
-            )}
+              )}
+            </View>
+          </View>
+        )}
+      >
+        <Tab.Screen
+          options={{
+            headerShown: false,
+            tabBarLabel: "Home",
+            tabBarIcon: () => (
+              <Home name="home" size={24} color={ternaryThemeColor} />
+            ),
+          }}
+          name="DashboardBottom"
+          component={Dashboard}
+        />
+      </Tab.Navigator>
 
-            {(userData?.user_type).toLowerCase() == "sales" && (
-              <TouchableOpacity
-                onPress={() => {
-                  navigation.navigate("ProductCatalogue");
-                }}
-                style={{
-                  alignItems: "center",
-                  justifyContent: "center",
-                  position: "absolute",
-                  right: 20,
-                }}
-              >
-                <BookOpen
-                  name="open-book"
-                  size={24}
-                  color={ternaryThemeColor}
-                ></BookOpen>
-                <PoppinsTextMedium
-                  style={{
-                    marginTop: 4,
-                    fontSize: 12,
-                    fontWeight: platformFontWeight,
-                    color: "black",
-                  }}
-                  content="Product Catalogue"
-                ></PoppinsTextMedium>
-              </TouchableOpacity>
-            )}
+      {/* Modal for QR Code Options */}
+      <Modal
+        transparent={true}
+        visible={modal}
+        animationType="slide"
+        onRequestClose={handleModalClose}
+      >
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContainer}>
+            <Text
+              style={{
+                fontSize: 18,
+                color: ternaryThemeColor,
+                fontWeight: "bold",
+                marginBottom: 20,
+              }}
+            >
+              Choose an Option
+            </Text>
+            <TouchableOpacity
+              style={styles.modalOption}
+              onPress={() => {
+                setModal(false);
+                Platform.OS == "android"
+                  ? userData.user_type != "consumer"
+                    ? navigation.navigate("EnableCameraScreen", {
+                        scan_type: "QR",
+                      })
+                    : navigation.navigate("EnableCameraAndNavigateToWarranty", {
+                        scan_type: "QR",
+                      })
+                  : (
+                      userData.user_type != "consumer"
+                        ? requiresLocation
+                        : navigation.navigate(
+                            "EnableCameraAndNavigateToWarranty",
+                            { scan_type: "QR" }
+                          )
+                    )
+                  ? navigation.navigate("EnableCameraScreen", {
+                      navigateTo: "QrCodeScanner",
+                      scan_type: "QR",
+                    })
+                  : navigation.navigate("QrCodeScanner", { scan_type: "QR" });
+              }}
+            >
+              <Text style={styles.optionText}>Scan QR Code</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.modalOption}
+              onPress={() => {
+                setModal(false);
+                Platform.OS == "android"
+                  ? userData.user_type != "consumer"
+                    ? navigation.navigate("EnableCameraScreen", {
+                        scan_type: "Bar",
+                      })
+                    : navigation.navigate("EnableCameraAndNavigateToWarranty", {
+                        scan_type: "Bar",
+                      })
+                  : (
+                      userData.user_type != "consumer"
+                        ? requiresLocation
+                        : navigation.navigate(
+                            "EnableCameraAndNavigateToWarranty",
+                            { scan_type: "Bar" }
+                          )
+                    )
+                  ? navigation.navigate("EnableCameraScreen", {
+                      navigateTo: "QrCodeScanner",
+                      scan_type: "Bar",
+                    })
+                  : navigation.navigate("QrCodeScanner", { scan_type: "Bar" });
+              }}
+            >
+              <Text style={styles.optionText}>Scan Barcode</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.modalOption}
+              onPress={() => {
+                navigation.navigate("QrCodeScanner", { scan_type: "Manual" });
+                setModal(false);
+
+              }}
+            >
+              <Text style={styles.optionText}>Enter Code Manually</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[
+                styles.modalOption,
+                styles.cancelButton,
+                { backgroundColor: ternaryThemeColor },
+              ]}
+              onPress={handleModalClose}
+            >
+              <Text style={styles.cancelText}>Cancel</Text>
+            </TouchableOpacity>
           </View>
         </View>
-      )}
-    >
-      <Tab.Screen
-        options={{
-          headerShown: false,
-          tabBarLabel: "Home",
-          tabBarIcon: () => (
-            <Home name="home" size={24} color={ternaryThemeColor}></Home>
-          ),
-        }}
-        name="DashboardBottom"
-        component={Dashboard}
-      />
-    </Tab.Navigator>
+      </Modal>
+    </View>
   );
 }
+
+const styles = StyleSheet.create({
+  modalOverlay: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  modalContainer: {
+    width: "80%",
+    backgroundColor: "white",
+    padding: 20,
+    borderRadius: 10,
+    alignItems: "center",
+  },
+  modalTitle: {},
+  modalOption: {
+    paddingVertical: 10,
+    width: "100%",
+    alignItems: "center",
+    marginBottom: 10,
+    borderRadius: 5,
+    backgroundColor: "#F0F0F0",
+  },
+  optionText: {
+    fontSize: 16,
+    color: "#333",
+  },
+  cancelButton: {
+    backgroundColor: "#FF6347",
+  },
+  cancelText: {
+    color: "white",
+  },
+});
 
 export default BottomNavigator;

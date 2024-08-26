@@ -46,6 +46,7 @@ import { useIsFocused } from '@react-navigation/native';
 import FastImage from 'react-native-fast-image';
 import {GoogleMapsKey} from "@env"
 import { useTranslation } from 'react-i18next';
+import moment from 'moment';
 
 
 const BasicInfo = ({ navigation, route }) => {
@@ -1090,6 +1091,53 @@ console.log("responseMap",responseMap)
 
 
 
+                }
+                else if (item.name === 'aadhaar' || item.name === "aadhar") {
+                  console.log("aadhar")
+                  return (
+                    <TextInputAadhar
+                      required={item.required}
+                      jsonData={item}
+                      key={index}
+                      notVerified={addharVerified}
+                      handleData={handleChildComponentData}
+                      placeHolder={item.name}
+                      displayText = {t(item.name.toLowerCase().trim())}
+                      label={item.label}
+                    >
+                      {' '}
+                    </TextInputAadhar>
+                  );
+                }
+                else if (item.name === 'pan') {
+                  console.log("pan")
+                  return (
+                    <TextInputPan
+                      required={item.required}
+                      jsonData={item}
+                      key={index}
+                      handleData={handleChildComponentData}
+                      placeHolder={item.name}
+                      label={item.label}
+                      displayText={item.name}
+                      panVerified = {panVerified}
+                    >
+                      {' '}
+                    </TextInputPan>
+                  );
+                }
+                else if (item.name === 'gstin') {
+                  console.log("gstin")
+                  return (
+                    <TextInputGST
+                      jsonData={item}
+                      key={index}
+                      handleData={handleChildComponentData}
+                      placeHolder={item.name}
+                      label={item.label}>
+                      {' '}
+                    </TextInputGST>
+                  );
                 }
                 else {
                   return (

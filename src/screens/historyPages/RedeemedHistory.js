@@ -468,7 +468,7 @@ const RedeemedHistory = ({ navigation }) => {
 
       <View style={{ alignItems: "center", justifyContent: "flex-start", flexDirection: "row", width: '100%', marginTop: 10, height: 40, marginLeft: 20 }}>
         <TouchableOpacity onPress={() => {
-          navigation.goBack()
+          navigation.navigate("Passbook")
         }}>
           <Image style={{ height: 24, width: 24, resizeMode: 'contain', marginLeft: 10 }} source={require('../../../assets/images/blackBack.png')}></Image>
 
@@ -509,7 +509,7 @@ const RedeemedHistory = ({ navigation }) => {
                   item.data.map((item, index) => {
                     return (
                       <View key={index}>
-                        <ListItem data={item} productStatus={item.gift_status} description={item.gift} productCode={item.product_code} amount={item.points} time={moment(item.created_at).format('HH:MM a')} />
+                        <ListItem data={item} productStatus={item.gift_status} description={item.gift} productCode={item.product_code} amount={item.points} time={moment(item.created_at).format('hh:mm a')} />
 
                       </View>
 

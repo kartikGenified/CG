@@ -764,12 +764,12 @@ const Splash = ({ navigation }) => {
             getLocationPermission();
           } else {
             // Other errors
-            Alert.alert(
-              "Error",
-              "An error occurred while fetching your location.",
-              [{ text: "OK", onPress: () => console.log("OK Pressed") }],
-              { cancelable: false }
-            );
+            // Alert.alert(
+            //   "Error",
+            //   "An error occurred while fetching your location.",
+            //   [{ text: "OK", onPress: () => console.log("OK Pressed") }],
+            //   { cancelable: false }
+            // );
           }
         },
         {

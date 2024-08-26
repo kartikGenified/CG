@@ -12,7 +12,7 @@ const InputDate = (props) => {
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState(false);
 
-  const { data, title } = props;
+  const { data, title, minDate } = props;
 
   useEffect(() => {
     // Format the current date and send it to the parent component
@@ -50,6 +50,7 @@ const InputDate = (props) => {
         date={date}
         mode='date'
         maximumDate={new Date()}
+        minimumDate={minDate ? minDate :null}
         onConfirm={(date) => {
           setSelected(true);
           setOpen(false);
