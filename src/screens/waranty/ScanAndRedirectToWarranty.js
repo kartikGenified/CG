@@ -432,10 +432,10 @@ const ScanAndRedirectToWarranty = ({ navigation, route }) => {
     if (verifyQrData) {
       console.log("Verify qr data", verifyQrData.body);
       if (
-        verifyQrData.body?.qr?.qr_status === "1" ||
+       (verifyQrData.body?.qr?.qr_status === "1" ||
         verifyQrData.body?.qr?.qr_status === "2" ||
         verifyQrData.body?.qr_status === "1" ||
-        verifyQrData.body?.qr_status === "2"
+        verifyQrData.body?.qr_status === "2") &&  verifyQrbyBatchData?.body!==null && addedQrList.length < 1
       ) {
         addQrDataToList(
           verifyQrData.body?.qr === undefined
@@ -443,9 +443,19 @@ const ScanAndRedirectToWarranty = ({ navigation, route }) => {
             : verifyQrData.body?.qr
         );
       }
+
+      if(verifyQrData?.body==null){
+        setError(true)
+        setMessage(verifyQrData?.message)
+      }
+
       
     
     } else {
+      if(addedQrList.length == 1){
+        setError(true)
+        setMessage("You can activate warranty for one product at a time")
+      }
       console.log("Verify qr error", verifyQrError);
     }
   }, [verifyQrData, verifyQrError]);
@@ -453,27 +463,36 @@ const ScanAndRedirectToWarranty = ({ navigation, route }) => {
   useEffect(() => {
     if (verifyQrbyBatchData) {
       console.log("Verify qr by batch data", verifyQrbyBatchData);
+
       if (
-        verifyQrbyBatchData?.body?.qr?.qr_status === "1" ||
+       ( verifyQrbyBatchData?.body?.qr?.qr_status === "1" ||
         verifyQrbyBatchData?.body?.qr?.qr_status === "2" ||
         verifyQrbyBatchData?.body?.qr_status === "1" ||
-        verifyQrbyBatchData?.body?.qr_status === "2"
+        verifyQrbyBatchData?.body?.qr_status === "2" ) && verifyQrbyBatchData?.body!==null && addedQrList.length < 1
       ) {
-        addQrDataToList(
-          verifyQrbyBatchData?.body?.qr === undefined
-            ? verifyQrbyBatchData?.body
-            : verifyQrbyBatchData.body?.qr
-        );
+  
+          addQrDataToList(
+            verifyQrbyBatchData?.body?.qr === undefined
+              ? verifyQrbyBatchData?.body
+              : verifyQrbyBatchData.body?.qr
+          );
+          setShowProceed(true)
+    
+  
       }
-        if(verifyQrbyBatchData?.body==null){
-          setError(true)
-          setMessage(verifyQrbyBatchData?.message)
-        }
 
-        setShowProceed(true)
-   
+      if(verifyQrbyBatchData?.body==null){
+        setError(true)
+        setMessage(verifyQrbyBatchData?.message)
+      }
+
 
     } else {
+      if(addedQrList.length == 1){
+        setError(true)
+        setMessage("You can activate warranty for one product at a time")
+      }
+      
       console.log("verifyQrByBatchError", verifyQrByBatchError);
     }
   }, [verifyQrbyBatchData, verifyQrByBatchError]);
@@ -498,15 +517,15 @@ const ScanAndRedirectToWarranty = ({ navigation, route }) => {
 
   const handleFlash = () => {
     setFlash(!flash);
-  };
+  };  
 
   const handleZoom = () => {
-    if (zoom === 0) {
-      setZoom(0.5);
-      setZoomText("2");
-    } else {
-      setZoom(0);
+    if (zoom === 2) {
+      setZoom(1);
       setZoomText("1");
+    } else {
+      setZoom(2);
+      setZoomText("2");
     }
   };
 
@@ -627,7 +646,7 @@ const ScanAndRedirectToWarranty = ({ navigation, route }) => {
                   }}
                   placeholderTextColor={ternaryThemeColor}
                   placeholder="Please Enter Batch Code"
-                  onChangeText={(text) => setManualText(text)}
+                  onChangeText={(text) => setManualText(text?.toUpperCase())}
                   value={manualText}
                 />
                 <TouchableOpacity

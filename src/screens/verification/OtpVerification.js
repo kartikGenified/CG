@@ -31,7 +31,7 @@ import { useGetLoginOtpForVerificationMutation } from "../../apiServices/otp/Get
 import { useAddCashToBankMutation } from "../../apiServices/cashback/CashbackRedeemApi";
 import Geolocation from "@react-native-community/geolocation";
 import { useCreateCouponRequestMutation } from "../../apiServices/coupons/getAllCouponsApi";
-import { GoogleMapsKey } from "@env";
+import { GoogleMapsKeyCG } from "@env";
 import { useTranslation } from "react-i18next";
 import {
   setPointConversionF,
@@ -232,7 +232,7 @@ const OtpVerification = ({ navigation, route }) => {
         // getLocation(JSON.stringify(lat),JSON.stringify(lon))
         console.log("latlong", lat, lon);
         var url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${res.coords.latitude},${res.coords.longitude}
-        &location_type=ROOFTOP&result_type=street_address&key=${GoogleMapsKey}`;
+        &location_type=ROOFTOP&result_type=street_address&key=${GoogleMapsKeyCG}`;
 
         fetch(url)
           .then((response) => response.json())

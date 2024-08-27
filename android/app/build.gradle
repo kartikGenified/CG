@@ -75,13 +75,13 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    namespace "com.genefied.cg"
+    namespace "com.crompton.greaves"
     defaultConfig {
-        applicationId "com.genefied.cg"
+        applicationId "com.crompton.greaves"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0.0"
+        versionCode 8
+        versionName "1.0.7"
         missingDimensionStrategy 'react-native-camera', 'general'
         
     }

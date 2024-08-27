@@ -183,7 +183,7 @@ const TextInputGST = (props) => {
       
       <Text style={{color:'red',fontSize:13, width:'90%', alignSelf:'center'}}>{verifyGstError?.data?.message}</Text>
 
-      {verifyGstData?.success && <View style={{borderWidth:1, height:120, width:'90%', marginLeft:11, borderColor:'#808080', padding:10}}>
+      {verifyGstData?.success && <View style={{borderWidth:1, height:140, width:'90%', marginLeft:11, borderColor:'#808080', padding:10}}>
       <Text style={{color:'black', fontWeight:'bold', paddingHorizontal:10}}>GSTIN: {verifyGstData?.body?.GSTIN}</Text>
       <Text style={{color:'black', fontWeight:'bold', paddingHorizontal:10, marginTop:5}}>Legal Name: {verifyGstData?.body?.legal_name_of_business}</Text>
       <Text style={{color:'black', fontWeight:'bold', paddingHorizontal:10, marginTop:5}}>Address: {verifyGstData?.body?.principal_place_address}</Text>

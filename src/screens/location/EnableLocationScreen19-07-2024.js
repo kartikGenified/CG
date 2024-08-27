@@ -20,7 +20,7 @@ import {
   setLocationPermissionStatus,
   setLocationEnabled,
 } from "../../../redux/slices/userLocationSlice";
-import { GoogleMapsKey } from "@env";
+import { GoogleMapsKeyCG } from "@env";
 import { useIsFocused } from "@react-navigation/native";
 import crashlytics from "@react-native-firebase/crashlytics";
 
@@ -146,7 +146,7 @@ const EnableLocationScreen = ({ route, navigation }) => {
           );
         }
 
-        const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lon}&location_type=ROOFTOP&result_type=street_address&key=${GoogleMapsKey}`;
+        const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lon}&location_type=ROOFTOP&result_type=street_address&key=${GoogleMapsKeyCG}`;
 
         fetch(url)
           .then((response) => response.json())

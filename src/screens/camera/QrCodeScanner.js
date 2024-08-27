@@ -1190,7 +1190,7 @@ const QrCodeScanner = ({ navigation, route }) => {
                       }}
                       placeholderTextColor={ternaryThemeColor}
                       placeholder="Please Enter Batch Code"
-                      onChangeText={(text) => setManualText(text)}
+                      onChangeText={(text) => setManualText(text?.toUpperCase())}
                       value={manualText}
                     />
                     <TouchableOpacity

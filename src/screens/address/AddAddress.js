@@ -12,7 +12,7 @@ import { useAddAddressMutation } from "../../apiServices/userAddress/UserAddress
 import MessageModal from "../../components/modals/MessageModal";
 import ErrorModal from "../../components/modals/ErrorModal";
 import { useIsFocused } from "@react-navigation/native";
-import { GoogleMapsKey } from "@env";
+import { GoogleMapsKeyCG } from "@env";
 
 const AddAddress = ({ navigation }) => {
   const [message, setMessage] = useState();
@@ -80,7 +80,7 @@ const AddAddress = ({ navigation }) => {
       // getLocation(JSON.stringify(lat),JSON.stringify(lon))
       console.log("latlong", lat, lon);
       var url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${res?.coords?.latitude},${res?.coords?.longitude}
-            &location_type=ROOFTOP&result_type=street_address&key=${GoogleMapsKey}`;
+            &location_type=ROOFTOP&result_type=street_address&key=${GoogleMapsKeyCG}`;
 
       fetch(url)
         .then((response) => response.json())

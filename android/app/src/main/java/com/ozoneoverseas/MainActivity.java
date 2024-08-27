@@ -1,4 +1,4 @@
-package com.genefied.cg;
+package com.crompton.greaves;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;

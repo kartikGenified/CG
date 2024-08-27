@@ -62,7 +62,7 @@ import {
   setLocation,
   setLocationEnabled,
 } from "../../../redux/slices/userLocationSlice";
-import { GoogleMapsKey } from "@env";
+import { GoogleMapsKeyCG } from "@env";
 import { useCheckVersionSupportMutation } from "../../apiServices/minVersion/minVersionApi";
 import VersionCheck from "react-native-version-check";
 import LocationPermission from "../../components/organisms/LocationPermission";
@@ -706,7 +706,7 @@ const Splash = ({ navigation }) => {
           // setLocationCheckVisited(true)
 
           var url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${res?.coords?.latitude},${res?.coords?.longitude}
-              &location_type=ROOFTOP&result_type=street_address&key=${GoogleMapsKey}`;
+              &location_type=ROOFTOP&result_type=street_address&key=${GoogleMapsKeyCG}`;
 
           fetch(url)
             .then((response) => response.json())
@@ -832,7 +832,7 @@ const Splash = ({ navigation }) => {
                 text: "Update",
                 onPress: () =>
                   Linking.openURL(
-                    "https://play.google.com/store/apps/details?id=com.genefied.cg"
+                    "https://play.google.com/store/apps/details?id=com.crompton.greaves"
                   ),
               },
             ]
@@ -848,7 +848,7 @@ const Splash = ({ navigation }) => {
                 text: "Update",
                 onPress: () =>
                   Linking.openURL(
-                    "https://play.google.com/store/apps/details?id=com.genefied.cg"
+                    "https://play.google.com/store/apps/details?id=com.crompton.greaves"
                   ),
               },
             ]
