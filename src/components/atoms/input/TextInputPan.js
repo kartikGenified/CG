@@ -16,6 +16,7 @@ const TextInputPan = (props) => {
   const placeHolder = props.placeHolder
   const required = props.required
   let displayText = props.placeHolder
+
   const label = props.label
   const [verifyPanFunc, {
     data: verifyPanData,
@@ -30,7 +31,7 @@ const TextInputPan = (props) => {
       displayText = "Pan"
   }
 
-  // console.log("Aadhar TextInput")
+  console.log("Aadhar TextInput")
   Keyboard.addListener('keyboardDidShow', () => {
     setKeyboardShow(true)
   })
@@ -50,10 +51,9 @@ const TextInputPan = (props) => {
           // "name":"Test2",
           "pan": value
         }
-        setValue(value)
         verifyPanFunc(data)
-        // console.log(value)
-     
+        console.log(value)
+        setValue(value)
 
       }
     }
@@ -73,11 +73,13 @@ useEffect(()=>{
 
   useEffect(() => {
     if (verifyPanData) {
-      console.log("verifyPanData", verifyPanData)
+
       if (verifyPanData.success) {
         setModalVisible(true)
         setSuccess(true)
         setPanVerified(true)
+        setError(false)
+        console.log("verifyPanData", verifyPanData)
       }
     }
     else if (verifyPanError) {
@@ -87,13 +89,10 @@ useEffect(()=>{
       setPanVerified(false)
     }
   }, [verifyPanData, verifyPanError])
-
-
   useEffect(() => { handleInputEnd() }, [keyboardShow])
   const handleInput = (text) => {
     setValue(text)
     // props.handleData(value)
-
 
   }
   const modalClose = () => {
@@ -101,20 +100,26 @@ useEffect(()=>{
   };
   const handleInputEnd = () => {
     let tempJsonData = { ...props.jsonData, "value": value }
-    // console.log(tempJsonData)
+    console.log(tempJsonData)
     props.handleData(tempJsonData)
   }
 
+  
+
   return (
+    <View style={{width:'100%'}}>
+
+    <View style={{width:'100%',marginLeft:20}}>
     <View style={{ height: 60, width: '86%', borderWidth: 1, borderColor: '#DDDDDD', alignItems: "center", justifyContent: "center", backgroundColor: 'white', margin: 10 }}>
-      {error && (
+      {/* {error && (
         <ErrorModal
           modalClose={modalClose}
 
           message={message}
           openModal={error}></ErrorModal>
-      )}
-      <Modal
+      )} */}
+
+      {/* <Modal
         animationType="slide"
         transparent={true}
         visible={modalVisible}
@@ -134,15 +139,70 @@ useEffect(()=>{
             </Pressable>
           </View>
         </View>
-      </Modal>
+      </Modal> */}
       <View style={{ alignItems: "center", justifyContent: 'center', backgroundColor: 'white', position: "absolute", top: -15, left: 16 }}>
         <PoppinsTextMedium style={{ color: "#919191", padding: 4, fontSize: 18 }} content={t(displayText)}></PoppinsTextMedium>
       </View>
       <View style={{ width: '80%', alignItems: 'center', justifyContent: 'center', position: 'absolute', left: 10 }}></View>
-      <TextInput maxLength={10} onSubmitEditing={(text) => { handleInputEnd() }} onEndEditing={(text) => { handleInputEnd() }} style={{ height: 50, width: '100%', alignItems: "center", justifyContent: "flex-start", fontWeight: '500', marginLeft: 24, color: 'black', fontSize: 16 }} placeholderTextColor="grey" onChangeText={(text) => { handleInput(text) }} value={value} placeholder={required ? `${placeHolder} *` : `${placeHolder}`}></TextInput>
-      {success && <View style={{ alignItems: 'center', justifyContent: 'center', width: '20%', position: 'absolute', right: 0 }}>
+      <TextInput editable={!success} maxLength={10} onSubmitEditing={(text) => { handleInputEnd() }} onEndEditing={(text) => { handleInputEnd() }} style={{ height: 50, width: '100%', alignItems: "center", justifyContent: "flex-start", fontWeight: '500', marginLeft: 24, color: 'black', fontSize: 16 }} placeholderTextColor="grey" onChangeText={(text) => { handleInput(text.toUpperCase()) }} value={value} placeholder={required ? `${placeHolder} *` : `${placeHolder}`}></TextInput>
+      {!error && success && <View style={{ alignItems: 'center', justifyContent: 'center', width: '20%', position: 'absolute', right: 0 }}>
         <Image style={{ height: 30, width: 30, resizeMode: 'contain' }} source={require('../../../../assets/images/greenTick.png')}></Image>
       </View>}
+      
+    </View>
+
+    {error && <Text style={{color:'red', marginLeft:12, marginBottom:10}}>{message}</Text>}
+    
+    </View>
+
+    {panVerified && (
+        <View
+          style={{
+            borderWidth: 1,
+            width: "87%",
+            alignSelf:'center',
+            // marginLeft: 11,
+            borderColor: "black",
+            padding: 10,
+            marginBottom:10,
+            borderRadius:5,
+            marginTop:10,
+            flexDirection:'row',
+            justifyContent:'space-around',
+          }}
+        >
+          <Text
+            style={{
+              color: "black",
+              fontWeight: "bold",
+              paddingHorizontal: 10,
+            }}
+          >
+             {verifyPanData?.body?.registered_name}   
+          </Text>
+          <Text
+            style={{
+              color: "black",
+              fontWeight: "bold",
+              paddingHorizontal: 10,
+            }}
+          >
+             {verifyPanData?.body?.type}   
+          </Text>
+
+          <Text
+            style={{
+              color: "black",
+              fontWeight: "bold",
+              paddingHorizontal: 10,
+            }}
+          >
+             {verifyPanData?.body?.pan}   
+          </Text>
+      
+      
+        </View>
+      )}
     </View>
   );
 }

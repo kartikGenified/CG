@@ -2,27 +2,34 @@ import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, TextInput, KeyboardAvoidingView } from 'react-native';
 import PoppinsTextMedium from '../../electrons/customFonts/PoppinsTextMedium';
 import PoppinsTextLeftMedium from '../../electrons/customFonts/PoppinsTextLeftMedium';
+import { useIsFocused } from '@react-navigation/native';
+
+
 const TextInputRectangularWithPlaceholder = (props) => {
     const [value, setValue] = useState(props.value)
     const [keyboardType, setKeyboardType] = useState(props.keyboardType)
     const [maxLength, setMaxlength] = useState(props.maxLength)
     const [error, setError] = useState(false);
-    // console.log("value", props)
+    console.log("value", props)
     const placeHolder = props.placeHolder
     const required = props.jsonData?.required
     const specialChar = props.specialCharValidation
     const title  = props.title
     let editable = props.editable
 
+    const focus = useIsFocused()
+
     if(placeHolder.toLowerCase() == ("state") || placeHolder.toLowerCase() == ("district") || placeHolder.toLowerCase() == ("city"))
     {
         editable = false
     }
 
+
+
     useEffect(() => {
         setValue(props.value)
         props.handleData(props.value,props.title)
-    }, [props.value])
+    }, [props.value,focus ])
 
     useEffect(() => {
         if (placeHolder.toLowerCase() === "mobile no" ) {
@@ -67,8 +74,8 @@ const TextInputRectangularWithPlaceholder = (props) => {
     }
 
     return (
-        <KeyboardAvoidingView style={{width:'100%',alignItems:'center',justifyContent:'center'}}>
-            <View style={{ height: 60, width: '86%', borderColor: '#DDDDDD', alignItems: "center", justifyContent: "center", backgroundColor: 'white', margin: 10, borderWidth: 0.6 }}>
+        <KeyboardAvoidingView style={{width:'100%',justifyContent:'center'}}>
+            <View style={{ height: 60, width: '96%', borderColor: '#DDDDDD', alignItems: "center", justifyContent: "center", backgroundColor: 'white', margin: 10, borderWidth: 0.6 }}>
                 <View style={{ alignItems: "center", justifyContent: 'center', backgroundColor: 'white', position: "absolute", top: -15, left: 16 }}>
                     <PoppinsTextMedium style={{ color: "#919191", padding: 4, fontSize: 18 }} content={placeHolder}></PoppinsTextMedium>
                 </View>

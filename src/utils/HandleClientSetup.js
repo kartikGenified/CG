@@ -10,3 +10,6 @@ export const neededHistory = ["warranty", "redeemed", "cashback", "previous tran
 export const showEditProfile = true 
 export const descriptionImages=[require('../../assets/images/Step.png')]
 export const hideinSelectUser = ["dealer", "consumer"]
+export const eKyc = true
+export const RegistrationMessage = `Thank you for joining CG Loyalty program`;
+

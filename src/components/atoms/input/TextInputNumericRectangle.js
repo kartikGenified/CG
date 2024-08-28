@@ -8,11 +8,14 @@ const TextInputNumericRectangle = props => {
   const [value, setValue] = useState(props.value);
   const placeHolder = props.placeHolder;
   const maxLength = props.maxLength;
+  const label = props.label
+  const keyboardType= props.keyboardType ? props.keyboardType : "numeric"
+  textContentType= props?.textContentType ? props?.textContentType : null
   const required = props.required ===undefined ? props.jsonData.required : props.required
   let displayText = props.placeHolder
 
   const isEditable = props.isEditable
-  // console.log("label",isEditable,displayText)
+  console.log("label",isEditable,displayText)
 
   const {t} = useTranslation()
 
@@ -84,8 +87,11 @@ const TextInputNumericRectangle = props => {
         onChangeText={text => {
           handleInput(text);
         }}
+        
         value={value}
-        placeholder={required ? `${displayText} *` : `${displayText}`}></TextInput>
+        placeholder={required ? `${displayText} *` : `${displayText}`}>
+          
+        </TextInput>
     </View>
   );
 };
