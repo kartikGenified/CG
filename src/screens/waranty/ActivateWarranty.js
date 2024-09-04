@@ -154,49 +154,55 @@ const ActivateWarranty = ({ navigation, route }) => {
     console.log('image data is', data);
 
     console.log("ldmdkm")
-
-    try {
-      const body = {
-        name: name,
-        phone: phone,
-        warranty_start_date: date,
-        warranty_image: data,
-        user_type_id: navigationFrom == "verify" ? 1 :userTypeId,
-        user_type: navigationFrom == "verify" ? "consumer" : userType,
-        product_id: productData.product_id,
-        form_template_id: JSON.stringify(formTemplateId),
-        platform_id: platform,
-        platform:platform == 1 ? "ios" : "android",
-        secondary_data: responseArray,
-        qr_id:  qrData.id ? qrData.id : qrData[0].id,
-        invoice_no:invoiceNo
-      }
-
-      console.log('body is ------->', JSON.stringify(body));
-      const credentials = await Keychain.getGenericPassword();
-      if (credentials) {
-        console.log(
-          'Credentials successfully loaded for user ' + credentials.username,
-        );
-
-        const token = credentials.username;
-        
-        console.log("email valid while submission", emailValid)
-        if(emailValid || !emailRequired){
-          activateWarrantyFunc({ token, body });
-          setHideButton(true)
+    if(invoiceNo !== null && invoiceNo !== undefined && invoiceNo !==""){
+      try {
+        const body = {
+          name: name,
+          phone: phone,
+          warranty_start_date: date,
+          warranty_image: data,
+          user_type_id: navigationFrom == "verify" ? 1 :userTypeId,
+          user_type: navigationFrom == "verify" ? "consumer" : userType,
+          product_id: productData.product_id,
+          form_template_id: JSON.stringify(formTemplateId),
+          platform_id: platform,
+          platform:platform == 1 ? "ios" : "android",
+          secondary_data: responseArray,
+          qr_id:  qrData.id ? qrData.id : qrData[0].id,
+          invoice_no:invoiceNo
         }
-        else{
-          setError(true)
-          setMessage("Please enter a valid email")
+  
+        console.log('body is ------->', JSON.stringify(body));
+        const credentials = await Keychain.getGenericPassword();
+        if (credentials) {
+          console.log(
+            'Credentials successfully loaded for user ' + credentials.username,
+          );
+  
+          const token = credentials.username;
+          
+          console.log("email valid while submission", emailValid)
+          if(emailValid || !emailRequired){
+            activateWarrantyFunc({ token, body });
+            setHideButton(true)
+          }
+          else{
+            setError(true)
+            setMessage("Please enter a valid email")
+          }
+  
+        } else {
+          console.log('No credentials stored');
         }
-
-      } else {
-        console.log('No credentials stored');
+      } catch (error) {
+        console.log("Keychain couldn't be accessed!", error);
       }
-    } catch (error) {
-      console.log("Keychain couldn't be accessed!", error);
     }
+    else{
+      setError(true)
+      setMessage("Please enter invoice number")
+    }
+  
   };
 
   const ModalContent = () => {
@@ -628,14 +634,14 @@ const ActivateWarranty = ({ navigation, route }) => {
                 }
                 else {
                   return (
-                    <TextInputRectangle
+                    <PrefilledTextInput
                       jsonData={item}
                       key={index}
                       handleData={handleChildComponentData}
                       label={item.label}
                       placeHolder={item.name}>
                       {' '}
-                    </TextInputRectangle>
+                    </PrefilledTextInput>
                   );
                 }
               } else if (item.type === 'file') {

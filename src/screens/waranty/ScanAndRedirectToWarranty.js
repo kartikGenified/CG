@@ -10,6 +10,7 @@ import {
   ScrollView,
   FlatList,
   Vibration,
+  ActivityIndicator,
 } from "react-native";
 import QRCodeScanner from "react-native-qrcode-scanner";
 import { RNCamera } from "react-native-camera";
@@ -158,8 +159,14 @@ const ScanAndRedirectToWarranty = ({ navigation, route }) => {
   useEffect(() => {
     if (checkWarrantyData) {
       console.log("warranty check", checkWarrantyData);
+      // if(checkWarrantyData?.body == false){
+      //   setError(true)
+      //   setMessage(checkWarrantyData?.message)
+      // }
     } else if (checkWarrantyError) {
       console.log("warranty Error", checkWarrantyError);
+      // setError(true)
+      // setMessage(checkWarrantyError?.data.message)
     }
   }, [checkWarrantyData, checkWarrantyError]);
 
@@ -259,6 +266,7 @@ const ScanAndRedirectToWarranty = ({ navigation, route }) => {
   // };
   const onSuccess = (e) => {
     console.log("Qr data is ------", e);
+    setIsLoading(false)
 
     if (e === undefined) {
       setError(true);
@@ -279,7 +287,7 @@ const ScanAndRedirectToWarranty = ({ navigation, route }) => {
       }
 
       const verifyQR = async (data) => {
-        // console.log('qrData', data);
+        console.log('qrData11', data);
         try {
           // Retrieve the credentials
 
@@ -292,8 +300,10 @@ const ScanAndRedirectToWarranty = ({ navigation, route }) => {
             );
             setSavedToken(credentials.username);
             const token = credentials.username;
+            console.log("addedQrList", addedQrList)
+              data && (scan_type == "Manual") ? verifyQrbyBatchFunc({token,data}) : verifyQrFunc({ token, data });
 
-            data && (scan_type == "Manual") ? verifyQrbyBatchFunc({token,data}) : verifyQrFunc({ token, data });
+      
           } else {
             console.log("No credentials stored");
           }
@@ -442,6 +452,10 @@ const ScanAndRedirectToWarranty = ({ navigation, route }) => {
             ? verifyQrData.body
             : verifyQrData.body?.qr
         );
+        setError(false)
+        setMessage("")
+  
+        
       }
 
       if(verifyQrData?.body==null){
@@ -449,14 +463,14 @@ const ScanAndRedirectToWarranty = ({ navigation, route }) => {
         setMessage(verifyQrData?.message)
       }
 
-      
+
     
     } else {
       if(addedQrList.length == 1){
         setError(true)
         setMessage("You can activate warranty for one product at a time")
       }
-      console.log("Verify qr error", verifyQrError);
+      console.log("Verify qr error", verifyQrError, addedQrList.length, addedQrList);
     }
   }, [verifyQrData, verifyQrError]);
 
@@ -509,6 +523,8 @@ const ScanAndRedirectToWarranty = ({ navigation, route }) => {
       }
     } else if (addQrError) {
       console.log("addQrError", addQrError);
+      setError(true)
+      setMessage(addQrError.data.message)
     }
   }, [addQrData, addQrError]);
   // --------------------------------------------------------
@@ -530,22 +546,39 @@ const ScanAndRedirectToWarranty = ({ navigation, route }) => {
   };
 
   const handleOpenImageGallery = async () => {
-    const result = await launchImageLibrary();
-    console.log("result", result);
-    RNQRGenerator.detect({
-      uri: result.assets[0].uri,
-    })
-      .then((response) => {
-        const { values } = response; // Array of detected QR code values. Empty if nothing found.
-        console.log("From gallery", response.values[0]);
-        // const requestData = {unique_code: response.values[0].split("=")[1]};
-        const requestData = response.values[0];
-        onSuccess({ data: requestData });
-        console.log(requestData);
-      })
-      .catch((error) => {
-        console.log("Cannot detect QR code in image", error);
+    const result = await launchImageLibrary({ selectionLimit: 20 });
+    console.log("handleOpenImageGalleryresult", result);
+    setIsLoading(true);
+    if (result?.assets) {
+      const detectedQRCodes = [];
+
+      for (let i = 0; i < result?.assets.length; i++) {
+        // console.log("RNQRGenerator", result?.assets[i]?.uri);
+
+        try {
+          const response = await RNQRGenerator.detect({
+            uri: result?.assets[i]?.uri,
+          });
+
+          const { values } = response;
+          const requestData = values.length > 0 ? values[0] : null;
+
+          if (requestData) {
+            console.log("handleOpenImageGalleryresultrequestData", requestData);
+            detectedQRCodes.push(requestData);
+          } else {
+            // console.log('No QR code detected in the image');
+          }
+        } catch (error) {
+          // console.log('Error detecting QR code in image', error);
+        }
+      }
+
+      // Process all detected QR codes after the loop completes
+      detectedQRCodes.forEach((data) => {
+        onSuccess(data);
       });
+    }
   };
 
   // --------------------------------------------------------

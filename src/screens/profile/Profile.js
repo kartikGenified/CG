@@ -131,6 +131,24 @@ const Profile = ({ navigation }) => {
     profileData,
   ]);
 
+  useEffect(()=>{
+    const fetchData = async () => {
+      const credentials = await Keychain.getGenericPassword();
+      if (credentials) {
+        console.log(
+          "Credentials successfully loaded for user " + credentials.username
+        );
+        const token = credentials.username;
+        const form_type = "6";
+        fetchProfileFunc(token);
+
+        getFormFunc({ form_type, token });
+      }
+    };
+    fetchData();
+    getMembership();
+  },[])
+
   useEffect(() => {
     const fetchData = async () => {
       const credentials = await Keychain.getGenericPassword();
@@ -511,7 +529,7 @@ const Profile = ({ navigation }) => {
                 navigation.navigate("EditProfile", {
                   formFields: formFields,
                   formValues: formValues,
-                  savedImage: fetchProfileData.body?.profile_pic,
+                  savedImage: fetchProfileData?.body?.profile_pic,
                 });
               }}
               style={{

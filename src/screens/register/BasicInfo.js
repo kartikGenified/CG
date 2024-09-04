@@ -532,7 +532,7 @@ const BasicInfo = ({ navigation, route }) => {
   };
 
   const getLocationFromPinCode = (pin) => {
-    setisLoading(true)
+
     console.log("getting location from pincode", pin);
     var url = `http://postalpincode.in/api/pincode/${pin}`;
 
@@ -556,8 +556,12 @@ const BasicInfo = ({ navigation, route }) => {
             city: json.PostOffice[0].Region,
           };
           setLocation(locationJson);
+          setisLoading(false)
         }
+        
       });
+
+     
   };
 
   const getOtpFromComponent = (value) => {
@@ -1333,7 +1337,7 @@ const BasicInfo = ({ navigation, route }) => {
               }
             })}
 
-          {formFound && !hideButton && (
+          {formFound && !hideButton && !error &&(
             <ButtonOval
               handleOperation={() => {
                 handleRegistrationFormSubmission();

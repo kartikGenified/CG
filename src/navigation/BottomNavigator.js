@@ -307,9 +307,13 @@ function BottomNavigator({ navigation }) {
             <TouchableOpacity
               style={styles.modalOption}
               onPress={() => {
-                navigation.navigate("QrCodeScanner", { scan_type: "Manual" });
+                userData.user_type != "consumer"   ?
+                navigation.navigate("QrCodeScanner", { scan_type: "Manual" })
+                :
+                navigation.navigate("ScanAndRedirectToWarranty", {
+                  scan_type: "Manual",
+                })      
                 setModal(false);
-
               }}
             >
               <Text style={styles.optionText}>Enter Code Manually</Text>

@@ -92,6 +92,7 @@ const EditProfile = ({ navigation, route }) => {
   useEffect(() => {
     if (updateProfileData) {
       console.log("updateProfileData", updateProfileData);
+      navigation.navigate("Profile")
       setMessage("Profile Updated Successfully");
       setSuccess(true);
       setIsClicked(false);
