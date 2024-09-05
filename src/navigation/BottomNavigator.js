@@ -238,10 +238,12 @@ function BottomNavigator({ navigation }) {
           <View style={styles.modalContainer}>
             <Text
               style={{
-                fontSize: 18,
+                fontSize: 20,
+                fontWeight:'bold',
                 color: ternaryThemeColor,
                 fontWeight: "bold",
-                marginBottom: 20,
+                marginBottom: 25,
+                borderBottomColor:'#808080'
               }}
             >
               Choose an Option
@@ -354,19 +356,23 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     width: "100%",
     alignItems: "center",
-    marginBottom: 10,
+    marginBottom: "4%",
     borderRadius: 5,
     backgroundColor: "#F0F0F0",
   },
   optionText: {
-    fontSize: 16,
+    fontSize: 18,
     color: "#333",
+    fontWeight:'bold'
   },
   cancelButton: {
     backgroundColor: "#FF6347",
+    marginTop:20
   },
   cancelText: {
     color: "white",
+    fontWeight:'bold',
+    fontSize:18
   },
 });
 
