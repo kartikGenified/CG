@@ -13,7 +13,7 @@ public class MainActivity extends ReactActivity {
    */
   @Override
   protected String getMainComponentName() {
-    return "CG Power";
+    return "CGPower";
   }
   @Override
   protected void onCreate(Bundle savedInstanceState) {
