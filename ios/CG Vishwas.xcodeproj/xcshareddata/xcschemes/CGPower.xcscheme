@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-               BuildableName = "CGPower.app"
+               BuildableName = "CG Vishwas.app"
                BlueprintName = "CG Vishwas"
                ReferencedContainer = "container:CG Vishwas.xcodeproj">
             </BuildableReference>
@@ -55,7 +55,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "CGPower.app"
+            BuildableName = "CG Vishwas.app"
             BlueprintName = "CG Vishwas"
             ReferencedContainer = "container:CG Vishwas.xcodeproj">
          </BuildableReference>
@@ -72,7 +72,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "CGPower.app"
+            BuildableName = "CG Vishwas.app"
             BlueprintName = "CG Vishwas"
             ReferencedContainer = "container:CG Vishwas.xcodeproj">
          </BuildableReference>

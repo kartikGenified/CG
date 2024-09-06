@@ -531,6 +531,11 @@ const BasicInfo = ({ navigation, route }) => {
     setError(false);
   };
 
+  const modalClose2 = () => {
+    // setError(false);
+    setSuccess(false)
+  };
+
   const getLocationFromPinCode = (pin) => {
 
     console.log("getting location from pincode", pin);
@@ -828,7 +833,7 @@ const BasicInfo = ({ navigation, route }) => {
       )}
       {success && (
         <MessageModal
-          modalClose={modalClose}
+          modalClose={modalClose2}
           title={modalTitle}
           message={message}
           openModal={success}

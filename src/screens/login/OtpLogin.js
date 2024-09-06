@@ -100,8 +100,8 @@ const OtpLogin = ({ navigation, route }) => {
   const user_type_id = route?.params?.userId;
   const user_type = route?.params?.userType;
   const registrationRequired = route?.params?.registrationRequired;
-  console.log("registrationRequiredotpLogin", registrationRequired);
-  const width = Dimensions.get("window").width;
+  // console.log("registrationRequiredotpLogin", registrationRequired);
+  // const width = Dimensions.get("window").width;
   const navigationParams = {
     needsApproval: needsApproval,
     user_type_id: user_type_id,
