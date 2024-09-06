@@ -225,17 +225,16 @@ const DashboardMenuBox=(props)=>{
                       })
                   : (
                       userData.user_type != "consumer"
-                        ? requiresLocation
+                        ? navigation.navigate(
+                          "QrCodeScanner",
+                          { scan_type: "QR" }
+                        )
                         : navigation.navigate(
-                            "EnableCameraAndNavigateToWarranty",
+                            "ScanAndRedirectToWarranty",
                             { scan_type: "QR" }
                           )
                     )
-                  ? navigation.navigate("EnableCameraScreen", {
-                      navigateTo: "QrCodeScanner",
-                      scan_type: "QR",
-                    })
-                  : navigation.navigate("QrCodeScanner", { scan_type: "QR" });
+                
               }}
             >
               <Text style={styles.optionText}>Scan QR Code</Text>
@@ -254,17 +253,16 @@ const DashboardMenuBox=(props)=>{
                       })
                   : (
                       userData.user_type != "consumer"
-                        ? requiresLocation
+                        ?  navigation.navigate(
+                          "QrCodeScanner",
+                          { scan_type: "Bar" }
+                        )
                         : navigation.navigate(
-                            "EnableCameraAndNavigateToWarranty",
+                            "ScanAndRedirectToWarranty",
                             { scan_type: "Bar" }
                           )
                     )
-                  ? navigation.navigate("EnableCameraScreen", {
-                      navigateTo: "QrCodeScanner",
-                      scan_type: "Bar",
-                    })
-                  : navigation.navigate("QrCodeScanner", { scan_type: "Bar" });
+                 
               }}
             >
               <Text style={styles.optionText}>Scan Barcode</Text>
@@ -272,9 +270,14 @@ const DashboardMenuBox=(props)=>{
             <TouchableOpacity
               style={styles.modalOption}
               onPress={() => {
-                navigation.navigate("QrCodeScanner", { scan_type: "Manual" });
+                userData.user_type != "consumer"
+                  ? navigation.navigate("QrCodeScanner", {
+                      scan_type: "Manual",
+                    })
+                  : navigation.navigate("ScanAndRedirectToWarranty", {
+                      scan_type: "Manual",
+                    });
                 setModal(false);
-
               }}
             >
               <Text style={styles.optionText}>Enter Code Manually</Text>

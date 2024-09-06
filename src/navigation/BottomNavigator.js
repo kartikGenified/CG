@@ -239,11 +239,11 @@ function BottomNavigator({ navigation }) {
             <Text
               style={{
                 fontSize: 20,
-                fontWeight:'bold',
+                fontWeight: "bold",
                 color: ternaryThemeColor,
                 fontWeight: "bold",
                 marginBottom: 25,
-                borderBottomColor:'#808080'
+                borderBottomColor: "#808080",
               }}
             >
               Choose an Option
@@ -260,19 +260,13 @@ function BottomNavigator({ navigation }) {
                     : navigation.navigate("EnableCameraAndNavigateToWarranty", {
                         scan_type: "QR",
                       })
-                  : (
-                      userData.user_type != "consumer"
-                        ? requiresLocation
-                        : navigation.navigate(
-                            "EnableCameraAndNavigateToWarranty",
-                            { scan_type: "QR" }
-                          )
-                    )
-                  ? navigation.navigate("EnableCameraScreen", {
-                      navigateTo: "QrCodeScanner",
+                  : userData.user_type != "consumer"
+                  ? navigation.navigate("QrCodeScanner", {
                       scan_type: "QR",
                     })
-                  : navigation.navigate("QrCodeScanner", { scan_type: "QR" });
+                  : navigation.navigate("ScanAndRedirectToWarranty", {
+                      scan_type: "QR",
+                    });
               }}
             >
               <Text style={styles.optionText}>Scan QR Code</Text>
@@ -291,17 +285,16 @@ function BottomNavigator({ navigation }) {
                       })
                   : (
                       userData.user_type != "consumer"
-                        ? requiresLocation
+                        ?  navigation.navigate(
+                          "QrCodeScanner",
+                          { scan_type: "Bar" }
+                        )
                         : navigation.navigate(
-                            "EnableCameraAndNavigateToWarranty",
+                            "ScanAndRedirectToWarranty",
                             { scan_type: "Bar" }
                           )
                     )
-                  ? navigation.navigate("EnableCameraScreen", {
-                      navigateTo: "QrCodeScanner",
-                      scan_type: "Bar",
-                    })
-                  : navigation.navigate("QrCodeScanner", { scan_type: "Bar" });
+                
               }}
             >
               <Text style={styles.optionText}>Scan Barcode</Text>
@@ -309,12 +302,13 @@ function BottomNavigator({ navigation }) {
             <TouchableOpacity
               style={styles.modalOption}
               onPress={() => {
-                userData.user_type != "consumer"   ?
-                navigation.navigate("QrCodeScanner", { scan_type: "Manual" })
-                :
-                navigation.navigate("ScanAndRedirectToWarranty", {
-                  scan_type: "Manual",
-                })      
+                userData.user_type != "consumer"
+                  ? navigation.navigate("QrCodeScanner", {
+                      scan_type: "Manual",
+                    })
+                  : navigation.navigate("ScanAndRedirectToWarranty", {
+                      scan_type: "Manual",
+                    });
                 setModal(false);
               }}
             >
@@ -363,16 +357,16 @@ const styles = StyleSheet.create({
   optionText: {
     fontSize: 18,
     color: "#333",
-    fontWeight:'bold'
+    fontWeight: "bold",
   },
   cancelButton: {
     backgroundColor: "#FF6347",
-    marginTop:20
+    marginTop: 20,
   },
   cancelText: {
     color: "white",
-    fontWeight:'bold',
-    fontSize:18
+    fontWeight: "bold",
+    fontSize: 18,
   },
 });
 
