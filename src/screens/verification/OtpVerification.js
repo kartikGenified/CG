@@ -42,6 +42,8 @@ import { useDispatch } from "react-redux";
 import { useRedeemSchemeApiMutation } from "../../apiServices/scheme/RedeemSchemeApi";
 import DropDownRegistration from "../../components/atoms/dropdown/DropDownRegistration";
 import PrefilledTextInput from "../../components/atoms/input/PrefilledTextInput";
+import { useGetNameMutation } from "../../apiServices/login/GetNameByMobile";
+import WarrantyTextInput from "../../components/atoms/input/WarrantyTextInput";
 
 const OtpVerification = ({ navigation, route }) => {
   const [message, setMessage] = useState();
@@ -164,6 +166,16 @@ const OtpVerification = ({ navigation, route }) => {
       isError: createCouponRequestIsError,
     },
   ] = useCreateCouponRequestMutation();
+
+  const [
+    getNameFunc,
+    {
+      data: getNameData,
+      error: getNameError,
+      isLoading: getLoading,
+      isError: getIsError,
+    },
+  ] = useGetNameMutation();
 
   const type = route.params.type;
   const navigateFrom = route.params.from;
@@ -393,6 +405,49 @@ const OtpVerification = ({ navigation, route }) => {
   }, [getOtpforVerificationData, getOtpforVerificationError]);
 
   useEffect(() => {
+    if (getNameData) {
+      console.log("getNameData", getNameData);
+      if (getNameData?.success) {
+        setNameValue(getNameData?.body.name);
+        const params = {
+          mobile: mobile,
+          name: getNameData?.body.name,
+          user_type: userData?.user_type,
+          user_type_id: userData?.user_type_id,
+          type: navigateFrom == "scan" ? "warranty" : "redemption",
+        };
+        
+        if(getNameData?.body.name != "" && getNameData?.body.name!= undefined && getNameData?.body.name != null){
+          getOtpforWarranty(params);
+
+        }
+
+      }
+    } else if (getNameError) {
+      console.log("getNameError", getNameError);
+    }
+  }, [getNameData, getNameError]);
+
+
+  const onEndName = (name)=>{
+    console.log("onend")
+    const params = {
+      mobile: mobile,
+      name: name,
+      user_type: userData?.user_type,
+      user_type_id: userData?.user_type_id,
+      type: navigateFrom == "scan" ? "warranty" : "redemption",
+    };
+
+
+    if(name !== ""){
+      getOtpforWarranty(params);
+
+    }
+
+  }
+
+  useEffect(() => {
     if (getOtpforWarrantyData) {
       console.log("getOtpforVerificationData", getOtpforWarrantyData);
     } else if (getOtpforWarrantyError) {
@@ -406,7 +461,7 @@ const OtpVerification = ({ navigation, route }) => {
     if (value.length === 6) {
       setOtp(value);
       console.log("From Verify Otp", value);
-      
+
       setShowRedeemButton(true);
       handleOtpSubmission(value);
     }
@@ -423,7 +478,7 @@ const OtpVerification = ({ navigation, route }) => {
     const user_type = navigateFrom == "scan" ? "consumer" : userData.user_type;
     const type = navigateFrom == "scan" ? "warranty" : "redemption";
 
-    if (navigateFrom == "scan" && nameValue!== "") {
+    if (navigateFrom == "scan" && nameValue !== "") {
       getOtpforWarranty({
         mobile,
         name,
@@ -448,8 +503,7 @@ const OtpVerification = ({ navigation, route }) => {
     setSuccess(false);
   };
   const finalGiftRedemption = async () => {
-
-    console.log("try it")
+    console.log("try it");
     setShowRedeemButton(false);
     const credentials = await Keychain.getGenericPassword();
     if (credentials) {
@@ -574,21 +628,22 @@ const OtpVerification = ({ navigation, route }) => {
     }
     setShowRedeemButton(false);
   };
-  const getMobile = (data) => {
+
+  const getMobile = async (data) => {
     console.log("mobile number from mobile textinput", data);
     setMobile(data);
     const reg = "^([0|+[0-9]{1,5})?([6-9][0-9]{9})$";
     const mobReg = new RegExp(reg);
     if (mobReg.test(data)) {
-      if (data !== undefined && nameValue!=="") {
-        console.log("NamVallllll", nameValue)
+      if (data !== undefined ) {
+        console.log("NamVallllll", nameValue);
         if (navigateFrom == "scan") {
           if (data.length === 10) {
             const user_type_id =
               navigateFrom == "scan" ? 1 : userData.user_type_id;
             const user_type =
               navigateFrom == "scan" ? "consumer" : userData.user_type;
-            const name =  navigateFrom == "scan" ? nameValue : userData.name;
+            const name = navigateFrom == "scan" ? nameValue : userData.name;
             const params = {
               mobile: data,
               name: name,
@@ -597,12 +652,23 @@ const OtpVerification = ({ navigation, route }) => {
               type: navigateFrom == "scan" ? "warranty" : "redemption",
             };
             setNewMobile(data);
-            getOtpforWarranty(params);
+            if (data.length == 10) {
+              console.log("data from warranty", data);
+              
+
+              if(navigateFrom != "scan"){
+                setTimeout(() => {
+                  getOtpforWarranty(params);
+                }, 1000);
+              }
+
+              await getNameFunc({ mobile: data });
+            }
 
             Keyboard.dismiss();
           }
         } else {
-          console.log("the navigate from ", navigateFrom)
+          console.log("the navigate from ", navigateFrom);
           if (data.length === 10) {
             const user_type = userData.user_type;
             const user_type_id = userData.user_type_id;
@@ -614,7 +680,7 @@ const OtpVerification = ({ navigation, route }) => {
               user_type_id: user_type_id,
               type: navigateFrom == "scan" ? "warranty" : "redemption",
             };
-         (navigateFrom!="scan")  && getOtpforVerificationFunc(params);
+            navigateFrom != "scan" && getOtpforVerificationFunc(params);
 
             Keyboard.dismiss();
           }
@@ -718,8 +784,28 @@ const OtpVerification = ({ navigation, route }) => {
         ></DropDownRegistration>
       )}
 
+      <TextInputRectangularWithPlaceholder
+        placeHolder="Mobile No"
+        handleData={getMobile}
+        maxLength={10}
+        editable={
+          (userData.user_type !== "dealer" ||
+            userData.user_type !== "ratailer") &&
+          navigateFrom == "scan"
+            ? true
+            : false
+        }
+        value={
+          (userData.user_type == "dealer" ||
+            userData.user_type == "retailer") &&
+          navigateFrom == "scan"
+            ? ""
+            : userData.mobile
+        }
+      ></TextInputRectangularWithPlaceholder>
+
       {navigateFrom == "scan" && (
-        <PrefilledTextInput
+        <WarrantyTextInput
           required={true}
           // handleData={() => {}}
           editable={true}
@@ -741,31 +827,15 @@ const OtpVerification = ({ navigation, route }) => {
           onChangeText={(text) => {
             setNameValue(text);
           }}
+
+          onEndName={(text)=>onEndName(text)}
+          
           value={nameValue}
           placeHolder={"Name"}
-        ></PrefilledTextInput>
+        ></WarrantyTextInput>
       )}
 
-      <TextInputRectangularWithPlaceholder
-        placeHolder="Mobile No"
-        handleData={getMobile}
-        maxLength={10}
-        editable={
-          (userData.user_type !== "dealer" || userData.user_type !== "ratailer") &&
-          navigateFrom == "scan"
-            ? true
-            : false
-        }
-        value={
-          (userData.user_type == "dealer" ||
-            userData.user_type == "retailer") &&
-          navigateFrom == "scan"
-            ? ""
-            : userData.mobile
-        }
-      ></TextInputRectangularWithPlaceholder>
-
-      {(navigateFrom == "scan"  ? getOtpforWarrantyData : true) && (
+      {(navigateFrom == "scan" ? getOtpforWarrantyData : true) && (
         <View
           style={{
             width: "100%",
@@ -774,7 +844,7 @@ const OtpVerification = ({ navigation, route }) => {
           }}
         >
           {navigateFrom == "scan" &&
-            (!getOtpforWarrantyData?.message?.includes("verified")) && (
+            !getOtpforWarrantyData?.message?.includes("verified") && (
               <>
                 <OtpInput
                   getOtpFromComponent={getOtpFromComponent}
@@ -787,19 +857,18 @@ const OtpVerification = ({ navigation, route }) => {
               </>
             )}
 
-          {!(navigateFrom == "scan") &&
-             (
-              <>
-                <OtpInput
-                  getOtpFromComponent={getOtpFromComponent}
-                  color={"white"}
-                ></OtpInput>
-                <PoppinsTextMedium
-                  content={t("Enter OTP")}
-                  style={{ color: "black", fontSize: 20, fontWeight: "800" }}
-                ></PoppinsTextMedium>
-              </>
-            )}
+          {!(navigateFrom == "scan") && (
+            <>
+              <OtpInput
+                getOtpFromComponent={getOtpFromComponent}
+                color={"white"}
+              ></OtpInput>
+              <PoppinsTextMedium
+                content={t("Enter OTP")}
+                style={{ color: "black", fontSize: 20, fontWeight: "800" }}
+              ></PoppinsTextMedium>
+            </>
+          )}
 
           <View style={{ alignItems: "center", justifyContent: "center" }}>
             <View
@@ -856,33 +925,33 @@ const OtpVerification = ({ navigation, route }) => {
             bottom: 20,
           }}
         >
-          {navigateFrom == "scan"&&  getOtpforWarrantyData?.message?.includes("verified") && nameValue!=="" && (
-            <TouchableOpacity
-              onPress={() => {
-                navigateToWaranty();
-              }}
-              style={{
-                height: 50,
-                width: 140,
-                alignItems: "center",
-                justifyContent: "center",
-                backgroundColor: ternaryThemeColor,
-                borderRadius: 4,
-              }}
-            >
-              <PoppinsTextMedium
-                content={"Proceed"}
-                style={{ color: "white", fontSize: 20, fontWeight: "700" }}
-              ></PoppinsTextMedium>
-            </TouchableOpacity>
-          )}
+          {navigateFrom == "scan" &&
+            getOtpforWarrantyData?.message?.includes("verified") &&
+            nameValue !== "" && (
+              <TouchableOpacity
+                onPress={() => {
+                  navigateToWaranty();
+                }}
+                style={{
+                  height: 50,
+                  width: 140,
+                  alignItems: "center",
+                  justifyContent: "center",
+                  backgroundColor: ternaryThemeColor,
+                  borderRadius: 4,
+                }}
+              >
+                <PoppinsTextMedium
+                  content={"Proceed"}
+                  style={{ color: "white", fontSize: 20, fontWeight: "700" }}
+                ></PoppinsTextMedium>
+              </TouchableOpacity>
+            )}
 
           {!(navigateFrom == "scan") && (
             <TouchableOpacity
               onPress={() => {
-                
-            
-                  finalGiftRedemption();
+                finalGiftRedemption();
               }}
               style={{
                 height: 50,

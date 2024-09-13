@@ -27,7 +27,8 @@ export const VerifyOtpForNormalUseApi = baseApi.injectEndpoints({
             }
         }),
         VerifyOtpForActivateWarranty : builder.mutation({
-            query({mobile,name,user_type_id,user_type,otp,is_approved_needed,type}){
+            query({mobile,name,user_type_id,user_type,otp,type}){
+                console.log("VerifyOtpForActivateWarranty",mobile,name)
                 return {
                     url:`/api/app/userOtp/otpWarranty`,
                     method:'post',

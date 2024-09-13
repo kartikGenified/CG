@@ -469,6 +469,7 @@ const BasicInfo = ({ navigation, route }) => {
   };
 
   const handleChildComponentData = (data) => {
+    console.log("DARTA",data)
     if (data?.name == "aadhar") {
       console.log("handleChildComponentData", data);
     }

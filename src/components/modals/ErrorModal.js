@@ -13,6 +13,14 @@ const ErrorModal = (props) => {
   const type = props.type
   const title = props.title
   const params = props?.params
+  const isManualOption = props.isManualOption
+  const isManual = props.isManual
+  const isWarranty = props.isWarranty
+  const scan_type = props.scan_type
+  const addedQrList = props.addedQrList
+
+  console.log("added qr error list", addedQrList)
+
   const navigation = useNavigation()
   const ternaryThemeColor = useSelector(
     state => state.apptheme.ternaryThemeColor,
@@ -54,7 +62,14 @@ const ErrorModal = (props) => {
    productData && navigation.navigate("ReportAndIssue", { productData: productData })
 
   }
+  const NavigateToManual= () => {
+    setModalVisible(!modalVisible)
+    // props.modalClose()
 
+    {isWarranty ? navigation.navigate("ScanAndRedirectToWarranty",{scan_type:"Manual",addedQrList: addedQrList ? addedQrList : []}) : navigation.navigate("QrCodeScanner",{scan_type: "Manual",addedQrList: addedQrList ? addedQrList : []}) }
+   
+
+  }
 
 
 
@@ -89,6 +104,14 @@ const ErrorModal = (props) => {
                 onPress={() => reportAndNavigate()}>
                 <Text style={styles.textStyle}>Report</Text>
               </Pressable>
+            }
+
+            {!isManual && isManualOption &&
+             <Pressable
+             style={{ ...styles.button, backgroundColor: 'red', width: 240, marginTop: 10 }}
+             onPress={() => NavigateToManual()}>
+             <Text style={styles.textStyle}>Enter Manually</Text>
+           </Pressable>
             }
 
           </View>

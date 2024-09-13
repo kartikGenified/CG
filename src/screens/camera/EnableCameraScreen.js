@@ -25,8 +25,12 @@ const EnableCameraScreen = ({ navigation, route }) => {
   const [cameraPermissionEnabled, setCameraPermissionEnabled] = useState(false);
   const [CameraEnabled, setCameraEnabled] = useState(false);
   const [requiresLocation, setRequiresLocation] = useState(false)
+
   const [neverAskAgain, setNeverAskAgain] = useState(false);
   const scan_type = route.params.scan_type
+  const oldaddedQrList = route.params.oldaddedQrList
+
+  
   const dispatch = useDispatch();
   const focused = useIsFocused();
   const message = route.params?.message;
@@ -99,7 +103,7 @@ const EnableCameraScreen = ({ navigation, route }) => {
           dispatch(setCameraPermissionStatus(true));
           dispatch(setCameraStatus(true));
           setTimeout(() => {
-             navigation.replace("QrCodeScanner",{navigateTo:"QrCodeScanner", scan_type:scan_type});
+             navigation.replace("QrCodeScanner",{navigateTo:"QrCodeScanner", scan_type:scan_type,oldaddedQrList:oldaddedQrList});
           }, 500);
         }
         if (granted == "denied") {
@@ -120,7 +124,7 @@ const EnableCameraScreen = ({ navigation, route }) => {
       dispatch(setCameraPermissionStatus(true));
       dispatch(setCameraStatus(true));
       setTimeout(() => {
-        navigation.replace("QrCodeScanner",{navigateTo:"QrCodeScanner", scan_type:scan_type});
+        navigation.replace("QrCodeScanner",{navigateTo:"QrCodeScanner", scan_type:scan_type,oldaddedQrList:oldaddedQrList});
       }, 500);
     }
   };

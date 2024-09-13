@@ -94,6 +94,7 @@ const QrCodeScanner = ({ navigation, route }) => {
   const [cameraAccessMessage, setCameraAccessMessage] = useState("");
   const [cameraPermissionDenied, setCameraPermissionDenied] = useState(false);
   const [message, setMessage] = useState();
+  const [manualOption, setManualOption] = useState();
   const [error, setError] = useState(false);
   const [isDuplicateQr, setIsDuplicateQr] = useState(new Set());
   const [savedToken, setSavedToken] = useState();
@@ -108,11 +109,15 @@ const QrCodeScanner = ({ navigation, route }) => {
   const [locationGranted, setLocationGranted] = useState(null);
   const [cameraEnabled, setCameraEnabled] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
+  const [chooseModalVisible, setChooseModalVisible] = useState(false);
+
   const [manualText, setManualText] = useState("");
   const [showProceed, setShowProceed] = useState(false);
   const [manualInputVisible, setManualInputVisible] = useState(false);
   const [manualQrCode, setManualQrCode] = useState("");
   const scan_type = route.params.scan_type;
+  const qrList = route.params.oldaddedQrList
+  console.log("old added qr list", qrList)
   const userId = useSelector((state) => state.appusersdata.userId);
   const userData = useSelector((state) => state.appusersdata.userData);
   const userType = useSelector((state) => state.appusersdata.userType);
@@ -240,6 +245,10 @@ const QrCodeScanner = ({ navigation, route }) => {
     setKeyboardShow(false);
   });
 
+  // useEffect(() => {
+  //   setAddedQrList([]);
+  // }, []);
+
   useEffect(() => {
     const backHandler = BackHandler.addEventListener(
       "hardwareBackPress",
@@ -252,6 +261,13 @@ const QrCodeScanner = ({ navigation, route }) => {
     if (scan_type == "Manual") {
       setModalVisible(true);
     }
+  }, []);
+
+  useEffect(() => {
+    console.log("added Qr list here",qrList)
+
+      setAddedQrList(qrList ? qrList : [] )
+    
   }, []);
 
   useEffect(() => {
@@ -657,6 +673,7 @@ const QrCodeScanner = ({ navigation, route }) => {
     setError(false);
     setSuccess(false);
     setIsReportable(false);
+    setManualOption(false)
   };
 
   const handleManualInput = () => {
@@ -688,7 +705,7 @@ const QrCodeScanner = ({ navigation, route }) => {
   });
 
   const onSuccess = async (e) => {
-    setKeyboardShow(false)
+    setKeyboardShow(false);
     console.log("Qr data is ------", e);
     console.log("addedQrListIs", addedQrList);
     console.log("isDuplicateQr", isDuplicateQr);
@@ -720,6 +737,7 @@ const QrCodeScanner = ({ navigation, route }) => {
                     setError(true);
                     setMessage("Can't get product data");
                   }, 1000);
+                  setManualOption(true)
                 }
 
                 const qrStatus =
@@ -1089,6 +1107,10 @@ const QrCodeScanner = ({ navigation, route }) => {
     );
   };
 
+  const handleModalClose = () =>{
+    setChooseModalVisible(false)
+  }
+
   const locationStatus = (status) => {
     console.log(
       "location status recieved from enable location screen ",
@@ -1116,109 +1138,181 @@ const QrCodeScanner = ({ navigation, route }) => {
 
   return (
     <>
-     
       <View>
         {scan_type == "Manual" && (
-          <View style={{height:'100%', }}>
-      
-            <View style={{height:'50%'}}>
-         
-                <View style={styles.modalOverlay}>
-                  <View
+          <View style={{ height: "100%" }}>
+            <View style={{ height: "45%" , }}>
+              <View style={styles.modalOverlay}>
+                <View
+                  style={{
+                    height: "16%",
+                    width: "100%",
+                    backgroundColor: ternaryThemeColor,
+                    // alignItems: "flex-start",
+                    // justifyContent: "center",
+                    flexDirection: "row",
+                    position: "absolute",
+                    alignItems: "center",
+                    top: 0,
+                    //  marginTop: 10,
+                  }}
+                >
+                  <TouchableOpacity
                     style={{
-                      height: "16%",
-                      width: "100%",
-                      backgroundColor: ternaryThemeColor,
-                      // alignItems: "flex-start",
-                      // justifyContent: "center",
-                      flexDirection: "row",
+                      height: 20,
+                      width: 20,
                       position: "absolute",
-                      alignItems:'center',
-                      top: 0,
-                      //  marginTop: 10,
+                      left: 20,
+
+                    }}
+                    onPress={() => {
+                      navigation.goBack();
                     }}
                   >
-                    <TouchableOpacity
-                      style={{
-                        height: 20,
-                        width: 20,
-                        position: "absolute",
-                        left: 20,
-                        marginTop: 10,
-                      }}
-                      onPress={() => {
-                        navigation.goBack();
-                      }}
-                    >
-                      <Image
-                        style={{ height: 20, width: 20, resizeMode: "contain" }}
-                        source={require("../../../assets/images/blackBack.png")}
-                      ></Image>
-                    </TouchableOpacity>
+                    <Image
+                      style={{ height: 20, width: 20, resizeMode: "contain" }}
+                      source={require("../../../assets/images/blackBack.png")}
+                    ></Image>
+                  </TouchableOpacity>
 
-                    <PoppinsTextMedium
-                      style={{
-                        fontSize: 20,
-                        color: "#ffffff",
-                        marginTop: 5,
-                        position: "absolute",
-                        left: 60,
-                      }}
-                      content={t("Manual Code Entry")}
-                    ></PoppinsTextMedium>
-                  </View>
-                  <View style={styles.modalContainer}>
-                    <Text
-                      style={{
-                        color: ternaryThemeColor,
-                        marginBottom: 30,
-                        fontSize: 25,
-                        fontWeight: "900",
-                      }}
-                    >
-                      Enter Code Manually
-                    </Text>
-                    <TextInput
-                      autoCapitalize={"characters"}
-                      style={{
-                        borderWidth: 1,
-                        borderColor: "black",
-                        width: "90%",
-                        borderRadius: 10,
-                        color: ternaryThemeColor,
-                        padding: 10,
-                      }}
-                      placeholderTextColor={ternaryThemeColor}
-                      placeholder="Please Enter Batch Code"
-                      onChangeText={(text) => setManualText(text?.toUpperCase())}
-                      value={manualText}
-                    />
-                    <TouchableOpacity
-                      style={[
-                        styles.modalButton,
-                        { backgroundColor: ternaryThemeColor },
-                      ]}
-                      onPress={() => {
-                        // Handle code submission logic here
-                        onSuccess(manualText);
-                        // setModalVisible(false);
-                      }}
-                    >
-                      <Text style={{ color: "white" }}>Submit</Text>
-                    </TouchableOpacity>
-                    {/* <TouchableOpacity
-                style={[styles.modalButton, styles.cancelButton]}
-                onPress={() => setModalVisible(false)}
-              >
-                <Text style={{ color: "white" }}>Cancel</Text>
-              </TouchableOpacity> */}
-                  </View>
+                  <PoppinsTextMedium
+                    style={{
+                      fontSize: 20,
+                      color: "#ffffff",
+                      marginTop: 5,
+                      position: "absolute",
+                      left: 60,
+                    }}
+                    content={t("Manual Code Entry")}
+                  ></PoppinsTextMedium>
                 </View>
-                <Toast config={toastConfig} />
-           
+                <View style={[styles.modalContainer,{marginTop:70}]}>
+                  <Text
+                    style={{
+                      color: ternaryThemeColor,
+                      marginBottom: 30,
+                      fontSize: 25,
+                      fontWeight: "900",
+                      textAlign:'center'
+                    }}
+                  >
+                    Enter Code Manually
+                  </Text>
+                  <TextInput
+                    autoCapitalize={"characters"}
+                    style={{
+                      borderWidth: 1,
+                      borderColor: "black",
+                      width: "90%",
+                      borderRadius: 10,
+                      color: ternaryThemeColor,
+                      padding: 10,
+                    }}
+                    placeholderTextColor={ternaryThemeColor}
+                    placeholder="Please Enter Batch Code"
+                    onChangeText={(text) => setManualText(text?.toUpperCase())}
+                    value={manualText}
+                  />
+                  <TouchableOpacity
+                    style={[
+                      styles.modalButton,
+                      { backgroundColor: ternaryThemeColor },
+                    ]}
+                    onPress={() => {
+                      // Handle code submission logic here
+                      onSuccess(manualText);
+                      // setModalVisible(false);
+                    }}
+                  >
+                    <Text style={{ color: "white" }}>Submit</Text>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity
+                    style={[styles.modalButton, styles.cancelButton]}
+                    onPress={() => setChooseModalVisible(true)}
+                  >
+                    <Text style={{ color: "white" }}>Switch To Scanner</Text>
+                  </TouchableOpacity>
+
+                  {/* Modal for QR Code Options */}
+                  <Modal
+                    transparent={true}
+                    visible={chooseModalVisible}
+                    animationType="slide"
+                    onRequestClose={handleModalClose}
+                  >
+                    <View style={[styles.modalOverlay,{marginTop:-50}]}>
+                      <View style={[styles.modalContainer2,{borderWidth:1, borderColor:ternaryThemeColor,}]}>
+                        <Text
+                          style={{
+                            fontSize: 20,
+                            fontWeight: "bold",
+                            color: ternaryThemeColor,
+                            fontWeight: "bold",
+                            marginBottom: 25,
+                            borderBottomColor: "#808080",
+                          }}
+                        >
+                          Choose an Option
+                        </Text>
+                        <TouchableOpacity
+                          style={styles.modalOption}
+                          onPress={() => {
+                            {console.log("check old added qrlist", addedQrList)}
+                            setModalVisible(false);
+                            Platform.OS == "android" ?
+                                navigation.navigate("EnableCameraScreen", {
+                                    scan_type: "QR",
+                                    oldaddedQrList:addedQrList
+                                  })
+                                  :
+                                  navigation.navigate("QrCodeScanner", {
+                                    scan_type: "QR",
+                                    oldaddedQrList:addedQrList
+                                  })
+                      
+                            
+                          }}
+                        >
+                          <Text style={styles.optionText}>Scan QR Code</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                          style={styles.modalOption}
+                          onPress={() => {
+                            setModalVisible(false);
+                            Platform.OS == "android" ?
+                            navigation.navigate("EnableCameraScreen", {
+                              scan_type: "QR",
+                            })
+                            :
+                            navigation.navigate("QrCodeScanner", {
+                              scan_type: "QR",
+                            })
+                
+                          }}
+                        >
+                          <Text style={styles.optionText}>Scan Barcode</Text>
+                        </TouchableOpacity>
+                      
+                        <TouchableOpacity
+                          style={[
+                            styles.modalOption,
+                            styles.cancelButton,
+                            { backgroundColor: ternaryThemeColor },
+                          ]}
+                          onPress={handleModalClose}
+                        >
+                          <Text style={styles.cancelText}>Cancel</Text>
+                        </TouchableOpacity>
+                      </View>
+                    </View>
+                  </Modal>
+                </View>
+              </View>
+              <Toast config={toastConfig} />
             </View>
 
-            <View style={{height:'40%'}}>
+            <View style={{ height: "55%",backgroundColor:'white', borderTopLeftRadius:20, borderTopRightRadius:20, marginTop:20}}>
               {scan_type == "Manual" && (
                 <View>
                   <FlatList
@@ -1260,7 +1354,6 @@ const QrCodeScanner = ({ navigation, route }) => {
                 </View>
               )}
             </View>
-
           </View>
         )}
 
@@ -1454,6 +1547,11 @@ const QrCodeScanner = ({ navigation, route }) => {
                   message={message}
                   isReportable={isReportable}
                   openModal={error}
+                  isManual={scan_type == "Manual" ? true : false}
+                  isWarranty={false}
+                  isManualOption={manualOption}
+                  scan_type={"Manual"}
+                  addedQrList = {addedQrList}
                 ></ErrorModal>
               )}
 
@@ -1571,7 +1669,7 @@ const QrCodeScanner = ({ navigation, route }) => {
                     keyExtractor={(item) => item.id}
                   />
 
-                  {showProceed && (
+                  {addedQrList && addedQrList?.length>0 && (
                     <View style={{ marginBottom: 60 }}>
                       <ButtonProceed
                         handleOperation={handleAddQr}
@@ -1602,7 +1700,7 @@ const QrCodeScanner = ({ navigation, route }) => {
         )}
 
         {showProceed && scan_type == "Manual" && (
-          <View style={{ marginTop: "auto", marginBottom:20 }}>
+          <View style={{ marginTop: "auto", marginBottom: 20 }}>
             <Text
               style={{
                 color: ternaryThemeColor,
@@ -1643,18 +1741,24 @@ const styles = StyleSheet.create({
   buttonTouchable: {
     padding: 16,
   },
-  modalOverlay: {
-    height:'100%',
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
-  },
+
   modalContainer: {
     width: "80%",
     backgroundColor: "white",
     padding: 20,
     borderRadius: 10,
     alignItems: "center",
+    
+
+  },
+  modalContainer2: {
+    width: "80%",
+    backgroundColor: "white",
+    padding: 20,
+    borderRadius: 10,
+    alignItems: "center",
+    
+
   },
   modalButton: {
     paddingVertical: 10,
@@ -1667,6 +1771,36 @@ const styles = StyleSheet.create({
   cancelButton: {
     backgroundColor: "red",
     marginTop: 10,
+  },
+  modalOverlay: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    // backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+
+  modalTitle: {},
+  modalOption: {
+    paddingVertical: 10,
+    width: "100%",
+    alignItems: "center",
+    marginBottom: "4%",
+    borderRadius: 5,
+    backgroundColor: "#F0F0F0",
+  },
+  optionText: {
+    fontSize: 18,
+    color: "#333",
+    fontWeight: "bold",
+  },
+  cancelButton: {
+    backgroundColor: "#FF6347",
+    marginTop: 20,
+  },
+  cancelText: {
+    color: "white",
+    fontWeight: "bold",
+    fontSize: 18,
   },
 });
 

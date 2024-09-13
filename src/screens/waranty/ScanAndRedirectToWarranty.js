@@ -82,6 +82,8 @@ const ScanAndRedirectToWarranty = ({ navigation, route }) => {
 
   const scan_type = route.params.scan_type;
 
+  console.log("Scan type in warranty", scan_type)
+
   //---------------
   const { t } = useTranslation();
   const ternaryThemeColor = useSelector(
@@ -175,16 +177,16 @@ const ScanAndRedirectToWarranty = ({ navigation, route }) => {
       const form_type = "2";
       const token = savedToken;
       const body = {
-        product_id: productDataData.body.products[0].product_id,
+        product_id: productDataData.body?.products[0].product_id,
         qr_id: qr_id,
       };
       console.log(
         "Product Data is ",
-        productDataData.body.products[0].product_id
+        productDataData?.body?.products[0].product_id
       );
       console.log("productdata", token, body);
-      dispatch(setProductData(productDataData.body.products[0]));
-      setProductId(productDataData.body.product_id);
+      dispatch(setProductData(productDataData?.body.products[0]));
+      setProductId(productDataData?.body.product_id);
 
       checkWarrantyFunc({ form_type, token, body });
     } else if (productDataError) {
@@ -656,7 +658,7 @@ const ScanAndRedirectToWarranty = ({ navigation, route }) => {
                   content={t("Manual Code Entry")}
                 ></PoppinsTextMedium>
               </View>
-              <View style={styles.modalContainer}>
+              <View style={[styles.modalContainer,{marginTop:50}]}>
                 <Text
                   style={{
                     color: ternaryThemeColor,
@@ -706,7 +708,7 @@ const ScanAndRedirectToWarranty = ({ navigation, route }) => {
             <Toast config={toastConfig} />
           </View>
 
-          <View style={{ height: "40%" }}>
+          <View style={{ height: "50%",backgroundColor:'white',borderTopLeftRadius:20, borderTopRightRadius:20 }}>
             {scan_type == "Manual" && (
               <View>
                 <FlatList
@@ -941,6 +943,10 @@ const ScanAndRedirectToWarranty = ({ navigation, route }) => {
                 message={message}
                 isReportable={isReportable}
                 openModal={error}
+                isManual = {scan_type == "Manual"  ? true : false}
+                isWarranty = {true}
+                isManualOption = {true}
+                scan_type={scan_type}
               ></ErrorModal>
             )}
 
@@ -1135,7 +1141,7 @@ const styles = StyleSheet.create({
     height:'100%',
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    // backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
   modalContainer: {
     width: "80%",
