@@ -114,10 +114,11 @@ const QrCodeScanner = ({ navigation, route }) => {
   const [manualText, setManualText] = useState("");
   const [showProceed, setShowProceed] = useState(false);
   const [manualInputVisible, setManualInputVisible] = useState(false);
+  const [batchCodeAvail,setIsBatchCodeAvail] = useState(false)
   const [manualQrCode, setManualQrCode] = useState("");
   const scan_type = route.params.scan_type;
-  const qrList = route.params.oldaddedQrList
-  console.log("old added qr list", qrList)
+  const qrList = route.params.oldaddedQrList;
+  console.log("old added qr list", qrList);
   const userId = useSelector((state) => state.appusersdata.userId);
   const userData = useSelector((state) => state.appusersdata.userData);
   const userType = useSelector((state) => state.appusersdata.userType);
@@ -264,10 +265,9 @@ const QrCodeScanner = ({ navigation, route }) => {
   }, []);
 
   useEffect(() => {
-    console.log("added Qr list here",qrList)
+    console.log("added Qr list here", qrList);
 
-      setAddedQrList(qrList ? qrList : [] )
-    
+    setAddedQrList(qrList ? qrList : []);
   }, []);
 
   useEffect(() => {
@@ -673,7 +673,7 @@ const QrCodeScanner = ({ navigation, route }) => {
     setError(false);
     setSuccess(false);
     setIsReportable(false);
-    setManualOption(false)
+    setManualOption(false);
   };
 
   const handleManualInput = () => {
@@ -699,7 +699,14 @@ const QrCodeScanner = ({ navigation, route }) => {
       console.log(`Scanned ${codes.length} codes!`, codes[0]?.value);
       scanDelay(codes[0]?.value, () => {
         Vibration.vibrate([1000, 1000, 1000]);
-        onSuccess(codes[0]?.value);
+        if(codes[0]?.value.includes("X")){
+          setIsBatchCodeAvail(true)
+        }
+        let newValue = codes[0]?.value.includes("X")
+          ? "X" + codes[0]?.value.split("X")[1] // Get the part after "X"
+          : codes[0]?.value;
+          console.log("new Val", newValue)
+        onSuccess(newValue);
       });
     }, 100), // Debounce time: adjust as needed
   });
@@ -727,7 +734,12 @@ const QrCodeScanner = ({ navigation, route }) => {
               if (scan_type == "Manual") {
                 response = await verifyQrbyBatchFunc({ token, data });
               } else {
+                if(batchCodeAvail){
+                response = await verifyQrbyBatchFunc({ token, data });
+              }
+              else{
                 response = await verifyQrFunc({ token, data });
+              }
               }
               console.log("verifyQrFunc", response);
               if (response?.data) {
@@ -737,7 +749,7 @@ const QrCodeScanner = ({ navigation, route }) => {
                     setError(true);
                     setMessage("Can't get product data");
                   }, 1000);
-                  setManualOption(true)
+                  setManualOption(true);
                 }
 
                 const qrStatus =
@@ -1107,9 +1119,9 @@ const QrCodeScanner = ({ navigation, route }) => {
     );
   };
 
-  const handleModalClose = () =>{
-    setChooseModalVisible(false)
-  }
+  const handleModalClose = () => {
+    setChooseModalVisible(false);
+  };
 
   const locationStatus = (status) => {
     console.log(
@@ -1141,7 +1153,7 @@ const QrCodeScanner = ({ navigation, route }) => {
       <View>
         {scan_type == "Manual" && (
           <View style={{ height: "100%" }}>
-            <View style={{ height: "45%" , }}>
+            <View style={{ height: "45%" }}>
               <View style={styles.modalOverlay}>
                 <View
                   style={{
@@ -1163,7 +1175,6 @@ const QrCodeScanner = ({ navigation, route }) => {
                       width: 20,
                       position: "absolute",
                       left: 20,
-
                     }}
                     onPress={() => {
                       navigation.goBack();
@@ -1186,14 +1197,14 @@ const QrCodeScanner = ({ navigation, route }) => {
                     content={t("Manual Code Entry")}
                   ></PoppinsTextMedium>
                 </View>
-                <View style={[styles.modalContainer,{marginTop:70}]}>
+                <View style={[styles.modalContainer, { marginTop: 70 }]}>
                   <Text
                     style={{
                       color: ternaryThemeColor,
                       marginBottom: 30,
                       fontSize: 25,
                       fontWeight: "900",
-                      textAlign:'center'
+                      textAlign: "center",
                     }}
                   >
                     Enter Code Manually
@@ -1241,8 +1252,13 @@ const QrCodeScanner = ({ navigation, route }) => {
                     animationType="slide"
                     onRequestClose={handleModalClose}
                   >
-                    <View style={[styles.modalOverlay,{marginTop:-50}]}>
-                      <View style={[styles.modalContainer2,{borderWidth:1, borderColor:ternaryThemeColor,}]}>
+                    <View style={[styles.modalOverlay, { marginTop: -50 }]}>
+                      <View
+                        style={[
+                          styles.modalContainer2,
+                          { borderWidth: 1, borderColor: ternaryThemeColor },
+                        ]}
+                      >
                         <Text
                           style={{
                             fontSize: 20,
@@ -1258,20 +1274,22 @@ const QrCodeScanner = ({ navigation, route }) => {
                         <TouchableOpacity
                           style={styles.modalOption}
                           onPress={() => {
-                            {console.log("check old added qrlist", addedQrList)}
+                            {
+                              console.log(
+                                "check old added qrlist",
+                                addedQrList
+                              );
+                            }
                             setModalVisible(false);
-                            Platform.OS == "android" ?
-                                navigation.navigate("EnableCameraScreen", {
-                                    scan_type: "QR",
-                                    oldaddedQrList:addedQrList
-                                  })
-                                  :
-                                  navigation.navigate("QrCodeScanner", {
-                                    scan_type: "QR",
-                                    oldaddedQrList:addedQrList
-                                  })
-                      
-                            
+                            Platform.OS == "android"
+                              ? navigation.navigate("EnableCameraScreen", {
+                                  scan_type: "QR",
+                                  oldaddedQrList: addedQrList,
+                                })
+                              : navigation.navigate("QrCodeScanner", {
+                                  scan_type: "QR",
+                                  oldaddedQrList: addedQrList,
+                                });
                           }}
                         >
                           <Text style={styles.optionText}>Scan QR Code</Text>
@@ -1280,20 +1298,18 @@ const QrCodeScanner = ({ navigation, route }) => {
                           style={styles.modalOption}
                           onPress={() => {
                             setModalVisible(false);
-                            Platform.OS == "android" ?
-                            navigation.navigate("EnableCameraScreen", {
-                              scan_type: "QR",
-                            })
-                            :
-                            navigation.navigate("QrCodeScanner", {
-                              scan_type: "QR",
-                            })
-                
+                            Platform.OS == "android"
+                              ? navigation.navigate("EnableCameraScreen", {
+                                  scan_type: "QR",
+                                })
+                              : navigation.navigate("QrCodeScanner", {
+                                  scan_type: "QR",
+                                });
                           }}
                         >
                           <Text style={styles.optionText}>Scan Barcode</Text>
                         </TouchableOpacity>
-                      
+
                         <TouchableOpacity
                           style={[
                             styles.modalOption,
@@ -1312,7 +1328,15 @@ const QrCodeScanner = ({ navigation, route }) => {
               <Toast config={toastConfig} />
             </View>
 
-            <View style={{ height: "55%",backgroundColor:'white', borderTopLeftRadius:20, borderTopRightRadius:20, marginTop:20}}>
+            <View
+              style={{
+                height: "55%",
+                backgroundColor: "white",
+                borderTopLeftRadius: 20,
+                borderTopRightRadius: 20,
+                marginTop: 20,
+              }}
+            >
               {scan_type == "Manual" && (
                 <View>
                   <FlatList
@@ -1551,7 +1575,7 @@ const QrCodeScanner = ({ navigation, route }) => {
                   isWarranty={false}
                   isManualOption={manualOption}
                   scan_type={"Manual"}
-                  addedQrList = {addedQrList}
+                  addedQrList={addedQrList}
                 ></ErrorModal>
               )}
 
@@ -1669,7 +1693,7 @@ const QrCodeScanner = ({ navigation, route }) => {
                     keyExtractor={(item) => item.id}
                   />
 
-                  {addedQrList && addedQrList?.length>0 && (
+                  {addedQrList && addedQrList?.length > 0 && (
                     <View style={{ marginBottom: 60 }}>
                       <ButtonProceed
                         handleOperation={handleAddQr}
@@ -1748,8 +1772,6 @@ const styles = StyleSheet.create({
     padding: 20,
     borderRadius: 10,
     alignItems: "center",
-    
-
   },
   modalContainer2: {
     width: "80%",
@@ -1757,8 +1779,6 @@ const styles = StyleSheet.create({
     padding: 20,
     borderRadius: 10,
     alignItems: "center",
-    
-
   },
   modalButton: {
     paddingVertical: 10,
