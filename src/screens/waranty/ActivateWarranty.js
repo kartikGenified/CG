@@ -616,7 +616,7 @@ const ActivateWarranty = ({ navigation, route }) => {
                       handleData={handleChildComponentData}
                       placeHolder={item.name}
                       isEditable={false}
-                      value={activatedData?.[0]?.created_by_name}
+                      value={activatedData?.[0]?.product_code}
                     ></PrefilledTextInput>
                   );
                 }

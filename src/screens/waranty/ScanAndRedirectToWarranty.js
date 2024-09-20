@@ -57,6 +57,7 @@ const ScanAndRedirectToWarranty = ({ navigation, route }) => {
   const [error, setError] = useState(false);
   const [savedToken, setSavedToken] = useState();
   const [isLoading, setIsLoading] = useState(false);
+  const [batchCodeAvail,setIsBatchCodeAvail] = useState(false)
   const [update, setUpdate] = useState(false);
   const [isReportable, setIsReportable] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
@@ -303,9 +304,17 @@ const ScanAndRedirectToWarranty = ({ navigation, route }) => {
             setSavedToken(credentials.username);
             const token = credentials.username;
             console.log("addedQrList", addedQrList)
-              data && (scan_type == "Manual") ? verifyQrbyBatchFunc({token,data}) : verifyQrFunc({ token, data });
-
-      
+              // data && (scan_type == "Manual") ? verifyQrbyBatchFunc({token,data}) : verifyQrFunc({ token, data });    
+              if (scan_type == "Manual" && data) {
+                response = await verifyQrbyBatchFunc({ token, data });
+              } else {
+                if(batchCodeAvail && data){
+                response = await verifyQrbyBatchFunc({ token, data });
+              }
+              else{
+                response = await verifyQrFunc({ token, data });
+              }
+              }  
           } else {
             console.log("No credentials stored");
           }
@@ -315,6 +324,7 @@ const ScanAndRedirectToWarranty = ({ navigation, route }) => {
       };
 
       console.log("requestedData", requestData);
+
       verifyQR(requestData);
     }
   };
@@ -406,7 +416,17 @@ const ScanAndRedirectToWarranty = ({ navigation, route }) => {
       console.log(`Scanned ${codes.length} codes!`, codes[0]?.value);
       scanDelay(codes[0]?.value, () => {
         Vibration.vibrate([1000, 1000, 1000]);
-        onSuccess(codes[0]?.value);
+        if(codes[0]?.value.includes("X")){
+          setIsBatchCodeAvail(true)
+        }
+        let newValue = codes[0]?.value.includes("X")
+          ? "X" + codes[0]?.value.split("X")[1] // Get the part after "X"
+          : codes[0]?.value;
+          
+          console.log("new Val", newValue)
+
+        onSuccess(newValue);
+        // onSuccess(codes[0]?.value);
       });
     }, 100), // Debounce time: adjust as needed
   });
