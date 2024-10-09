@@ -177,7 +177,7 @@ const MenuItems = (props) => {
             >
               <Text style={styles.optionText}>Scan Barcode</Text>
             </TouchableOpacity>
-            <TouchableOpacity
+            {/* <TouchableOpacity
               style={styles.modalOption}
               onPress={() => {
                 navigation.navigate("QrCodeScanner", { scan_type: "Manual" });
@@ -185,7 +185,7 @@ const MenuItems = (props) => {
               }}
             >
               <Text style={styles.optionText}>Enter Code Manually</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
             <TouchableOpacity
               style={[
                 styles.modalOption,

@@ -80,6 +80,7 @@ import UpdateModal from "../../components/modals/UpdateModal";
 
 import { useVerifyBarMutation } from "../../apiServices/barCodeApi/verifyBarCodeApi";
 import ImageGallery from "../image/ImageGallery";
+import { splitX } from "../../utils/globalFunctions/splitX";
 
 const QrCodeScanner = ({ navigation, route }) => {
   const [zoom, setZoom] = useState(0);
@@ -114,7 +115,7 @@ const QrCodeScanner = ({ navigation, route }) => {
   const [manualText, setManualText] = useState("");
   const [showProceed, setShowProceed] = useState(false);
   const [manualInputVisible, setManualInputVisible] = useState(false);
-  const [batchCodeAvail,setIsBatchCodeAvail] = useState(false)
+  const [batchCodeAvail, setIsBatchCodeAvail] = useState(false);
   const [manualQrCode, setManualQrCode] = useState("");
   const scan_type = route.params.scan_type;
   const qrList = route.params.oldaddedQrList;
@@ -681,6 +682,38 @@ const QrCodeScanner = ({ navigation, route }) => {
     // Process the manually entered data
   };
 
+  // const  splitX = (val) =>{
+  //   let splitArr = []
+  //   console.log("They Valllll", val)
+  //   for(let i = val.length - 1; i >= 0; i--){
+  //     //cases
+  //       if(val[i] == ","){
+  //         splitArr.length = 0
+  //       }
+  //       if(val[i] == " "){
+  //         splitArr.length = 0
+  //       }
+  //       if(val[i] == "-"){
+  //         splitArr.length = 0
+  //       }
+
+  //       //logic
+  //       console.log("Val[i]", val[i])
+  //       if(val[i] != "X" ){
+  //         if(val[i]!="," && val[i] != "" && val[i] != "-"){
+  //           splitArr.push(val[i])
+  //         }
+  //       }
+  //       else{
+  //         if(splitArr.length >= 9){
+  //           return splitArr.reverse().join("")
+  //         }
+  //       }
+  //   }
+
+  //   return splitArr.reverse().join("")
+  // }
+
   const debounce = (func, delay) => {
     let timeoutId;
     return (...args) => {
@@ -699,13 +732,19 @@ const QrCodeScanner = ({ navigation, route }) => {
       console.log(`Scanned ${codes.length} codes!`, codes[0]?.value);
       scanDelay(codes[0]?.value, () => {
         Vibration.vibrate([1000, 1000, 1000]);
-        if(codes[0]?.value.includes("X")){
-          setIsBatchCodeAvail(true)
+
+        if (codes[0]?.value.includes("X")) {
+          setIsBatchCodeAvail(true);
         }
+
         let newValue = codes[0]?.value.includes("X")
-          ? "X" + codes[0]?.value.split("X")[1] // Get the part after "X"
+          ? "X" + splitX(codes[0]?.value) // Get the part after "X"
           : codes[0]?.value;
-          console.log("new Val", newValue)
+
+          console.log("Newwwww Valueeee",  newValue)
+
+
+
         onSuccess(newValue);
       });
     }, 100), // Debounce time: adjust as needed
@@ -734,12 +773,11 @@ const QrCodeScanner = ({ navigation, route }) => {
               if (scan_type == "Manual") {
                 response = await verifyQrbyBatchFunc({ token, data });
               } else {
-                if(batchCodeAvail){
-                response = await verifyQrbyBatchFunc({ token, data });
-              }
-              else{
-                response = await verifyQrFunc({ token, data });
-              }
+                if (batchCodeAvail) {
+                  response = await verifyQrbyBatchFunc({ token, data });
+                } else {
+                  response = await verifyQrFunc({ token, data });
+                }
               }
               console.log("verifyQrFunc", response);
               if (response?.data) {
@@ -750,6 +788,7 @@ const QrCodeScanner = ({ navigation, route }) => {
                     setMessage("Can't get product data");
                   }, 1000);
                   setManualOption(true);
+                  
                 }
 
                 const qrStatus =
@@ -894,7 +933,7 @@ const QrCodeScanner = ({ navigation, route }) => {
       const existingObject = addedqr.find(
         (obj) => obj?.unique_code === data?.unique_code
       );
-      // console.log("existingObject",existingObject,data)
+      console.log("existingObject",existingObject,data)
       if (!existingObject) {
         // setAddedQrList([...addedqr, data]);
         addedqr.push(data);

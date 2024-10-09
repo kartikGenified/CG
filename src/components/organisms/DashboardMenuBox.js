@@ -158,7 +158,7 @@ const DashboardMenuBox=(props)=>{
             >
               <Text style={styles.optionText}>Scan Barcode</Text>
             </TouchableOpacity>
-            <TouchableOpacity
+            {/* <TouchableOpacity
               style={styles.modalOption}
               onPress={() => {
                 setModal(false);
@@ -173,7 +173,7 @@ const DashboardMenuBox=(props)=>{
               }}
             >
               <Text style={styles.optionText}>Enter Code Manually</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
 
             <TouchableOpacity
               style={[
@@ -267,7 +267,7 @@ const DashboardMenuBox=(props)=>{
             >
               <Text style={styles.optionText}>Scan Barcode</Text>
             </TouchableOpacity>
-            <TouchableOpacity
+            {/* <TouchableOpacity
               style={styles.modalOption}
               onPress={() => {
                 userData.user_type != "consumer"
@@ -281,7 +281,7 @@ const DashboardMenuBox=(props)=>{
               }}
             >
               <Text style={styles.optionText}>Enter Code Manually</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
             <TouchableOpacity
               style={[
                 styles.modalOption,

@@ -44,6 +44,7 @@ import {
   useCodeScanner,
 } from "react-native-vision-camera";
 import { TextInput } from "react-native";
+import { splitX } from "../../utils/globalFunctions/splitX";
 
 const ScanAndRedirectToWarranty = ({ navigation, route }) => {
   const [zoom, setZoom] = useState(0);
@@ -419,11 +420,15 @@ const ScanAndRedirectToWarranty = ({ navigation, route }) => {
         if(codes[0]?.value.includes("X")){
           setIsBatchCodeAvail(true)
         }
-        let newValue = codes[0]?.value.includes("X")
-          ? "X" + codes[0]?.value.split("X")[1] // Get the part after "X"
-          : codes[0]?.value;
+
+        // let newValue = codes[0]?.value.includes("X")
+        //   ? "X" + codes[0]?.value.split("X")[1] // Get the part after "X"
+        //   : codes[0]?.value;
           
-          console.log("new Val", newValue)
+        let newValue = codes[0]?.value.includes("X")
+        ? "X"+splitX(codes[0]?.value) // Get the part after "X"
+        : codes[0]?.value;
+
 
         onSuccess(newValue);
         // onSuccess(codes[0]?.value);

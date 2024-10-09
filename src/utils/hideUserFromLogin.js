@@ -1,2 +1,2 @@
 // export default hideUserFromLogin = ["distributor"]
-export default hideUserFromLogin = ["dealer"]
+export default hideUserFromLogin = ["dealer", "plumber"]

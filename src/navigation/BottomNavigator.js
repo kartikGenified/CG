@@ -299,7 +299,7 @@ function BottomNavigator({ navigation }) {
             >
               <Text style={styles.optionText}>Scan Barcode</Text>
             </TouchableOpacity>
-            <TouchableOpacity
+            {/* <TouchableOpacity
               style={styles.modalOption}
               onPress={() => {
                 userData.user_type != "consumer"
@@ -313,7 +313,7 @@ function BottomNavigator({ navigation }) {
               }}
             >
               <Text style={styles.optionText}>Enter Code Manually</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
             <TouchableOpacity
               style={[
                 styles.modalOption,

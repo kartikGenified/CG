@@ -106,13 +106,13 @@ const ErrorModal = (props) => {
               </Pressable>
             }
 
-            {!isManual && isManualOption &&
+            {/* {!isManual && isManualOption &&
              <Pressable
              style={{ ...styles.button, backgroundColor: 'red', width: 240, marginTop: 10 }}
              onPress={() => NavigateToManual()}>
              <Text style={styles.textStyle}>Enter Manually</Text>
            </Pressable>
-            }
+            } */}
 
           </View>
         </View>

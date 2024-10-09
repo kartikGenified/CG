@@ -279,8 +279,8 @@ else{
       if (!existingObject) {
         setAddedQrList([...addedQrList, data]);
       } else {
-        setError(true);
-        setMessage('This QR is already added to the list');
+        // setError(true);
+        // setMessage('This QR is already added to the list');
       }
     }
   };
