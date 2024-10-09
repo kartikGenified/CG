@@ -412,8 +412,8 @@ const OtpVerification = ({ navigation, route }) => {
         const params = {
           mobile: mobile,
           name: getNameData?.body.name,
-          user_type: userData?.user_type,
-          user_type_id: userData?.user_type_id,
+          user_type: "consumer",
+          user_type_id: 1,
           type: navigateFrom == "scan" ? "warranty" : "redemption",
         };
         
@@ -434,8 +434,8 @@ const OtpVerification = ({ navigation, route }) => {
     const params = {
       mobile: mobile,
       name: name,
-      user_type: userData?.user_type,
-      user_type_id: userData?.user_type_id,
+      user_type: "consumer",
+      user_type_id: 1,
       type: navigateFrom == "scan" ? "warranty" : "redemption",
     };
 

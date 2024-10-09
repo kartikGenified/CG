@@ -333,10 +333,10 @@ const ActivateWarranty = ({ navigation, route }) => {
   const handleWarrantyFormSubmission = () => {
     // setIsLoading(true);
 
-    console.log('Response Array Is', JSON.stringify(responseArray),Object.keys(form)!==responseArray.length);
-    if(Object.keys(form).length!==responseArray.length)
+    console.log('Response Array Is', responseArray.length, Object.keys(form).length,Object.keys(form)!==responseArray.length);
+    if(Object.keys(form).length!==responseArray.length )
     {
-      console.log("inside if statement")
+      console.log("inside if statement",responseArray)
       setError(true)
       setMessage("Kindly fill all the details to continue")
     }
@@ -356,7 +356,7 @@ const ActivateWarranty = ({ navigation, route }) => {
             setInvoiceNo(item.value);
           } 
 
-          else if (item.name === 'invoice' || item.name === 'Invoice') {
+          else if (item.name == 'invoice' || item.name == 'Invoice') {
             console.log('Inside file');
   
             const imageData = {
@@ -669,7 +669,7 @@ const ActivateWarranty = ({ navigation, route }) => {
             
           {
             activateWarantyIsLoading && <FastImage
-              style={{ width: 100, height: 100, alignSelf: 'center',position:'absolute', marginTop:'50%' }}
+              style={{ width: 100, height: "100%", alignSelf: 'center',position:'absolute', marginTop:'10%' }}
               source={{
                 uri: gifUri, // Update the path to your GIF
                 priority: FastImage.priority.normal,
