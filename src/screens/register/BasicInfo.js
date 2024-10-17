@@ -839,7 +839,7 @@ const BasicInfo = ({ navigation, route }) => {
           message={message}
           openModal={success}
           navigateTo={
-            navigatingFrom === "PasswordLogin" ? "PasswordLogin" : "OtpLogin"
+            navigatingFrom === "PasswordLogin" ? "PasswordLogin" : "SelectUser"
           }
           params={{
             needsApproval: needsApproval,
