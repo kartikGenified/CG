@@ -1467,7 +1467,7 @@ const QrCodeScanner = ({ navigation, route }) => {
                     marginLeft: 75,
                     marginBottom: 30,
                   }}
-                  content="Scan Product Bar Code"
+                  content="Scan Product QR Code"
                 ></PoppinsTextMedium>
                 <View
                   style={{

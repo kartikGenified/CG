@@ -40,7 +40,7 @@ const ButtonNavigateArrow = (props) => {
         borderRadius: 4,
         alignItems: "center",
         justifyContent: "center",
-        backgroundColor: isChecked ? backgroundColor : "#808080",
+        backgroundColor: isChecked ? "#80C343" : "#075CA9",
         margin: 10,
         paddingLeft: 20,
         paddingRight: 20,

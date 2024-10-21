@@ -586,22 +586,23 @@ const VerifyOtp = ({ navigation, route }) => {
               navigation.goBack();
             }}>
             <Image
-              style={{ height: 20, width: 20, resizeMode: 'contain' }}
+              style={{ height: 26, width: 26, resizeMode: 'contain' }}
               source={require('../../../assets/images/blackBack.png')}></Image>
           </TouchableOpacity>
           <Image
             style={{
-              height: 50,
-              width: 100,
+              height: 90,
+              width: 110,
               resizeMode: 'contain',
-              top: 20,
+              top: 10,
               position: "absolute",
-              left: 50,
+              right: 20,
               
 
 
             }}
             source={appIcon}></Image>
+            
         </View>
         <View
           style={{
@@ -688,6 +689,18 @@ const VerifyOtp = ({ navigation, route }) => {
           )} */}
         </View>
       </ScrollView>
+      <View style={{alignItems:'center',justifyContent:'center',position:'absolute',bottom:20, right:15,flexDirection:'row'}}>
+            <View style={{backgroundColor:'#80C343',padding:4}}>
+            <PoppinsTextMedium style={{color:'white',fontSize:24,fontWeight:'bold'}} content= "CG "></PoppinsTextMedium>
+            </View>
+            <View style={{backgroundColor:'#075CA9',padding:4}}>
+          <PoppinsTextMedium style={{color:'white',fontSize:24,fontWeight:'bold'}} content= "Vishwas"></PoppinsTextMedium>
+            
+            </View>
+        </View>
+        <View style={{alignItems:'center',justifyContent:'center',position:'absolute',bottom:4,left:30}}>
+          <Image style={{height:80,width:110,resizeMode:'contain'}} source={require('../../../assets/images/murugappa_logo.jpg')}></Image>
+        </View>
     </LinearGradient>
   );
 };

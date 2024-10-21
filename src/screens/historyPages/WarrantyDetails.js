@@ -310,9 +310,9 @@ const WarrantyDetails = ({ navigation, route }) => {
 
                 <View style={{ marginHorizontal: 20, marginTop: 30, borderRadius: 10, alignItems: 'flex-start', padding: 10, }}>
                     <View style={{ backgroundColor: '#EBF3FA', width: '100%', padding: 20, borderWidth: 1, borderColor: '#85BFF1', borderRadius: 10, borderStyle: 'dotted' }}>
-                        <View style={{ flexDirection: 'row', marginLeft: 10, }}>
+                        <View style={{ flexDirection: 'row', marginLeft: 10 }}>
                             <PoppinsTextMedium content="Product Name :" style={{ color: 'black' }}></PoppinsTextMedium>
-                            <PoppinsTextMedium content={`${data?.product_name}`} style={{ color: 'black' }}></PoppinsTextMedium>
+                            <PoppinsTextMedium content={`${data?.product_name}`} style={{ color: 'black',width:200 }}></PoppinsTextMedium>
                         </View>
 
                         <View style={{ flexDirection: 'row', marginTop: 10, marginLeft: 10 }}>

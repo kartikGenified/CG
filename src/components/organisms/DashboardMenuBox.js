@@ -75,8 +75,13 @@ const DashboardMenuBox=(props)=>{
             if(data?.toLowerCase().split(" ")[1]==="genuinity")
             navigation.navigate('ScanAndRedirectToGenuinity')
             else if(data?.toLowerCase().split(" ")[1]==="warranty")
-                setModal(true)
-               setSelectedTab("warranty")
+            Platform.OS == "android" ?  navigation.navigate("EnableCameraAndNavigateToWarranty", {
+              scan_type: "QR",
+            })
+            :
+            navigation.navigate("ScanAndRedirectToWarranty", {
+              scan_type: "QR",
+            })  
             // navigation.navigate('ScanAndRedirectToWarranty')
         }
         else if(data.toLowerCase() === "product catalogue"){
@@ -94,7 +99,7 @@ const DashboardMenuBox=(props)=>{
     }
 
     return(
-        <View style={{borderColor:'#DDDDDD',borderRadius:20,borderWidth:1.2,width:width-20,alignItems:"center",justifyContent:"center",backgroundColor:'white',padding:4,marginBottom:30}}>
+        <View style={{borderColor:'#DDDDDD',borderRadius:10,borderWidth:1.2,width:width-20,alignItems:"center",justifyContent:"center",backgroundColor:'#80C343',padding:4,marginBottom:30}}>
         <View style={{width:'100%',flexWrap:"wrap",flexDirection:"row",alignItems:"center",justifyContent:'center'}}>
         {
             data.map((item,index)=>{

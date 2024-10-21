@@ -11,7 +11,7 @@ const SelectUserBox = (props) => {
     const [boxColor, setBoxColor] = useState('white')
     const focused = useIsFocused()
     const {t} = useTranslation()
-   
+    const index = props.index
     const image = props.image
     // const image = 'https://dev.w3.org/SVG/tools/svgweb/samples/svg-files/atom.svg'
     // console.log(image)
@@ -33,7 +33,8 @@ const SelectUserBox = (props) => {
           
    
     const checkRegistrationRequired=()=>{
-        setBoxColor(color)
+        
+
         setTimeout(() => {
             if(registrationRequired.includes(props.content))
         {
@@ -76,7 +77,7 @@ const SelectUserBox = (props) => {
     return (
         <TouchableOpacity onPress={()=>{
             checkRegistrationRequired()
-        }} style={{...styles.container,backgroundColor:boxColor}}>
+        }} style={{...styles.container,backgroundColor:index%2 == 1? "#80C343" : "#075CA9"}}>
             
             {image && <View style={{height:90,width:90,borderRadius:45,backgroundColor:"white",alignItems:"center",justifyContent:'center'}}>
             <Image source={{uri:image}} style={styles.image}></Image>
@@ -85,7 +86,7 @@ const SelectUserBox = (props) => {
             </View>}
 
             
-            <PoppinsTextMedium style={{color:'#B0B0B0',marginTop:20,fontSize:18,fontWeight:'700'}} content ={(props.content).toUpperCase() == "CARPENTER" ? t("CARPENTER") : (props.content).toUpperCase() == "CONTRACTOR" ? t("CONTRACTOR") : (props.content).toUpperCase() == "FABRICATOR" ? t("FABRICATOR") : props.content.toUpperCase() == "DEALER" ? t("DEALER") : props.content.toUpperCase() == "SALES" ? t("SALES") : props.content.toUpperCase() }></PoppinsTextMedium>
+            <PoppinsTextMedium style={{color:'white',marginTop:20,fontSize:18,fontWeight:'700'}} content ={(props.content).toUpperCase() == "CARPENTER" ? t("CARPENTER") : (props.content).toUpperCase() == "CONTRACTOR" ? t("CONTRACTOR") : (props.content).toUpperCase() == "FABRICATOR" ? t("FABRICATOR") : props.content.toUpperCase() == "DEALER" ? t("DEALER") : props.content.toUpperCase() == "SALES" ? t("SALES") : props.content.toUpperCase() }></PoppinsTextMedium>
         </TouchableOpacity>
     );
 }

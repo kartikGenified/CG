@@ -18,6 +18,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import * as Keychain from 'react-native-keychain';
 import {useSelector} from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import { appIcon } from '../../utils/HandleClientSetup';
 
 const HelpAndSupport = ({navigation}) => {
   const ternaryThemeColor = useSelector(
@@ -71,6 +72,19 @@ const HelpAndSupport = ({navigation}) => {
             fontWeight: '700',
             color: 'black',
           }}></PoppinsTextMedium>
+          <Image
+            style={{
+              height: 90,
+              width: 110,
+              resizeMode: 'contain',
+              top: 10,
+              position: "absolute",
+              right: 20,
+              
+
+
+            }}
+            source={appIcon}></Image>
       </View>
             <View style={{alignItems:'center',justifyContent:'center',width:'100%',height:'40%'}}>
               <Image style={{height:300,width:300,resizeMode:"contain"}} source={require('../../../assets/images/customerSupportnew.png')}></Image>
@@ -119,6 +133,7 @@ const HelpAndSupport = ({navigation}) => {
           }}></PoppinsTextMedium>
             </TouchableOpacity>
           </View>
+         
         </View>
     );
 }

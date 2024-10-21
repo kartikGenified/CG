@@ -17,6 +17,7 @@ import Logo from "react-native-vector-icons/AntDesign";
 import moment from "moment";
 import { useFetchGiftCatalogueByUserTypeAndCatalogueTypeMutation } from "../../apiServices/gifts/GiftApi";
 import { useTranslation } from "react-i18next";
+import { appIcon } from "../../utils/HandleClientSetup";
 
 export default function GiftCatalogue({ navigation }) {
   const [scheme, setScheme] = useState([]);
@@ -115,8 +116,8 @@ export default function GiftCatalogue({ navigation }) {
       >
         <View
           style={{
-            width: "90%",
-            height: "50%",
+            width: "100%",
+            height: "60%",
             borderBottomWidth: 1,
             borderColor: "#DDDDDD",
           }}
@@ -129,7 +130,7 @@ export default function GiftCatalogue({ navigation }) {
         <View
           style={{
             width: "90%",
-            height: "50%",
+            height: "40%",
             alignItems: "center",
             justifyContent: "center",
           }}
@@ -198,7 +199,7 @@ export default function GiftCatalogue({ navigation }) {
           minWidth: 60,
           height: 40,
           padding: 10,
-          backgroundColor: color,
+          backgroundColor: '#80C343',
           alignItems: "center",
           justifyContent: "center",
           margin: 10,
@@ -206,7 +207,7 @@ export default function GiftCatalogue({ navigation }) {
         }}
       >
         <PoppinsTextMedium
-          style={{ fontSize: 12, color: selected ? "white" : "black" }}
+          style={{ fontSize: 13, color: selected ? "white" : "white",fontWeight:'800' }}
           content={title}
         ></PoppinsTextMedium>
       </TouchableOpacity>
@@ -219,7 +220,7 @@ export default function GiftCatalogue({ navigation }) {
         alignItems: "center",
         justifyContent: "flex-start",
         width: "100%",
-        backgroundColor: ternaryThemeColor,
+        backgroundColor: "white",
         height: "100%",
       }}
     >
@@ -241,8 +242,8 @@ export default function GiftCatalogue({ navigation }) {
         >
           <Image
             style={{
-              height: 24,
-              width: 24,
+              height: 30,
+              width: 30,
               resizeMode: "contain",
               marginLeft: 10,
             }}
@@ -255,9 +256,22 @@ export default function GiftCatalogue({ navigation }) {
             marginLeft: 10,
             fontSize: 16,
             fontWeight: "700",
-            color: "white",
+            color: "black",
           }}
         ></PoppinsTextMedium>
+        <Image
+            style={{
+              height: 90,
+              width: 110,
+              resizeMode: 'contain',
+              top: 10,
+              position: "absolute",
+              right: 20,
+              
+
+
+            }}
+            source={appIcon}></Image>
       </View>
 
       <View
@@ -311,7 +325,7 @@ export default function GiftCatalogue({ navigation }) {
           </ScrollView>
         </View>
 
-        <ScrollView contentContainerStyle={{paddingBottom:200}} style={{ width: "100%" }}>
+        <ScrollView contentContainerStyle={{paddingBottom:200}} style={{ width: "100%",backgroundColor:'white' }}>
           <View
             style={{
               width: "100%",

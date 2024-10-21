@@ -21,6 +21,7 @@ import { useProductCatalogueMutation } from '../../apiServices/productCatalogue/
 import Pdf from 'react-native-pdf';
 import FastImage from 'react-native-fast-image';
 import { useTranslation } from 'react-i18next';
+import { appIcon } from '../../utils/HandleClientSetup';
 
 const ProductCatalogue = ({navigation}) => {
     const [catalogueData, setCatalogueData] = useState()
@@ -121,7 +122,7 @@ const height = Dimensions.get('window').height
         alignItems: 'center',
         justifyContent: 'flex-start',
         width: '100%',
-        backgroundColor: ternaryThemeColor,
+        backgroundColor: "white",
         height: '100%',
       }}>
       <View
@@ -153,8 +154,21 @@ const height = Dimensions.get('window').height
             marginLeft: 10,
             fontSize: 16,
             fontWeight: '700',
-            color: 'white',
+            color: 'black',
           }}></PoppinsTextMedium>
+           <Image
+            style={{
+              height: 90,
+              width: 110,
+              resizeMode: 'contain',
+              top: 0,
+              position: "absolute",
+              right: 20,
+              
+
+
+            }}
+            source={appIcon}></Image>
       </View>
       <ScrollView style={{width:'100%',height:'90%'}}>
 
@@ -163,7 +177,7 @@ const height = Dimensions.get('window').height
         style={{
           borderTopRightRadius: 30,
           borderTopLeftRadius: 30,
-          backgroundColor: 'white',
+          backgroundColor: ternaryThemeColor,
           minHeight:height-100,
           marginTop: 10,
           alignItems: 'center',
@@ -205,6 +219,11 @@ const height = Dimensions.get('window').height
         </View>
       </View>
       </ScrollView>
+      {/* <View style={{backgroundColor:'white',width:'100%'}}>
+      <View style={{alignItems:'flex-start',justifyContent:'center'}}>
+          <Image style={{height:80,width:110,resizeMode:'contain'}} source={require('../../../assets/images/murugappa_logo.jpg')}></Image>
+        </View>
+        </View> */}
     </View>
   );
 };

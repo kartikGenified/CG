@@ -261,9 +261,9 @@ const gifUri = Image.resolveAssetSource(require('../../../assets/gif/loadingAnim
         
         
      
-        setTimeout(() => {
-          handleWorkflowNavigation();
-        }, 4000);
+        // setTimeout(() => {
+        //   handleWorkflowNavigation();
+        // }, 4000);
       }
     } else if (addBulkPointOnProductError) {
       setTimeout(() => {
@@ -443,7 +443,7 @@ const gifUri = Image.resolveAssetSource(require('../../../assets/gif/loadingAnim
     } else if (workflowProgram.length === 0) {
       setTimeout(() => {
         navigation.navigate("Dashboard");
-      }, 2000);
+      }, 500);
     }
   };
   const navigateDashboard = () => {

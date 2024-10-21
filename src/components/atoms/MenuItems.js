@@ -21,8 +21,8 @@ const MenuItems = (props) => {
 
   const image = props.image;
   const content = props.content;
-  const platformFontSize = Platform.OS === "ios" ? 10 : 12;
-  const platformFontWeight = Platform.OS === "ios" ? "500" : "600";
+  const platformFontSize = Platform.OS === "ios" ? 10 : 13;
+  const platformFontWeight = Platform.OS === "ios" ? "500" : "800";
 
   const ternaryThemeColor = useSelector(
     (state) => state.apptheme.ternaryThemeColor
@@ -52,6 +52,7 @@ const MenuItems = (props) => {
         justifyContent: "center",
         width: 100,
         margin: 6,
+        // backgroundColor:'white'
       }}
     >
       <TouchableOpacity
@@ -61,7 +62,7 @@ const MenuItems = (props) => {
         style={{
           height: 69,
           width: 69,
-          backgroundColor: colorShades[100],
+          backgroundColor: "white",
           alignItems: "center",
           justifyContent: "center",
           borderRadius: 34.5,
@@ -94,7 +95,7 @@ const MenuItems = (props) => {
         style={{
           width: 80,
           marginTop: 6,
-          color: "black",
+          color: "white",
           fontSize: platformFontSize,
           fontWeight: platformFontWeight,
         }}

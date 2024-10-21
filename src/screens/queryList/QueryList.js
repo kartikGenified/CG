@@ -10,6 +10,7 @@ import PoppinsTextMedium from '../../components/electrons/customFonts/PoppinsTex
 import PoppinsTextLeftMedium from '../../components/electrons/customFonts/PoppinsTextLeftMedium';
 import Plus from 'react-native-vector-icons/AntDesign';
 import PoppinsText from '../../components/electrons/customFonts/PoppinsText';
+import { appIcon } from '../../utils/HandleClientSetup';
 // create a component
 const QueryList = ({ navigation }) => {
     const ternaryThemeColor = useSelector(
@@ -129,9 +130,9 @@ const QueryList = ({ navigation }) => {
             {/* Navigator */}
             <View
                 style={{
-                    height: 50,
+                    height: 100,
                     width: '100%',
-                    backgroundColor: ternaryThemeColor,
+                    backgroundColor: "white",
                     alignItems: 'flex-start',
                     justifyContent: 'center',
                     flexDirection: 'row',
@@ -147,9 +148,21 @@ const QueryList = ({ navigation }) => {
                         source={require('../../../assets/images/blackBack.png')}></Image>
                 </TouchableOpacity>
 
-                <PoppinsTextMedium style={{ fontSize: 20, color: '#ffffff', marginTop: "3%", position: 'absolute', left: 50 }} content={"Query List"}></PoppinsTextMedium>
+                <PoppinsTextMedium style={{ fontSize: 20, color: 'black', marginTop: "3%", position: 'absolute', left: 50 }} content={"Query List"}></PoppinsTextMedium>
+
+                <Image
+            style={{
+              height: 90,
+              width: 110,
+              resizeMode: 'contain',
+              top: 0,
+              position: "absolute",
+              right: 10,
+              
 
 
+            }}
+            source={appIcon}></Image>
             </View>
             {/* navigator */}
 
@@ -179,6 +192,9 @@ const QueryList = ({ navigation }) => {
 
             <Plus name="pluscircle" size={50} color={ternaryThemeColor}></Plus>
           </TouchableOpacity>
+        </View>
+        <View style={{alignItems:'center',justifyContent:'center',position:'absolute',bottom:4,left:30}}>
+          <Image style={{height:80,width:110,resizeMode:'contain'}} source={require('../../../assets/images/murugappa_logo.jpg')}></Image>
         </View>
         </View>
     );

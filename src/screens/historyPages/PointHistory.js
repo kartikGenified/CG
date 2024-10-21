@@ -206,7 +206,7 @@ const PointHistory = ({ navigation }) => {
     const PointCategoryTab=()=>{
         const [type, setType] = useState("")
         return(
-            <ScrollView horizontal={true} contentContainerStyle={{alignItems:'center',justifyContent:'center'}} style={{backgroundColor:'white',height:70,elevation:1,opacity:0.8,borderWidth:1,borderColor:"grey"}}>
+            <ScrollView horizontal={true} contentContainerStyle={{alignItems:'center',justifyContent:'center'}} style={{backgroundColor:'white',height:50,elevation:1,opacity:0.8,borderWidth:1,borderColor:"grey",width:'100%'}}>
                 {registrationRequired.includes(userData.user_type) && 
                 <TouchableOpacity  onPress={()=>{
                     (async () => {
@@ -221,7 +221,7 @@ const PointHistory = ({ navigation }) => {
                       })();
                     fetchPoints()
                     setType("regular")
-                }} style={{height:'100%',width:120,alignItems:"center",justifyContent:'center',backgroundColor:type==="regular" ? "#DDDDDD":"white"}}>
+                }} style={{height:50,width:120,alignItems:"center",justifyContent:'center',backgroundColor:type==="regular" ? "#DDDDDD":"white"}}>
                     {/* <PoppinsTextMedium content="Regular Points" style={{color:'black',fontWeight:'700',fontSize:14}}></PoppinsTextMedium> */}
                     <PoppinsTextMedium content={t("regular points")} style={{color:'black',fontWeight:'700',fontSize:14}}></PoppinsTextMedium>
 
@@ -232,7 +232,7 @@ const PointHistory = ({ navigation }) => {
                 <TouchableOpacity onPress={()=>{
                     getRegistrationPoints("points_sharing")
                     setType("extra")
-                }} style={{height:'100%',width:120,alignItems:"center",justifyContent:'center',borderLeftWidth:1,borderRightWidth:1,borderColor:'#DDDDDD',backgroundColor:type==="extra" ? "#DDDDDD":"white"}}>
+                }} style={{height:50,width:120,alignItems:"center",justifyContent:'center',borderLeftWidth:1,borderRightWidth:1,borderColor:'#DDDDDD',backgroundColor:type==="extra" ? "#DDDDDD":"white"}}>
                     {/* <PoppinsTextMedium content="Extra Points" style={{color:'black',fontWeight:'700',fontSize:14}}></PoppinsTextMedium> */}
                     <PoppinsTextMedium content={t("extra points")} style={{color:'black',fontWeight:'700',fontSize:14}}></PoppinsTextMedium>
 
@@ -243,7 +243,7 @@ const PointHistory = ({ navigation }) => {
                 <TouchableOpacity onPress={()=>{
                     getRegistrationPoints("registration_bonus")
                     setType("registration_bonus")
-                }} style={{height:'100%',width:120,alignItems:"center",justifyContent:'center',backgroundColor:type==="registration" ? "#DDDDDD":"white"}}>
+                }} style={{height:50,width:120,alignItems:"center",justifyContent:'center',backgroundColor:type==="registration" ? "#DDDDDD":"white"}}>
                     {/* <PoppinsTextMedium content="Registration Bonus" style={{color:'black',fontWeight:'700',fontSize:14}}></PoppinsTextMedium> */}
                     <PoppinsTextMedium content={t("Registration Bonus")} style={{color:'black',fontWeight:'700',fontSize:14}}></PoppinsTextMedium>
 
@@ -437,13 +437,15 @@ const PointHistory = ({ navigation }) => {
            
             <DisplayEarnings></DisplayEarnings>
             <Header></Header>
+            <View style={{height:50,width:'100%'}}>
             <PointCategoryTab></PointCategoryTab>
+            </View>
 
             {
                 displayList.length==0 && !isLoading &&
                 <View>
                     <FastImage
-                        style={{ width: 180, height: 180 }}
+                        style={{ width: 100, height: 100 }}
                         source={{
                             uri: noData, // Update the path to your GIF
                             priority: FastImage.priority.normal,

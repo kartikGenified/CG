@@ -61,9 +61,9 @@ const MessageModal = (props) => {
             <Text style={{ ...styles.modalText, fontSize: 18, fontWeight: '500', color: 'black', marginTop: 20 }}>
               {message}
             </Text>
-            {/* <Pressable style={{ ...styles.button, backgroundColor: '#2FBA7E', width: 240 }} onPress={closeModal}>
+            <Pressable style={{ ...styles.button, backgroundColor: '#2FBA7E', width: 240 }} onPress={()=>{setModalVisible(false)}}>
               <Text style={styles.textStyle}>Okay</Text>
-            </Pressable> */}
+            </Pressable>
           </View>
         </View>
       </Modal>

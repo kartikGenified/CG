@@ -225,14 +225,8 @@ const CustomDrawer = () => {
           ></Image>
         </View>
 
-        <View
-          style={{
-            width: "80%",
-            alignItems: "flex-start",
-            justifyContent: "center",
-          }}
-        >
-          <TouchableOpacity
+        <TouchableOpacity
+        style={{width:'80%'}}
             onPress={() => {
               if (
                 props.title === "Scan QR Code" ||
@@ -309,6 +303,14 @@ const CustomDrawer = () => {
               }
             }}
           >
+        <View
+          style={{
+            width: "100%",
+            alignItems: "flex-start",
+            justifyContent: "center",
+          }}
+        >
+          
             {/* {console.log("props.title", props.title)} */}
             <Text style={{ color: primaryThemeColor, fontSize: 15 }}>
               {props.title == "Passbook"
@@ -377,8 +379,9 @@ const CustomDrawer = () => {
                 ? `${t("Contact Us")}`
                 : props.title}
             </Text>
-          </TouchableOpacity>
+          
         </View>
+        </TouchableOpacity>
       </View>
     );
   };

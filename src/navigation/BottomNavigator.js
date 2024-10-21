@@ -85,7 +85,23 @@ function BottomNavigator({ navigation }) {
 
               {(userData?.user_type).toLowerCase() !== "sales" ? (
                 <TouchableOpacity
-                  onPress={() => setModal(true)}
+                  onPress={() => 
+                    Platform.OS == "android"
+                    ? userData.user_type != "consumer"
+                      ? navigation.navigate("EnableCameraScreen", {
+                          scan_type: "QR",
+                        })
+                      : navigation.navigate("EnableCameraAndNavigateToWarranty", {
+                          scan_type: "QR",
+                        })
+                    : userData.user_type != "consumer"
+                    ? navigation.navigate("QrCodeScanner", {
+                        scan_type: "QR",
+                      })
+                    : navigation.navigate("ScanAndRedirectToWarranty", {
+                        scan_type: "QR",
+                      })
+                    }
                   style={{ alignItems: "center", justifyContent: "center" }}
                 >
                   <FlipAnimation

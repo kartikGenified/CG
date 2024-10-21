@@ -23,6 +23,7 @@ import FastImage from "react-native-fast-image";
 import ModalWithBorder from "../../components/modals/ModalWithBorder";
 import Close from "react-native-vector-icons/Ionicons";
 import DeleteModal from "../../components/modals/DeleteModal";
+import { appIcon } from "../../utils/HandleClientSetup";
 
 const Profile = ({ navigation }) => {
   const [formFields, setFormFields] = useState();
@@ -326,8 +327,7 @@ const Profile = ({ navigation }) => {
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "space-evenly",
-          backgroundColor: "#F9F9F9",
-          borderTopWidth: 1,
+          backgroundColor: "#a4d478",
           borderBottomWidth: 1,
           borderColor: "#DDDDDD",
         }}
@@ -344,7 +344,7 @@ const Profile = ({ navigation }) => {
             source={require("../../../assets/images/mobileBlack.png")}
           ></Image>
           <PoppinsTextMedium
-            style={{ color: "black", marginLeft: 8 }}
+            style={{ color: "black", marginLeft: 8,fontSize:16,fontWeight:'600' }}
             content={fetchProfileData.body?.mobile}
           ></PoppinsTextMedium>
         </View>
@@ -371,7 +371,7 @@ const Profile = ({ navigation }) => {
               source={require("../../../assets/images/genderBlack.png")}
             ></Image>
             <PoppinsTextMedium
-              style={{ color: "black", marginLeft: 8 }}
+              style={{ color: "black", marginLeft: 8,fontSize:16,fontWeight:'600' }}
               content={fetchProfileData.body?.gender}
             ></PoppinsTextMedium>
           </View>
@@ -407,15 +407,16 @@ const Profile = ({ navigation }) => {
             backgroundColor: ternaryThemeColor,
             borderBottomWidth: 0.3,
             borderColor: "white",
-            paddingBottom: 40,
+            paddingBottom: 10,
+            paddingTop:4
           }}
         >
           <TouchableOpacity
             style={{
-              height: 110,
-              width: 110,
+              height: 80,
+              width: 80,
               backgroundColor: "white",
-              borderRadius: 55,
+              borderRadius: 40,
               alignItems: "center",
               justifyContent: "center",
               borderWidth: 1,
@@ -428,10 +429,10 @@ const Profile = ({ navigation }) => {
             {fetchProfileData?.body?.profile_pic !== null ? (
               <Image
                 style={{
-                  height: 98,
-                  width: 98,
+                  height: 60,
+                  width: 60,
                   resizeMode: "contain",
-                  borderRadius: 49,
+                  borderRadius: 30,
                 }}
                 source={{ uri: fetchProfileData?.body?.profile_pic }}
               ></Image>
@@ -533,9 +534,9 @@ const Profile = ({ navigation }) => {
                 });
               }}
               style={{
-                height: 40,
-                width: 40,
-                borderRadius: 20,
+                height: 30,
+                width: 30,
+                borderRadius: 15,
                 backgroundColor: "white",
                 borderWidth: 1,
                 borderColor: ternaryThemeColor,
@@ -550,9 +551,9 @@ const Profile = ({ navigation }) => {
                 deleteID();
               }}
               style={{
-                height: 40,
-                width: 40,
-                borderRadius: 20,
+                height: 30,
+                width: 30,
+                borderRadius: 15,
                 backgroundColor: "white",
                 borderWidth: 1,
                 borderColor: ternaryThemeColor,
@@ -563,7 +564,7 @@ const Profile = ({ navigation }) => {
             >
               <Delete
                 name="delete"
-                size={24}
+                size={20}
                 color={ternaryThemeColor}
               ></Delete>
             </TouchableOpacity>
@@ -631,32 +632,46 @@ const Profile = ({ navigation }) => {
     <View style={{ ...styles.container, backgroundColor: "white" }}>
       <View
         style={{
-          height: 50,
+          height: 60,
           width: "100%",
-          backgroundColor: ternaryThemeColor,
+          backgroundColor: "white",
           alignItems: "flex-start",
           justifyContent: "center",
           flexDirection: "row",
+
 
           // marginTop: 10,
         }}
       >
         <TouchableOpacity
-          style={{ height: 20, width: 20, position: "absolute", left: 20 }}
+          style={{ height: 20, width: 20, position: "absolute", left: 20,top:15 }}
           onPress={() => {
             navigation.goBack();
           }}
         >
           <Image
             style={{
-              height: 20,
-              width: 20,
+              height: 30,
+              width: 30,
               resizeMode: "contain",
-              marginTop: 20,
+              marginTop: 0,
             }}
             source={require("../../../assets/images/blackBack.png")}
           ></Image>
         </TouchableOpacity>
+        <Image
+            style={{
+              height: 50,
+              width: 70,
+              resizeMode: 'contain',
+              top: 10,
+              position: "absolute",
+              right: 20,
+              
+
+
+            }}
+            source={appIcon}></Image>
       </View>
       {!showNoDataFoundMessage && <ProfileHeader></ProfileHeader>}
       {fetchProfileData && <GreyBar></GreyBar>}

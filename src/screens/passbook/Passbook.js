@@ -11,7 +11,7 @@ import { useGetPointSharingDataMutation } from '../../apiServices/pointSharing/p
 import PoppinsTextLeftMedium from '../../components/electrons/customFonts/PoppinsTextLeftMedium';
 import { useTranslation } from 'react-i18next';
 import { neededHistory } from '../../utils/HandleClientSetup';
-
+import { appIcon } from '../../utils/HandleClientSetup';
 const Passbook = ({ navigation }) => {
     const [warrantyOptionEnabled, setWarrantyOptionEnabled] = useState(false)
     const [couponOptionEnabled, setCouponOptionEnabled] = useState(false)
@@ -281,20 +281,31 @@ const Passbook = ({ navigation }) => {
 
 
     return (
+        <View style={{height:'100%',width:'100%',backgroundColor:'white'}}>
         <ScrollView style={{ height: '100%', width: '100%', flex: 1 }}>
             <View style={{ alignItems: "center", height: '100%', width: "100%", backgroundColor: "white", paddingBottom: 100, }}>
 
                 {/* coloured header */}
-                <View style={{ height: 250, width: '100%', backgroundColor: ternaryThemeColor, alignItems: "flex-start", justifyContent: 'flex-start' }}>
+                <View style={{  width: '100%', backgroundColor: "white", alignItems: "flex-start", justifyContent: 'flex-start' }}>
 
-                    <View style={{ alignItems: "center", justifyContent: "flex-start", flexDirection: "row", width: '100%', marginTop: 10, height: 40, marginLeft: 20 }}>
+                    <View style={{ alignItems: "center", justifyContent: "flex-start", flexDirection: "row", width: '100%', marginTop: 0, marginLeft: 20,height:80 }}>
                         <TouchableOpacity onPress={() => { navigation.navigate("Dashboard") }}>
                             <Image style={{ height: 30, width: 30, resizeMode: 'contain' }} source={require('../../../assets/images/blackBack.png')}></Image>
                         </TouchableOpacity>
-                        <PoppinsTextMedium content={t("Passbook" )}style={{ marginLeft: 10, fontSize: 18, fontWeight: '700', color: 'white' }}></PoppinsTextMedium>
+                        <PoppinsTextMedium content={t("Passbook" )}style={{ marginLeft: 10, fontSize: 18, fontWeight: '700', color: 'black' }}></PoppinsTextMedium>
                         {/* <TouchableOpacity style={{marginLeft:'50%'}}>
             <Image style={{height:30,width:30,resizeMode:'contain'}} source={require('../../../assets/images/notificationOn.png')}></Image>
             </TouchableOpacity> */}
+            <Image
+            style={{
+              height: 90,
+              width: 110,
+              resizeMode: "contain",
+             position:'absolute',
+             right:10
+            }}
+            source={appIcon}
+          ></Image>
                     </View>
                     {/* name and membership */}
                     {/* --------------------------- */}
@@ -330,7 +341,7 @@ const Passbook = ({ navigation }) => {
 
                 {
                     listView &&
-                    <View style={{ width: '90%', alignItems: "center", justifyContent: "center", borderWidth: 1, borderColor: '#EEEEEE', borderRadius: 20, marginTop: 100 }}>
+                    <View style={{ width: '90%', alignItems: "center", justifyContent: "center", borderWidth: 1, borderColor: '#EEEEEE', borderRadius: 20, marginTop: 30 }}>
 
                         <View style={{ width: '100%', height: 50, flexDirection: "row", alignItems: "center", justifyContent: 'space-between', borderBottomWidth: 1, borderColor: '#EEEEEE' }}>
                             <View style={{width:'70%',height:'100%',alignItems:'center',justifyContent:'center'}}>
@@ -484,9 +495,21 @@ const Passbook = ({ navigation }) => {
             </View>
             {/* modals */}
             {PlatinumModalOpen && <PlatinumModal isVisible={PlatinumModalOpen} onClose={closePlatinumModal} getActiveMembershipData={getActiveMembershipData} />}
-
+           
         </ScrollView>
-
+        <View style={{alignItems:'center',justifyContent:'center',position:'absolute',bottom:20, right:15,flexDirection:'row'}}>
+            <View style={{backgroundColor:'#80C343',padding:4}}>
+            <PoppinsTextMedium style={{color:'white',fontSize:24,fontWeight:'bold'}} content= "CG "></PoppinsTextMedium>
+            </View>
+            <View style={{backgroundColor:'#075CA9',padding:4}}>
+          <PoppinsTextMedium style={{color:'white',fontSize:24,fontWeight:'bold'}} content= "Vishwas"></PoppinsTextMedium>
+            
+            </View>
+        </View>
+        <View style={{alignItems:'center',justifyContent:'center',position:'absolute',bottom:4,left:30}}>
+          <Image style={{height:80,width:110,resizeMode:'contain'}} source={require('../../../assets/images/murugappa_logo.jpg')}></Image>
+        </View>
+        </View>
     );
 }
 

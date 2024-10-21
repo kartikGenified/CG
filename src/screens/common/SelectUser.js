@@ -89,17 +89,27 @@ const SelectUser = ({navigation}) => {
             tempUsers.push(getUsersData?.body[i])
           }
         }
-      console.log("new user data array after removing NON REQUIRED users", tempUsers)
-      setUsers(tempUsers)
-      if(tempUsers.length == 1)
+
+        const rearrangesSequencce = tempUsers.filter((item,index)=>{
+          return (item.user_type).toLowerCase() == "retailer"
+        })
+        const rearrangesSequencceRemaining = tempUsers.filter((item,index)=>{
+          return (item.user_type).toLowerCase() != "retailer"
+        })
+        const finalArrangements = [...rearrangesSequencce, ...rearrangesSequencceRemaining]
+
+      console.log("new user data array after removing NON REQUIRED users", JSON.stringify(finalArrangements))
+
+      setUsers(finalArrangements)
+      if(finalArrangements.length == 1)
       {
         setIsSingleUser(true)
       }
       else{
         setIsSingleUser(false)
       }
-      dispatch(setAppUsers(tempUsers))
-      setListUsers(tempUsers);
+      dispatch(setAppUsers(finalArrangements))
+      setListUsers(finalArrangements);
     } else if(getUsersError) {
       setError(true)
       setMessage("Error in getting profile data, kindly retry after sometime")
@@ -226,6 +236,7 @@ const SelectUser = ({navigation}) => {
                 return (
                   <SelectUserBox
                   style={{}}
+                  index ={index}
                     navigation = {navigation}
                     otpLogin={otpLogin}
                     passwordLogin={passwordLogin}
@@ -242,6 +253,18 @@ const SelectUser = ({navigation}) => {
           </View>
           <PoppinsTextMedium style={{color:'black',fontSize:12,marginTop:20,marginBottom:10}} content="Designed and developed by Genefied"></PoppinsTextMedium>
         </ScrollView>
+        <View style={{alignItems:'center',justifyContent:'center',position:'absolute',bottom:20, right:15,flexDirection:'row'}}>
+            <View style={{backgroundColor:'#80C343',padding:4}}>
+            <PoppinsTextMedium style={{color:'white',fontSize:24,fontWeight:'bold'}} content= "CG "></PoppinsTextMedium>
+            </View>
+            <View style={{backgroundColor:'#075CA9',padding:4}}>
+          <PoppinsTextMedium style={{color:'white',fontSize:24,fontWeight:'bold'}} content= "Vishwas"></PoppinsTextMedium>
+            
+            </View>
+        </View>
+        <View style={{alignItems:'center',justifyContent:'center',position:'absolute',bottom:4,left:30}}>
+          <Image style={{height:80,width:110,resizeMode:'contain'}} source={require('../../../assets/images/murugappa_logo.jpg')}></Image>
+        </View>
       </LinearGradient>
       :
       <ImageBackground

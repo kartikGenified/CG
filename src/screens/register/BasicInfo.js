@@ -51,6 +51,7 @@ import { GoogleMapsKey } from "@env";
 import { useTranslation } from "react-i18next";
 import {
   RegistrationMessage,
+  appIcon,
   clientName,
   eKyc,
 } from "../../utils/HandleClientSetup";
@@ -437,6 +438,7 @@ const BasicInfo = ({ navigation, route }) => {
   }, [sendOtpData, sendOtpError]);
 
   const handleTimer = () => {
+    console.log("usehjgashjhjgashjvchjvsbcbas",userMobile)
     if (userMobile) {
       if (userMobile.length == 10) {
         if (timer === 60) {
@@ -821,7 +823,7 @@ const BasicInfo = ({ navigation, route }) => {
         alignItems: "center",
         justifyContent: "center",
         width: "100%",
-        backgroundColor: ternaryThemeColor,
+        backgroundColor: "white",
         height: "100%",
       }}
     >
@@ -863,18 +865,17 @@ const BasicInfo = ({ navigation, route }) => {
       <View
         style={{
           alignItems: "center",
-          justifyContent: "center",
+          justifyContent: "flex-start",
           width: "100%",
-          height: "9%",
+          height: "12%",
+          flexDirection:'row'
         }}
       >
         <TouchableOpacity
           style={{
             height: 24,
             width: 24,
-            position: "absolute",
-            top: 30,
-            left: 10,
+           
           }}
           onPress={() => {
             navigation.navigate("OtpLogin", navigationParams);
@@ -894,9 +895,7 @@ const BasicInfo = ({ navigation, route }) => {
           style={{
             alignItems: "center",
             justifyContent: "center",
-            position: "absolute",
-            top: 27,
-            left: 50,
+            marginLeft:30
           }}
         >
           <PoppinsTextMedium
@@ -905,10 +904,21 @@ const BasicInfo = ({ navigation, route }) => {
               marginLeft: 5,
               fontSize: 20,
               fontWeight: "700",
-              color: "white",
+              color: "black",
             }}
           ></PoppinsTextMedium>
+          
         </View>
+        <Image
+            style={{
+              height: 90,
+              width: 110,
+              resizeMode: "contain",
+             marginLeft:100,
+             marginTop:0
+            }}
+            source={appIcon}
+          ></Image>
       </View>
       <ScrollView style={{ width: "100%" }}>
         <View

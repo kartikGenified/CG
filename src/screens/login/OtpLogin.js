@@ -281,17 +281,18 @@ const OtpLogin = ({ navigation, route }) => {
         style={{
           width: "100%",
           alignItems: "center",
-          justifyContent: "center",
+          justifyContent: "flex-start",
           backgroundColor: 'white',
+          height:'30%'
         }}
       >
         <View
           style={{
-            height: 120,
+            
             width: "100%",
-            alignItems: "center",
-            justifyContent: "center",
-            backgroundColor: 'white',
+            alignItems: "flex-start",
+            justifyContent: "flex-start",
+            paddingTop:10,
             flexDirection: "row",
           }}
         >
@@ -300,37 +301,66 @@ const OtpLogin = ({ navigation, route }) => {
               height: 40,
               alignItems: "center",
               justifyContent: "center",
-              position: "absolute",
-              left: 10,
-              top: 20,
+             marginLeft:20,
+             marginTop:10
             }}
             onPress={() => {
               navigation.goBack();
             }}
           >
             <Image
-              style={{ height: 20, width: 20, resizeMode: "contain" }}
+              style={{ height: 26, width: 26, resizeMode: "contain" }}
               source={require("../../../assets/images/blackBack.png")}
             ></Image>
           </TouchableOpacity>
 
+          { registrationRequired && user_type!== "consumer" && (
+          <View style={{marginLeft:20 }}>
+            <ButtonNavigate
+              handleOperation={() => {
+                navigation.navigate("BasicInfo", {
+                  needsApproval: needsApproval,
+                  userType: user_type,
+                  userId: user_type_id,
+                  name: name,
+                  mobile: mobile,
+                  navigatingFrom: "OtpLogin",
+                });
+              }}
+              backgroundColor="#075CA9"
+              style={{ color: "white", fontSize: 16 }}
+              content="Register"
+              navigateTo="BasicInfo"
+              properties={{
+                needsApproval: needsApproval,
+                userType: user_type,
+                userId: user_type_id,
+                name: name,
+                mobile: mobile,
+                navigatingFrom: "OtpLogin",
+              }}
+            ></ButtonNavigate>
+            
+          </View>
+
+        )}
           <Image
             style={{
-              height: 50,
-              width: 80,
+              height: 90,
+              width: 110,
               resizeMode: "contain",
-              top: 20,
-              position: "absolute",
-              left: 50,
+             marginLeft:90,
+             marginTop:0
             }}
             source={appIcon}
           ></Image>
+            
         </View>
         <View
           style={{
             alignItems: "flex-start",
             justifyContent: "center",
-            marginTop: 10,
+            marginTop: 0,
             marginLeft:12,
             width: "90%",
           }}
@@ -356,8 +386,9 @@ const OtpLogin = ({ navigation, route }) => {
           openModal={alert}
         ></AlertModal>
       )}
-      <ScrollView contentContainerStyle={{ flex: 1 }} style={{ width: "93%" }}>
-        <KeyboardAvoidingView>
+      <View style={{height:'70%',width:'100%',alignItems:'center',justifyContent:'center'}}>
+      <ScrollView contentContainerStyle={{ }} style={{width:'90%' ,backgroundColor:'white'}}>
+        <KeyboardAvoidingView style={{}}>
           <View
             style={{
               width: "100%",
@@ -386,6 +417,8 @@ const OtpLogin = ({ navigation, route }) => {
         <View
           style={{
             width: "100%",
+            height:'50%',
+            backgroundColor:'white',
             // marginTop: 20,
             marginBottom: 30,
             marginLeft: 10,
@@ -417,7 +450,7 @@ const OtpLogin = ({ navigation, route }) => {
           <ButtonNavigateArrow
             success={success}
             handleOperation={handleButtonPress}
-            backgroundColor={buttonThemeColor}
+            backgroundColor={"#80C343"}
             style={{ color: "white", fontSize: 16 }}
             isLoading={sendOtpIsLoading}
             content={t("login")}
@@ -428,7 +461,7 @@ const OtpLogin = ({ navigation, route }) => {
               isChecked && mobile?.length == 10 && name != "" && !hideButton
             }
           ></ButtonNavigateArrow>
-
+         
           {sendOtpIsLoading && (
             <FastImage
               style={{
@@ -448,34 +481,20 @@ const OtpLogin = ({ navigation, route }) => {
 
       
       </ScrollView>
-      { registrationRequired && user_type!== "consumer" && (
-          <View style={{ position: "absolute", right: 20, top: 10 }}>
-            <ButtonNavigate
-              handleOperation={() => {
-                navigation.navigate("BasicInfo", {
-                  needsApproval: needsApproval,
-                  userType: user_type,
-                  userId: user_type_id,
-                  name: name,
-                  mobile: mobile,
-                  navigatingFrom: "OtpLogin",
-                });
-              }}
-              backgroundColor="#353535"
-              style={{ color: "white", fontSize: 16 }}
-              content="Register"
-              navigateTo="BasicInfo"
-              properties={{
-                needsApproval: needsApproval,
-                userType: user_type,
-                userId: user_type_id,
-                name: name,
-                mobile: mobile,
-                navigatingFrom: "OtpLogin",
-              }}
-            ></ButtonNavigate>
-          </View>
-        )}
+      <View style={{alignItems:'center',justifyContent:'center',position:'absolute',bottom:20, right:15,flexDirection:'row'}}>
+            <View style={{backgroundColor:'#80C343',padding:4}}>
+            <PoppinsTextMedium style={{color:'white',fontSize:24,fontWeight:'bold'}} content= "CG "></PoppinsTextMedium>
+            </View>
+            <View style={{backgroundColor:'#075CA9',padding:4}}>
+          <PoppinsTextMedium style={{color:'white',fontSize:24,fontWeight:'bold'}} content= "Vishwas"></PoppinsTextMedium>
+            
+            </View>
+        </View>
+        <View style={{alignItems:'center',justifyContent:'center',position:'absolute',bottom:4,left:30}}>
+          <Image style={{height:80,width:110,resizeMode:'contain'}} source={require('../../../assets/images/murugappa_logo.jpg')}></Image>
+        </View>
+      </View>
+        
     </LinearGradient>
   );
 };
@@ -485,6 +504,7 @@ const styles = StyleSheet.create({
     flex: 1,
     width: "100%",
     alignItems: "center",
+    height:'100%'
   },
   semicircle: {
     position: "absolute",

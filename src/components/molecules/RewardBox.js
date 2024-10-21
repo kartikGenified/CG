@@ -49,7 +49,7 @@ const RewardBox = () => {
 
     console.log(workflow)
     return (
-        <View style={{ padding: 4, width: '100%', borderRadius: 14, elevation: 4, backgroundColor: 'white', height: 170 }}>
+        <View style={{ padding: 4, width: '100%', borderRadius: 14, elevation: 4, backgroundColor: '#80C343', height: 170 }}>
 
 
             {userPointIsLoading &&
