@@ -251,9 +251,9 @@ const SelectUser = ({navigation}) => {
                 );
               })}
           </View>
-          <PoppinsTextMedium style={{color:'black',fontSize:12,marginTop:20,marginBottom:10}} content="Designed and developed by Genefied"></PoppinsTextMedium>
         </ScrollView>
-        <View style={{alignItems:'center',justifyContent:'center',position:'absolute',bottom:20, right:15,flexDirection:'row'}}>
+        <View style={{alignItems:'center',justifyContent:'space-between',flexDirection:'row',width:'100%',padding:10}}>
+        <View style={{alignItems:'center',justifyContent:'center',flexDirection:'row'}}>
             <View style={{backgroundColor:'#80C343',padding:4}}>
             <PoppinsTextMedium style={{color:'white',fontSize:24,fontWeight:'bold'}} content= "CG "></PoppinsTextMedium>
             </View>
@@ -262,9 +262,12 @@ const SelectUser = ({navigation}) => {
             
             </View>
         </View>
-        <View style={{alignItems:'center',justifyContent:'center',position:'absolute',bottom:4,left:30}}>
+        <View style={{alignItems:'center',justifyContent:'center'}}>
           <Image style={{height:80,width:110,resizeMode:'contain'}} source={require('../../../assets/images/murugappa_logo.jpg')}></Image>
         </View>
+        </View>
+        <PoppinsTextMedium style={{color:'black',fontSize:12,marginTop:4,marginBottom:10}} content="Designed and developed by Genefied"></PoppinsTextMedium>
+
       </LinearGradient>
       :
       <ImageBackground

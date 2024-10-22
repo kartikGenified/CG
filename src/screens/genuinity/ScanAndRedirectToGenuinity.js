@@ -31,7 +31,7 @@ import ModalWithBorder from '../../components/modals/ModalWithBorder';
 import Close from 'react-native-vector-icons/Ionicons';
 import RNQRGenerator from 'rn-qr-generator';
 import { useTranslation } from 'react-i18next';
-
+import Sound from 'react-native-sound';
 
 const ScanAndRedirectToGenuinity = ({ navigation }) => {
   const [zoom, setZoom] = useState(0);
@@ -208,7 +208,23 @@ const ScanAndRedirectToGenuinity = ({ navigation }) => {
   // };
   const onSuccess = e => {
     console.log('Qr data is ------', e.data);
+    var dingSound = new Sound('capture.mp3', Sound.MAIN_BUNDLE, (error) => {
+      if (error) {
+        console.log('failed to load the sound', error);
+        return;
+      }
+      // loaded successfully
+      console.log('duration in seconds: ' + dingSound.getDuration() + 'number of channels: ' + dingSound.getNumberOfChannels())
     
+      dingSound.play((success) => {
+        if (success) {
+          console.log('successfully finished playing');
+        } else {
+          console.log('playback failed due to audio decoding errors');
+        }
+      });
+  
+    });
 if(e.data===undefined)
 {
   setError(true)

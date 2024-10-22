@@ -210,7 +210,7 @@ const ActivateWarranty = ({ navigation, route }) => {
       <View style={{ width: '100%', alignItems: "center", justifyContent: "center" }}>
         <View style={{ marginTop: 30, alignItems: 'center', maxWidth: '80%' }}>
           <Icon name="check-circle" size={53} color={buttonThemeColor} />
-          <PoppinsTextMedium style={{ fontSize: 27, fontWeight: '600', color: buttonThemeColor, marginLeft: 5, marginTop: 5 }} content={"Success ! !"}></PoppinsTextMedium>
+          <PoppinsTextMedium style={{ fontSize: 27, fontWeight: '600', color: buttonThemeColor, marginLeft: 5, marginTop: 5 }} content={"Successfully activated warranty !!"}></PoppinsTextMedium>
 
           <View style={{ marginTop: 10, marginBottom: 30 }}>
             <PoppinsTextMedium style={{ fontSize: 16, fontWeight: '600', color: "#000000", marginLeft: 5, marginTop: 5, }} content={message}></PoppinsTextMedium>

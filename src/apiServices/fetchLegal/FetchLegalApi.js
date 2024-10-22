@@ -18,6 +18,7 @@ export const FetchLegalApi = baseApi.injectEndpoints({
       }),
     fetchLegals: builder.mutation({
       query: (params) => {
+        console.log("fetch legals api", params)
         return {
             method: "GET",
             url: `/api/app/legal?type=${params.type}`,

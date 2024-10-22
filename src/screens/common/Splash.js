@@ -255,38 +255,38 @@ const Splash = ({ navigation }) => {
   useEffect(() => {
     getUsers();
 
-    console.log("currentVersion", currentVersion);
+    console.log("currentVersion", currentVersion,isConnected.isConnected);
     if (isConnected.isConnected) {
       getMinVersionSupportFunc(currentVersion);
-
-      const fetchTerms = async () => {
-        // const credentials = await Keychain.getGenericPassword();
-        // const token = credentials.username;
-        const params = {
-          type: "term-and-condition",
-        };
-        getTermsAndCondition(params);
-      };
-      fetchTerms();
-
-      const fetchPolicies = async () => {
-        // const credentials = await Keychain.getGenericPassword();
-        // const token = credentials.username;
-        const params = {
-          type: "privacy-policy",
-        };
-        getPolicies(params);
-      };
-      fetchPolicies();
     }
+    const fetchTerms = async () => {
+      // const credentials = await Keychain.getGenericPassword();
+      // const token = credentials.username;
+      const params = {
+        type: "term-and-condition",
+      };
+      console.log("getTermsAndCondition", params)
+      getTermsAndCondition(params);
+    };
+    fetchTerms();
+
+    const fetchPolicies = async () => {
+      // const credentials = await Keychain.getGenericPassword();
+      // const token = credentials.username;
+      const params = {
+        type: "privacy-policy",
+      };
+      getPolicies(params);
+    };
+    fetchPolicies();
   }, []);
 
   useEffect(() => {
     if (getTermsData) {
-      // console.log("getTermsData", getTermsData.body.data?.[0]?.files[0]);
+      console.log("getTermsDataasdasdasd", getTermsData.body.data?.[0]?.files[0]);
       dispatch(setTerms(getTermsData.body.data?.[0]?.files[0]));
     } else if (getTermsError) {
-      // console.log("gettermserror", getTermsError)
+      console.log("gettermserror", getTermsError)
     }
   }, [getTermsData, getTermsError]);
 

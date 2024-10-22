@@ -77,10 +77,10 @@ import {
 import Toast, { BaseToast, ErrorToast } from "react-native-toast-message";
 import scanDelay from "../../utils/ScannedDelayUtil";
 import UpdateModal from "../../components/modals/UpdateModal";
-
 import { useVerifyBarMutation } from "../../apiServices/barCodeApi/verifyBarCodeApi";
 import ImageGallery from "../image/ImageGallery";
 import { splitX } from "../../utils/globalFunctions/splitX";
+import Sound from "react-native-sound";
 
 const QrCodeScanner = ({ navigation, route }) => {
   const [zoom, setZoom] = useState(0);
@@ -139,8 +139,10 @@ const QrCodeScanner = ({ navigation, route }) => {
   const currentVersion = useSelector((state) => state.appusers.app_version);
   const focused = useIsFocused();
   const device = useCameraDevice("back");
-
+  
   console.log("scan_type", scan_type);
+
+  
 
   const { responseTime, loading } = useInternetSpeedContext();
   console.log("workflowProgram", workflowProgram);
@@ -160,6 +162,7 @@ const QrCodeScanner = ({ navigation, route }) => {
     require("../../../assets/gif/cgLoader.gif")
   ).uri;
   const dispatch = useDispatch();
+  Sound.setCategory('Playback');
   // console.log('Workflow Program is ',location);
   let addedqr = [];
 
@@ -727,8 +730,30 @@ const QrCodeScanner = ({ navigation, route }) => {
   };
 
   const codeScanner = useCodeScanner({
+
+    
+
     codeTypes: scan_type == "Bar" ? ["code-128"] : ["qr"],
     onCodeScanned: debounce((codes) => {
+
+      var dingSound = new Sound('capture.mp3', Sound.MAIN_BUNDLE, (error) => {
+        if (error) {
+          console.log('failed to load the sound', error);
+          return;
+        }
+        // loaded successfully
+        console.log('duration in seconds: ' + dingSound.getDuration() + 'number of channels: ' + dingSound.getNumberOfChannels())
+      
+        dingSound.play((success) => {
+          if (success) {
+            console.log('successfully finished playing');
+          } else {
+            console.log('playback failed due to audio decoding errors');
+          }
+        });
+    
+      });
+
       console.log(`Scanned ${codes.length} codes!`, codes[0]?.value);
       scanDelay(codes[0]?.value, () => {
         Vibration.vibrate([1000, 1000, 1000]);

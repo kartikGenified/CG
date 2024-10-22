@@ -689,7 +689,11 @@ const VerifyOtp = ({ navigation, route }) => {
           )} */}
         </View>
       </ScrollView>
-      <View style={{alignItems:'center',justifyContent:'center',position:'absolute',bottom:20, right:15,flexDirection:'row'}}>
+      <KeyboardAvoidingView style={{flexDirection:'row',justifyContent:'space-evenly',width:'100%'}}>
+      <View style={{alignItems:'center',justifyContent:'center'}}>
+          <Image style={{height:80,width:110,resizeMode:'contain'}} source={require('../../../assets/images/murugappa_logo.jpg')}></Image>
+        </View>
+      <View style={{alignItems:'center',justifyContent:'center',flexDirection:'row'}}>
             <View style={{backgroundColor:'#80C343',padding:4}}>
             <PoppinsTextMedium style={{color:'white',fontSize:24,fontWeight:'bold'}} content= "CG "></PoppinsTextMedium>
             </View>
@@ -698,9 +702,8 @@ const VerifyOtp = ({ navigation, route }) => {
             
             </View>
         </View>
-        <View style={{alignItems:'center',justifyContent:'center',position:'absolute',bottom:4,left:30}}>
-          <Image style={{height:80,width:110,resizeMode:'contain'}} source={require('../../../assets/images/murugappa_logo.jpg')}></Image>
-        </View>
+        
+        </KeyboardAvoidingView>
     </LinearGradient>
   );
 };

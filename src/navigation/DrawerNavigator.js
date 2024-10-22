@@ -32,6 +32,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import ErrorModal from "../components/modals/ErrorModal";
 import VersionCheck from "react-native-version-check";
 import { useTranslation } from "react-i18next";
+import Pager from 'react-native-vector-icons/FontAwesome6'
 
 const Drawer = createDrawerNavigator();
 const CustomDrawer = () => {
@@ -64,7 +65,7 @@ const CustomDrawer = () => {
     : "#FF9B00";
   const userData = useSelector((state) => state.appusersdata.userData);
   const kycData = useSelector((state) => state.kycDataSlice.kycData);
-
+    console.log("getTermsData",getTermsData)
   const [
     getFAQ,
     {
@@ -250,7 +251,11 @@ const CustomDrawer = () => {
                 props.title.toLowerCase() === "bank account"
               ) {
                 navigation.navigate("BankAccounts");
-              } else if (props.title.toLowerCase() === "profile") {
+              }
+              else if (props.title.toLowerCase() === "terms and conditions") {
+              navigation.navigate('PdfComponent', { pdf: getTermsData })
+              } 
+              else if (props.title.toLowerCase() === "profile") {
                 navigation.navigate("Profile");
               } else if (props.title.toLowerCase() === "refer and earn") {
                 navigation.navigate("ReferAndEarn");
@@ -588,6 +593,14 @@ const CustomDrawer = () => {
               ></DrawerItems>
             );
           })}
+           {getTermsData && <TouchableOpacity style={{ marginTop: 5, marginBottom: 5,borderBottomWidth:1,height:40,borderColor:'#DDDDDD'}} onPress={() => {
+                  navigation.navigate('PdfComponent', { pdf: getTermsData })
+                }}>
+                  <View style={{flexDirection:'row',marginLeft:18,height:'100%',alignItems:'center'}}>
+                  <Pager name="pager" size={20} color={"grey"}></Pager>
+                  <Text style={{ fontSize: 15, color: ternaryThemeColor,marginLeft:20 }}>{t("T&C(Terms and Condition)")}</Text>
+                  </View>
+                </TouchableOpacity>}
       </ScrollView>
 
       <TouchableOpacity

@@ -585,7 +585,15 @@ const Dashboard = ({ navigation }) => {
           }}
         >
           <View style={{ height: 200, width: "100%", marginBottom: 20 }}>
-            {bannerArray && <Banner images={bannerArray}></Banner>}
+            {bannerArray && 
+            <TouchableWithoutFeedback onPress={()=>{
+              Linking.openURL("https://www.cgglobal.com/")
+            }}>
+              <View>
+            <Banner images={bannerArray}></Banner>
+            </View>
+            </TouchableWithoutFeedback>
+            }
 
             {needCaimpaign && !hide && (
               <CampaignVideoModal
@@ -710,7 +718,7 @@ const Dashboard = ({ navigation }) => {
               data={dashboardData}
             ></DashboardMenuBox>
           )}
-          <View
+          {/* <View
             style={{
               alignItems: "center",
               justifyContent: "flex-end",
@@ -719,7 +727,7 @@ const Dashboard = ({ navigation }) => {
               marginBottom: 40,
             }}
           >
-            {showLink && (
+            
               <View
                 style={{
                   alignItems: "center",
@@ -754,11 +762,11 @@ const Dashboard = ({ navigation }) => {
                           );
                         }}
                       ></FadeInOutAnimations>
-                    );
+                     );
                   }}
-                />
+                /> 
 
-                {/* <RotateViewAnimation
+                <RotateViewAnimation
               outputRange={["0deg", "60deg", "-60deg", "0deg"]}
               inputRange={[0, 1, 2, 3]}
               comp={() => {
@@ -780,7 +788,7 @@ const Dashboard = ({ navigation }) => {
                   ></FadeInOutAnimations>
                 );
               }}
-            /> */}
+            />
 
                 <RotateViewAnimation
                   outputRange={["0deg", "60deg", "-60deg", "0deg"]}
@@ -807,7 +815,6 @@ const Dashboard = ({ navigation }) => {
                                   borderRadius: 25,
                                 }}
                               >
-                                {/* <Image style={{height:50,width:50}} resizeMode='contain' source={require('../../../assets/images/LondonDreamsIcon.png')}></Image> */}
                                 <Icon
                                   name="linkedin"
                                   size={35}
@@ -820,7 +827,7 @@ const Dashboard = ({ navigation }) => {
                       ></FadeInOutAnimations>
                     );
                   }}
-                />
+                /> 
 
                 <RotateViewAnimation
                   outputRange={["0deg", "60deg", "-60deg", "0deg"]}
@@ -847,7 +854,6 @@ const Dashboard = ({ navigation }) => {
                                   borderRadius: 25,
                                 }}
                               >
-                                {/* <Image style={{height:50,width:50}} resizeMode='contain' source={require('../../../assets/images/LondonDreamsIcon.png')}></Image> */}
                                 <Icon
                                   name="youtube"
                                   size={35}
@@ -858,9 +864,9 @@ const Dashboard = ({ navigation }) => {
                           );
                         }}
                       ></FadeInOutAnimations>
-                    );
+                     );
                   }}
-                />
+                /> 
 
                 <RotateViewAnimation
                   outputRange={["0deg", "60deg", "-60deg", "0deg"]}
@@ -886,21 +892,21 @@ const Dashboard = ({ navigation }) => {
                           );
                         }}
                       ></FadeInOutAnimations>
-                    );
+                     );
                   }}
                 />
 
                 <RotateViewAnimation
-                  outputRange={["0deg", "60deg", "-60deg", "0deg"]}
-                  inputRange={[0, 1, 2, 3]}
-                  comp={() => {
-                    return (
+                   outputRange={["0deg", "60deg", "-60deg", "0deg"]}
+                   inputRange={[0, 1, 2, 3]}
+                   comp={() => {
+                     return (
                       <FadeInOutAnimations
                         comp={() => {
                           return (
                             <TouchableOpacity
                               onPress={() => {
-                                Linking.openURL("https://www.cgglobal.com/");
+                                Linking.openURL("https:www.cgglobal.com/");
                               }}
                             >
                               <View
@@ -923,11 +929,11 @@ const Dashboard = ({ navigation }) => {
                           );
                         }}
                       ></FadeInOutAnimations>
-                    );
+                     );
                   }}
-                />
+                /> 
               </View>
-            )}
+          
             <TouchableWithoutFeedback
               onPress={() => {
                 setShowLink(!showLink);
@@ -947,7 +953,7 @@ const Dashboard = ({ navigation }) => {
                 <Link name="sharealt" color={"white"} size={30}></Link>
               </View>
             </TouchableWithoutFeedback>
-          </View>
+          </View> */}
           {userPointIsLoading && (
             <View>
               <Text style={{ color: "black", fontSize: 10 }}>
@@ -969,9 +975,9 @@ const Dashboard = ({ navigation }) => {
               />
             </View>
           )}
-          {/* <View style={{ width: '100%', alignItems: "center", justifyContent: "center", marginBottom: 20 }}>
+          <View style={{ width: '100%', alignItems: "center", justifyContent: "center", marginBottom: 20 }}>
             {showKyc && <KYCVerificationComponent buttonTitle={t("Complete Your KYC")} title={t("Your KYC is not completed")}></KYCVerificationComponent>}
-          </View> */}
+          </View>
           {/* <View style={{ flexDirection: "row", width: '100%', alignItems: "center", justifyContent: 'space-evenly' }}>
             {(userData.user_type).toLowerCase()!=="sales" &&<DashboardSupportBox title={t("rewards")} text="Rewards" backgroundColor="#D9C7B6" borderColor="#FEE8D4" image={require('../../../assets/images/reward_dashboard.png')} ></DashboardSupportBox>}
             <DashboardSupportBox title={t("customer support")} text="Customer Support" backgroundColor="#BCB5DC" borderColor="#E4E0FC" image={require('../../../assets/images/support.png')} ></DashboardSupportBox>

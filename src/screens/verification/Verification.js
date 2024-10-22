@@ -68,7 +68,7 @@ const [aadhaarOtpSent, setAadhaarOtpSent] = useState(false)
   )
     ? useSelector(state => state.apptheme.ternaryThemeColor)
     : 'grey';
-      console.log("kyc options ",kycData)
+      console.log("kyc options ",kycData,kycOptions)
       const manualApproval = useSelector(state => state.appusers.manualApproval)
 
   const width = Dimensions.get('window').width
@@ -417,9 +417,10 @@ else{
     const keys = Object.keys(kycOptions)
     const values = Object.values(kycOptions)
     let tempArr=[]
-    console.log(keys,values)
+    console.log("kyc option keys and values",keys,values)
     for(var i =0;i<values.length;i++)
     {
+      if(values[i].taken)
       if(values[i].users.includes(userType))
       {
         tempArr.push(keys[i])
@@ -427,7 +428,7 @@ else{
     }
     
     setKycArray(tempArr)
-    console.log("tempArr",tempArr)
+    console.log("tempArr",tempArr,kycData)
     if(tempArr.includes("PAN"))
     {
       if(!kycData.pan)
