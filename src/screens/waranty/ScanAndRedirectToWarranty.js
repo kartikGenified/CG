@@ -81,7 +81,17 @@ const ScanAndRedirectToWarranty = ({ navigation, route }) => {
   //check version
   const currentVersion = useSelector((state) => state.appusers.app_version);
   const userData = useSelector((state) => state.appusersdata.userData);
+  var dingSound = new Sound('capture.mp3', Sound.MAIN_BUNDLE, (error) => {
+    if (error) {
+      console.log('failed to load the sound', error);
+      return;
+    }
+    // loaded successfully
+    console.log('duration in seconds: ' + dingSound.getDuration() + 'number of channels: ' + dingSound.getNumberOfChannels())
+  
+    
 
+  });
   const scan_type = route.params.scan_type;
 
   console.log("Scan type in warranty", scan_type)
@@ -158,6 +168,10 @@ const ScanAndRedirectToWarranty = ({ navigation, route }) => {
     if (scan_type == "Manual") {
       setModalVisible(true);
     }
+
+    return(()=>{
+      dingSound.release()
+    })
   }, []);
 
   useEffect(() => {
@@ -414,22 +428,12 @@ const ScanAndRedirectToWarranty = ({ navigation, route }) => {
   const codeScanner = useCodeScanner({
     codeTypes: scan_type == "Bar" ? ["code-128"] : ["qr"],
     onCodeScanned: debounce((codes) => {
-      var dingSound = new Sound('capture.mp3', Sound.MAIN_BUNDLE, (error) => {
-        if (error) {
-          console.log('failed to load the sound', error);
-          return;
+      dingSound.play((success) => {
+        if (success) {
+          console.log('successfully finished playing');
+        } else {
+          console.log('playback failed due to audio decoding errors');
         }
-        // loaded successfully
-        console.log('duration in seconds: ' + dingSound.getDuration() + 'number of channels: ' + dingSound.getNumberOfChannels())
-      
-        dingSound.play((success) => {
-          if (success) {
-            console.log('successfully finished playing');
-          } else {
-            console.log('playback failed due to audio decoding errors');
-          }
-        });
-    
       });
       console.log(`Scanned ${codes.length} codes!`, codes[0]?.value);
       scanDelay(codes[0]?.value, () => {

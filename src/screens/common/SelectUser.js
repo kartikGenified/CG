@@ -266,7 +266,7 @@ const SelectUser = ({navigation}) => {
           <Image style={{height:80,width:110,resizeMode:'contain'}} source={require('../../../assets/images/murugappa_logo.jpg')}></Image>
         </View>
         </View>
-        <PoppinsTextMedium style={{color:'black',fontSize:12,marginTop:4,marginBottom:10}} content="Designed and developed by Genefied"></PoppinsTextMedium>
+        <PoppinsTextMedium style={{color:'black',fontSize:12,marginTop:4,marginBottom:10}} content="Developed by Genefied"></PoppinsTextMedium>
 
       </LinearGradient>
       :

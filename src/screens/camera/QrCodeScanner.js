@@ -270,7 +270,7 @@ const QrCodeScanner = ({ navigation, route }) => {
 
   useEffect(() => {
     console.log("added Qr list here", qrList);
-
+   
     setAddedQrList(qrList ? qrList : []);
   }, []);
 
@@ -515,7 +515,12 @@ const QrCodeScanner = ({ navigation, route }) => {
 
   useEffect(() => {
     refreshScanner();
+    return(()=>{
+      dingSound.release()
+    })
   }, []);
+
+  
 
   // checking for response time
   useEffect(() => {
@@ -673,6 +678,18 @@ const QrCodeScanner = ({ navigation, route }) => {
     ),
   };
 
+  var dingSound = new Sound('capture.mp3', Sound.MAIN_BUNDLE, (error) => {
+    if (error) {
+      console.log('failed to load the sound', error);
+      return;
+    }
+    // loaded successfully
+    console.log('duration in seconds: ' + dingSound.getDuration() + 'number of channels: ' + dingSound.getNumberOfChannels())
+  
+    
+
+  });
+
   const modalClose = () => {
     setError(false);
     setSuccess(false);
@@ -736,24 +753,17 @@ const QrCodeScanner = ({ navigation, route }) => {
     codeTypes: scan_type == "Bar" ? ["code-128"] : ["qr"],
     onCodeScanned: debounce((codes) => {
 
-      var dingSound = new Sound('capture.mp3', Sound.MAIN_BUNDLE, (error) => {
-        if (error) {
-          console.log('failed to load the sound', error);
-          return;
+     
+      dingSound.play((success) => {
+        if (success) {
+          console.log('successfully finished playing');
+        } else {
+          console.log('playback failed due to audio decoding errors');
         }
-        // loaded successfully
-        console.log('duration in seconds: ' + dingSound.getDuration() + 'number of channels: ' + dingSound.getNumberOfChannels())
-      
-        dingSound.play((success) => {
-          if (success) {
-            console.log('successfully finished playing');
-          } else {
-            console.log('playback failed due to audio decoding errors');
-          }
-        });
-    
       });
-
+        
+     
+      
       console.log(`Scanned ${codes.length} codes!`, codes[0]?.value);
       scanDelay(codes[0]?.value, () => {
         Vibration.vibrate([1000, 1000, 1000]);

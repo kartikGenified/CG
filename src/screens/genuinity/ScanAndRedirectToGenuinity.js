@@ -60,7 +60,17 @@ const ScanAndRedirectToGenuinity = ({ navigation }) => {
 
   console.log('Workflow Program is ', workflowProgram);
   // console.log("Selector state",useSelector((state)=>state.appusersdata.userId))
+  var dingSound = new Sound('capture.mp3', Sound.MAIN_BUNDLE, (error) => {
+    if (error) {
+      console.log('failed to load the sound', error);
+      return;
+    }
+    // loaded successfully
+    console.log('duration in seconds: ' + dingSound.getDuration() + 'number of channels: ' + dingSound.getNumberOfChannels())
+  
+    
 
+  });
 
 
   const ternaryThemeColor = useSelector(
@@ -141,6 +151,11 @@ const ScanAndRedirectToGenuinity = ({ navigation }) => {
     }
   }, [checkGenuinityData, checkGenuinityError]);
 
+  useEffect(()=>{
+    return(()=>{
+      dingSound.release()
+    })
+  },[])
 
 
   useEffect(() => {
@@ -208,22 +223,12 @@ const ScanAndRedirectToGenuinity = ({ navigation }) => {
   // };
   const onSuccess = e => {
     console.log('Qr data is ------', e.data);
-    var dingSound = new Sound('capture.mp3', Sound.MAIN_BUNDLE, (error) => {
-      if (error) {
-        console.log('failed to load the sound', error);
-        return;
+    dingSound.play((success) => {
+      if (success) {
+        console.log('successfully finished playing');
+      } else {
+        console.log('playback failed due to audio decoding errors');
       }
-      // loaded successfully
-      console.log('duration in seconds: ' + dingSound.getDuration() + 'number of channels: ' + dingSound.getNumberOfChannels())
-    
-      dingSound.play((success) => {
-        if (success) {
-          console.log('successfully finished playing');
-        } else {
-          console.log('playback failed due to audio decoding errors');
-        }
-      });
-  
     });
 if(e.data===undefined)
 {

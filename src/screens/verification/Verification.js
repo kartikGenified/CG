@@ -62,7 +62,7 @@ const [aadhaarOtpSent, setAadhaarOtpSent] = useState(false)
   // const userData = useSelector(state=>)
   const userData = useSelector(state=>state.appusersdata.userData)
   const kycData = useSelector(state => state.kycDataSlice.kycData)
-
+console.log("dahjsgydfghgvwqhbbcjbqwhghcv",kycData)
   const ternaryThemeColor = useSelector(
     state => state.apptheme.ternaryThemeColor,
   )

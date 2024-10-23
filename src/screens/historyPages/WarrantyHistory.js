@@ -11,6 +11,7 @@ import FilterModal from '../../components/modals/FilterModal';
 import DataNotFound from '../data not found/DataNotFound';
 import InputDate from '../../components/atoms/input/InputDate';
 import { useTranslation } from 'react-i18next';
+import PoppinsTextLeftMedium from '../../components/electrons/customFonts/PoppinsTextLeftMedium';
 
 
 const WarrantyHistory = ({ navigation }) => {
@@ -211,11 +212,12 @@ const WarrantyHistory = ({ navigation }) => {
         const warrantyTillDate = props.date == (null || undefined) ? "Date can't be fetched" : props.date
         const productName = props.productName
         const warrantyStatus = props.warrantyStatus
+        const activatedBy = props.createdBy
         const item = props.data
         console.log("WarrantyList",item)
         const image = item?.product_images!=(null||undefined) ? item?.product_images[0] : undefined
         return (
-            <View style={{ width: "90%", height: 180, borderRadius: 20, backgroundColor: '#F2F2F2', elevation: 6, margin: 20 }}>
+            <View style={{ width: "90%", height: 210, borderRadius: 20, backgroundColor: '#F2F2F2', elevation: 6, margin: 20 }}>
                 <ImageBackground resizeMode='contain' style={{ position: "absolute", height: 100, width: 100, right: 10, top: -20, alignItems: "center", justifyContent: "center" }} source={require('../../../assets/images/blueEnvelope.png')}>
                     <PoppinsTextMedium style={{ fontSize: 11, color: 'white' }} content="Warranty Till"></PoppinsTextMedium>
                     <PoppinsTextMedium style={{ fontSize: 12, color: 'white' }} content={moment(warrantyTillDate).format("DD MMM YYYY")}></PoppinsTextMedium>
@@ -223,11 +225,12 @@ const WarrantyHistory = ({ navigation }) => {
                 <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center", width: '60%',backgroundColor:'#F2F2F2' }}>
                     {image ? <Image style={{ height: 60, width: 60, resizeMode: 'contain' }} source={{uri:image}}></Image> : <Image style={{ height: 60, width: 60, resizeMode: 'contain' }} source={require('../../../assets/images/box.png')}></Image>  }
                     <View style={{ alignItems: 'flex-start', justifyContent: "center", marginLeft: 8,width:'80%' }}>
-                        <PoppinsTextMedium style={{ color: 'black' }} content="Product Name /Code : "></PoppinsTextMedium>
+                        <PoppinsTextLeftMedium style={{ color: 'black' }} content="Product Name /Code : "></PoppinsTextLeftMedium>
                         <PoppinsTextMedium style={{ color: 'black', fontWeight: '700', marginTop: 2 }} content={productName}></PoppinsTextMedium>
                         <PoppinsTextMedium style={{ color: 'black', marginTop: 4 }} content="Warranty Status"></PoppinsTextMedium>
                         <PoppinsTextMedium style={{ color: 'black', marginTop: 2, fontWeight: '700' }} content={warrantyStatus}></PoppinsTextMedium>
-
+                        <PoppinsTextMedium style={{ color: 'black', marginTop: 4 }} content="Warranty Activated By"></PoppinsTextMedium>
+                        <PoppinsTextMedium style={{ color: 'black', marginTop: 2, fontWeight: '700' }} content={activatedBy}></PoppinsTextMedium>
 
                     </View>
                 </View>
@@ -317,7 +320,7 @@ const WarrantyHistory = ({ navigation }) => {
                 renderItem={({ item, index }) => {
                     console.log(index + 1, item)
                     return (
-                        <WarrantyList data={item} date={item.end_date} warrantyTillDate={item.end_date} productName={item.product_name} warrantyStatus={item.status === "1" ? t("Activated") : item.status === "2" ? "Not Activated" : "Claimed"} ></WarrantyList>
+                        <WarrantyList createdBy={item.created_by_name} data={item} date={item.end_date} warrantyTillDate={item.end_date} productName={item.product_name} warrantyStatus={item.status === "1" ? t("Activated") : item.status === "2" ? "Not Activated" : "Claimed"} ></WarrantyList>
 
                     )
                 }}
