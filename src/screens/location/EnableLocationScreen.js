@@ -43,6 +43,7 @@ const EnableLocationScreen = ({ route, navigation }) => {
   );
   const locationPermissionStatus = useSelector(
     (state) => state.userLocation.locationPermissionStatus
+    
   );
 
   // const locationSetup = useSelector(state=>state.appusers.locationSetup)
@@ -222,7 +223,7 @@ const EnableLocationScreen = ({ route, navigation }) => {
             dispatch(setLocationPermissionStatus(true));
             dispatch(setLocationEnabled(true));
             setTimeout(() => {
-              navigateTo && navigation.replace(navigateTo);
+              navigateTo && navigation.replace(navigateTo,{scan_type: "QR",});
             }, 500);
             return;
           }
@@ -265,7 +266,7 @@ const EnableLocationScreen = ({ route, navigation }) => {
               saveLocationToStorage(locationJson);
 
               setTimeout(() => {
-                navigateTo && navigation.replace(navigateTo);
+                navigateTo && navigation.replace(navigateTo,{scan_type: "QR",});
               }, 500);
             } else {
                 console.log("locationSetupelse",locationSetup,lati,long)
@@ -318,7 +319,7 @@ const EnableLocationScreen = ({ route, navigation }) => {
             dispatch(setLocationPermissionStatus(true));
             dispatch(setLocationEnabled(true));
             setTimeout(() => {
-              navigateTo && navigation.replace(navigateTo);
+              navigateTo && navigation.replace(navigateTo,{scan_type: "QR",});
             }, 500);
             
           }
@@ -346,7 +347,7 @@ const EnableLocationScreen = ({ route, navigation }) => {
                 saveLocationToStorage(locationJson);
       
                 setTimeout(() => {
-                  navigateTo && navigation.replace(navigateTo);
+                  navigateTo && navigation.replace(navigateTo,{scan_type: "QR",});
                 }, 500);
               })
               .catch(err => {
@@ -354,7 +355,7 @@ const EnableLocationScreen = ({ route, navigation }) => {
                 if(continueWithoutGeocoding)
                 {
                     setTimeout(() => {
-                        navigateTo && navigation.replace(navigateTo);
+                        navigateTo && navigation.replace(navigateTo,{scan_type: "QR",});
                       }, 500);
                 }
                 else{
@@ -379,7 +380,7 @@ const EnableLocationScreen = ({ route, navigation }) => {
               if(continueWithoutGeocoding)
               {
                   setTimeout(() => {
-                      navigateTo && navigation.replace(navigateTo);
+                      navigateTo && navigation.replace(navigateTo,{scan_type: "QR",});
                     }, 500);
               }
               else{
@@ -425,7 +426,7 @@ const EnableLocationScreen = ({ route, navigation }) => {
           saveLocationToStorage(locationJson);
 
           setTimeout(() => {
-            navigateTo && navigation.replace(navigateTo);
+            navigateTo && navigation.replace(navigateTo,{scan_type: "QR",});
           }, 500);
         })
         .catch(err => {
@@ -433,7 +434,7 @@ const EnableLocationScreen = ({ route, navigation }) => {
           if(continueWithoutGeocoding)
           {
               setTimeout(() => {
-                  navigateTo && navigation.replace(navigateTo);
+                  navigateTo && navigation.replace(navigateTo,{scan_type: "QR",});
                 }, 500);
           }
           else{
@@ -458,7 +459,7 @@ const EnableLocationScreen = ({ route, navigation }) => {
         if(continueWithoutGeocoding)
         {
             setTimeout(() => {
-                navigateTo && navigation.replace(navigateTo);
+                navigateTo && navigation.replace(navigateTo,{scan_type: "QR",});
               }, 500);
         }
         else{

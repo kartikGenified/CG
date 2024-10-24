@@ -88,7 +88,8 @@ function BottomNavigator({ navigation }) {
                   onPress={() => 
                     Platform.OS == "android"
                     ? userData.user_type != "consumer"
-                      ? navigation.navigate("EnableCameraScreen", {
+                      ? navigation.navigate("EnableLocationScreen", {
+                      navigateTo:"EnableCameraScreen",
                           scan_type: "QR",
                         })
                       : navigation.navigate("EnableCameraAndNavigateToWarranty", {
